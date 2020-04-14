@@ -1,0 +1,176 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="0_Common">
+      <UniqueIdentifier>{11bfffea-9e22-4a9c-b7ce-77967d1c3633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="0_Pipeline">
+      <UniqueIdentifier>{324a157e-8b9b-4224-b93f-f3e9e50dd6a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_Frame Generator">
+      <UniqueIdentifier>{a5dd09f0-9027-426f-a4ef-9024d41d64a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_TileNode Loader">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="5_Memory Buffer Manager">
+      <UniqueIdentifier>{c6fb5265-0e9e-46a8-9e2c-d51f6d7e087e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_GPU Thread">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="6_GPU Thread\GPU Buffer Manager">
+      <UniqueIdentifier>{4126db8c-da43-411b-9378-3c6ca83aa720}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_Preferred Tile Node Generator">
+      <UniqueIdentifier>{ea1e0ea1-a9ea-45a7-b58b-07118d3767df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_Rendering Tile Node Generator">
+      <UniqueIdentifier>{e47b03e7-3fe2-4ea2-a0ad-edb859331d6c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BoundingSphere.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameState.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="TileNodeLoader.h">
+      <Filter>4_TileNode Loader</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderingTileNodeGenerator.h">
+      <Filter>3_Rendering Tile Node Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="PreferredTileNodeGenerator.h">
+      <Filter>2_Preferred Tile Node Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="TileNode.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PipelinePreferred2RenderingTileNodeGenerator.h">
+      <Filter>0_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PipelineTileNodeLoader2MemoryBufferManager.h">
+      <Filter>0_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="GPUBufferManager.h">
+      <Filter>6_GPU Thread\GPU Buffer Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GPUBufferCommon.h">
+      <Filter>6_GPU Thread\GPU Buffer Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GPUBufferInterface.h">
+      <Filter>6_GPU Thread\GPU Buffer Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GPUThread.h">
+      <Filter>6_GPU Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipeline.h">
+      <Filter>0_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="GPUTask.h">
+      <Filter>6_GPU Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="PipelineMemoryBufferManager2GPUThread.h">
+      <Filter>0_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryBufferManager.h">
+      <Filter>5_Memory Buffer Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="MemoryMeshLRUList.h">
+      <Filter>5_Memory Buffer Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="PipelineFrameGenerator2PreferredTileNodeGenerator.h">
+      <Filter>0_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="PipelineRenderingTileNodeGenerator2TileNodeLoader.h">
+      <Filter>0_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameGenerator.h">
+      <Filter>1_Frame Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="PipelineGPUThread2FrameGenerator.h">
+      <Filter>0_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="KnapsackProblemSolver.h">
+      <Filter>3_Rendering Tile Node Generator</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemTemplateCreator.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Scene.cpp">
+      <Filter>0_Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>0_Common</Filter>
+    </ClCompile>
+    <ClCompile Include="Utils.cpp">
+      <Filter>0_Common</Filter>
+    </ClCompile>
+    <ClCompile Include="TileNodeLoader.cpp">
+      <Filter>4_TileNode Loader</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingTileNodeGenerator.cpp">
+      <Filter>3_Rendering Tile Node Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="PreferredTileNodeGenerator.cpp">
+      <Filter>2_Preferred Tile Node Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="PipelinePreferred2RenderingTileNodeGenerator.cpp">
+      <Filter>0_Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="PipelineTileNodeLoader2MemoryBufferManager.cpp">
+      <Filter>0_Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="GPUBufferManager.cpp">
+      <Filter>6_GPU Thread\GPU Buffer Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="GPUThread.cpp">
+      <Filter>6_GPU Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="PipelineMemoryBufferManager2GPUThread.cpp">
+      <Filter>0_Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryBufferManager.cpp">
+      <Filter>5_Memory Buffer Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="MemoryMeshLRUList.cpp">
+      <Filter>5_Memory Buffer Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="PipelineFrameGenerator2PreferredTileNodeGenerator.cpp">
+      <Filter>0_Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="PipelineRenderingTileNodeGenerator2TileNodeLoader.cpp">
+      <Filter>0_Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameGenerator.cpp">
+      <Filter>1_Frame Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="PipelineGPUThread2FrameGenerator.cpp">
+      <Filter>0_Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="KnapsackProblemSolver.cpp">
+      <Filter>3_Rendering Tile Node Generator</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemTemplateCreator.cpp">
+      <Filter>0_Common</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

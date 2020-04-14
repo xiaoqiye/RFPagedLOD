@@ -1,0 +1,7 @@
+SerializedPath					=G:\Resource\NewSerialized\
+BinPath							=G:\Resource\Bin\
+LegalTileName 					=1
+BeginTileNumber 				=115
+EndTileNumber 					=123
+TraverseMaxDeep					=6
+MaxLoadCost						=6291420

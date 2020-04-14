@@ -1,0 +1,47 @@
+类型：
+功能测试
+--------------------------------------------------------------------------------------------------------------------------
+功能：
+验证根据输入和GPUMeshBufferMap生成GPUTask功能
+--------------------------------------------------------------------------------------------------------------------------
+步骤：
+1.mock数据
+2.验证生成GPUTask是否符合预期
+--------------------------------------------------------------------------------------------------------------------------
+输入：
+SMemoryTask(std::shared_ptr<SMemoryTask>)、GPUMeshBufferMap(std::map<std::string, std::shared_ptr<SGPUMeshBuffer>>)
+--------------------------------------------------------------------------------------------------------------------------
+输出：
+std::shared_ptr<SGPUTask>
+--------------------------------------------------------------------------------------------------------------------------
+MockData：
+
+SMemoryTask.BufferSetToShow.emplace_back("1.bin", SMemoryMeshBuffer);
+SMemoryTask.BufferSetToShow.emplace_back("2_0.bin", SMemoryMeshBuffer);
+SMemoryTask.BufferSetToShow.emplace_back("2_1.bin", SMemoryMeshBuffer);
+SMemoryTask.BufferSetToShow.emplace_back("3.bin", SMemoryMeshBuffer);
+
+SMemoryTask.BufferSetToDelete.emplace_back("a_0.bin", SMemoryMeshBuffer);
+SMemoryTask.BufferSetToDelete.emplace_back("b_0.bin", SMemoryMeshBuffer);
+SMemoryTask.BufferSetToDelete.emplace_back("b_1.bin", SMemoryMeshBuffer);
+SMemoryTask.BufferSetToDelete.emplace_back("b_2.bin", SMemoryMeshBuffer);
+
+GPUMeshBufferMap["1"] = ;
+GPUMeshBufferMap["2_0"] = ;
+GPUMeshBufferMap["a_0"] = ;
+GPUMeshBufferMap["a_1"] = ;
+GPUMeshBufferMap["b_0"] = ;
+GPUMeshBufferMap["b_1"] = ;
+GPUMeshBufferMap["b_2"] = ;
+--------------------------------------------------------------------------------------------------------------------------
+期望结果：
+SGPUTaskGenGeoBuffer("2_1.bin");
+SGPUTaskGenGeoBuffer("3.bin");
+SGPUTaskGenTexBuffer("3.bint");
+
+SGPUTaskDelGenBuffer("a_0.bin");
+SGPUTaskDelGenBuffer("b_0.bin");
+SGPUTaskDelGenBuffer("b_1.bin");
+SGPUTaskDelGenBuffer("b_2.bin");
+SGPUTaskDelTexBuffer("b.bint");
+

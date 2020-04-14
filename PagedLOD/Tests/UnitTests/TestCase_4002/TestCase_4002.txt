@@ -1,0 +1,29 @@
+类型：
+功能测试
+--------------------------------------------------------------------------------------------------------------------------
+功能：
+验证根据BufferHandle和TextureID生成GPUTaskRender功能
+--------------------------------------------------------------------------------------------------------------------------
+步骤：
+1.mock数据
+2.验证生成GPUTask是否符合预期
+--------------------------------------------------------------------------------------------------------------------------
+输入：
+SMemoryTask(std::vector<std::pair<std::string, std::shared_ptr<SMemoryMeshBuffer>>>)、GPUMeshBufferMap(std::map<std::string, std::shared_ptr<SGPUMeshBuffer>>)
+--------------------------------------------------------------------------------------------------------------------------
+输出：
+GPUTask(SGPUTaskRender)
+--------------------------------------------------------------------------------------------------------------------------
+MockData：
+SMemoryTask.BufferSetToShow.emplace_back("1.bin", SMemoryMeshBuffer);
+SMemoryTask.BufferSetToShow.emplace_back("2_0.bin", SMemoryMeshBuffer);
+SMemoryTask.BufferSetToShow.emplace_back("2_1.bin", SMemoryMeshBuffer);
+SMemoryTask.BufferSetToShow.emplace_back("3.bin", SMemoryMeshBuffer);
+
+GPUMeshBufferMap["1.bin"] = SGPUMeshBuffer;
+GPUMeshBufferMap["2_0.bin"] = SGPUMeshBuffer;
+GPUMeshBufferMap["2_1.bin"] = SGPUMeshBuffer;
+GPUMeshBufferMap["3.bin"] = SGPUMeshBuffer;
+--------------------------------------------------------------------------------------------------------------------------
+期望结果：
+std::vector<std::shared_ptr<SGPUMeshBuffer>> MeshBufferSet

@@ -1,0 +1,81 @@
+类型：
+功能测试
+--------------------------------------------------------------------------------------------------------------------------
+功能：
+可见性计算验证
+--------------------------------------------------------------------------------------------------------------------------
+步骤：
+1.mock数据
+2.计算ViewMatrix
+3.计算TileNode包围球是否和视椎体相交
+4.对比手工计算结果
+--------------------------------------------------------------------------------------------------------------------------
+输入：
+ViewInfo(SViewInfo)  TileNode(CTileNode)
+--------------------------------------------------------------------------------------------------------------------------
+输出：
+true/false
+--------------------------------------------------------------------------------------------------------------------------
+MockData：
+
+SViewInfo：
+		hivePagedLOD::SViewInfo ViewInfo0;
+		ViewInfo0.ViewPortInfo.Width = 1080;
+		ViewInfo0.ViewPortInfo.Height = 720;
+		ViewInfo0.CameraInfo.Position = glm::vec3(0.0f, 0.0f, 50.0f);
+		ViewInfo0.CameraInfo.Front = glm::vec3(0.0f, 0.0f, 1.0f);
+		ViewInfo0.CameraInfo.Up = glm::vec3(0.0f, 1.0f, 0.0f);
+		ViewInfo0.CameraInfo.FOV = 45.0f;
+		ViewInfo0.CameraInfo.NearPlane = 10.0f;
+		ViewInfo0.CameraInfo.FarPlane = 10000.0f;
+
+		hivePagedLOD::SViewInfo ViewInfo1;
+		ViewInfo1.ViewPortInfo.Width = 1080;
+		ViewInfo1.ViewPortInfo.Height = 720;
+		ViewInfo1.CameraInfo.Position = glm::vec3(0.0f, 0.0f, 50.0f);
+		ViewInfo1.CameraInfo.Front = glm::vec3(0.0f, 0.0f, -1.0f);
+		ViewInfo1.CameraInfo.Up = glm::vec3(0.0f, 1.0f, 0.0f);
+		ViewInfo1.CameraInfo.FOV = 45.0f;
+		ViewInfo1.CameraInfo.NearPlane = 10.0f;
+		ViewInfo1.CameraInfo.FarPlane = 10000.0f;
+
+		hivePagedLOD::SViewInfo ViewInfo2;
+		ViewInfo2.ViewPortInfo.Width = 1080;
+		ViewInfo2.ViewPortInfo.Height = 720;
+		ViewInfo2.CameraInfo.Position = glm::vec3(0.0f, 0.0f, 15.0f);
+		ViewInfo2.CameraInfo.Front = glm::vec3(0.0f, 0.0f, 1.0f);
+		ViewInfo2.CameraInfo.Up = glm::vec3(0.0f, 1.0f, 0.0f);
+		ViewInfo2.CameraInfo.FOV = 45.0f;
+		ViewInfo2.CameraInfo.NearPlane = 10.0f;
+		ViewInfo2.CameraInfo.FarPlane = 10000.0f;
+
+CTileNode：
+		auto TileNode0 = std::make_shared<hivePagedLOD::CTileNode>();
+		TileNode0->setBoundingSphere(hivePagedLOD::CBoundingSphere(glm::vec3(0.0f), 10.0f));
+		auto TileNode1 = std::make_shared<hivePagedLOD::CTileNode>();
+		TileNode1->setBoundingSphere(hivePagedLOD::CBoundingSphere(glm::vec3(0.0f, 0.0f, 100.0f), 10.0f));
+		auto TileNode2 = std::make_shared<hivePagedLOD::CTileNode>();
+		TileNode2->setBoundingSphere(hivePagedLOD::CBoundingSphere(glm::vec3(0.0f, 0.0f, 50.0f), 2.0f));
+		auto TileNode3 = std::make_shared<hivePagedLOD::CTileNode>();
+		TileNode3->setBoundingSphere(hivePagedLOD::CBoundingSphere(glm::vec3(0.0f, 0.0f, 0.0f), 200.0f));
+		auto TileNode4 = std::make_shared<hivePagedLOD::CTileNode>();
+		TileNode4->setBoundingSphere(hivePagedLOD::CBoundingSphere(glm::vec3(30.0f, 0.0f, 30.0f), 10.0f));
+--------------------------------------------------------------------------------------------------------------------------
+期望结果：
+(ViewInfo0,TileNode0,false)
+(ViewInfo0,TileNode1,true)
+(ViewInfo0,TileNode2,false)
+(ViewInfo0,TileNode3,true)
+(ViewInfo0,TileNode4,false)
+
+(ViewInfo1,TileNode0,true)
+(ViewInfo1,TileNode1,false)
+(ViewInfo1,TileNode2,false)
+(ViewInfo1,TileNode3,true)
+(ViewInfo1,TileNode4,false)
+
+(ViewInfo2,TileNode0,false)
+(ViewInfo2,TileNode1,true)
+(ViewInfo2,TileNode2,true)
+(ViewInfo2,TileNode3,true)
+(ViewInfo2,TileNode4,false)

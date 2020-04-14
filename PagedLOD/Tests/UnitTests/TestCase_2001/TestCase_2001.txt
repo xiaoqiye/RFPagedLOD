@@ -1,0 +1,319 @@
+类型：
+功能测试
+--------------------------------------------------------------------------------------------------------------------------
+功能：
+验证根据TileNodeLoadCost，生成实际应该显示的TileNodeSet是否符合预期
+--------------------------------------------------------------------------------------------------------------------------
+步骤：
+1.mock数据
+2.根据数据和策略生成TileNodeSet
+--------------------------------------------------------------------------------------------------------------------------
+输入：
+策略(EStrategy)、LoadCostMap(std::map<std::string, STileNodeLoadCost>)、最大加载大小(unsigned int)
+--------------------------------------------------------------------------------------------------------------------------
+输出：
+生成的实际显示的TileNodeSet(std::vector<std::vector<std::shared_ptr<CTileNode>>)
+--------------------------------------------------------------------------------------------------------------------------
+
+1.只保证当前帧效果最佳，而不保证之后帧是否最佳
+2.是否预先加载根节点
+3.根据策略这一帧任何新的节点都显示不了，这种情况下该加载那些内容(现阶段先使用顺序加载Preferred节点)
+4.会不会出现只加载一个TileNode都来不及的情况(强行加载)
+5.效率，减少可能性？
+
+MockData：
+--------------------------------------------------------------------------------------------------------------------------
+Tile1
+LoadCostMap.insert("1", STileNodeLoadCost(100, 100, 10));
+LoadCostMap.insert("2", STileNodeLoadCost(200, 200, 15));
+LoadCostMap.insert("3", STileNodeLoadCost(300, 150, 20));
+LoadCostMap.insert("4", STileNodeLoadCost(200, 100, 20));
+LoadCostMap.insert("5", STileNodeLoadCost(300, 100, 23));
+LoadCostMap.insert("6", STileNodeLoadCost(300, 100, 21));
+LoadCostMap.insert("7", STileNodeLoadCost(400, 200, 35));
+LoadCostMap.insert("8", STileNodeLoadCost(450, 200, 36));
+LoadCostMap.insert("9", STileNodeLoadCost(500, 150, 25));
+LoadCostMap.insert("10", STileNodeLoadCost(550, 100, 33));
+LoadCostMap.insert("11", STileNodeLoadCost(400, 150, 24));
+LoadCostMap.insert("12", STileNodeLoadCost(450, 150, 26));
+LoadCostMap.insert("13", STileNodeLoadCost(400, 150, 31));
+LoadCostMap.insert("14", STileNodeLoadCost(500, 200, 43));
+LoadCostMap.insert("15", STileNodeLoadCost(500, 200, 45));
+LoadCostMap.insert("16", STileNodeLoadCost(600, 100, 40));
+LoadCostMap.insert("17", STileNodeLoadCost(550, 200, 50));
+LoadCostMap.insert("18", STileNodeLoadCost(650, 150, 49));
+
+Tile2
+LoadCostMap.insert("a", STileNodeLoadCost(100, 100, 10));
+LoadCostMap.insert("b", STileNodeLoadCost(200, 200, 15));
+LoadCostMap.insert("c", STileNodeLoadCost(300, 150, 20));
+LoadCostMap.insert("d", STileNodeLoadCost(100, 100, 20));
+LoadCostMap.insert("e", STileNodeLoadCost(100, 100, 23));
+LoadCostMap.insert("f", STileNodeLoadCost(150, 100, 21));
+LoadCostMap.insert("g", STileNodeLoadCost(100, 100, 22));
+LoadCostMap.insert("h", STileNodeLoadCost(150, 200, 25));
+LoadCostMap.insert("i", STileNodeLoadCost(200, 200, 28));
+LoadCostMap.insert("j", STileNodeLoadCost(200, 200, 25));
+LoadCostMap.insert("k", STileNodeLoadCost(250, 200, 32));
+LoadCostMap.insert("l", STileNodeLoadCost(150, 200, 22));
+LoadCostMap.insert("m", STileNodeLoadCost(200, 200, 24));
+LoadCostMap.insert("n", STileNodeLoadCost(400, 100, 43));
+LoadCostMap.insert("o", STileNodeLoadCost(500, 100, 49));
+LoadCostMap.insert("p", STileNodeLoadCost(200, 200, 20));
+LoadCostMap.insert("q", STileNodeLoadCost(250, 200, 26));
+LoadCostMap.insert("r", STileNodeLoadCost(250, 150, 31));
+LoadCostMap.insert("s", STileNodeLoadCost(250, 150, 30));
+LoadCostMap.insert("t", STileNodeLoadCost(250, 150, 33));
+
+Tile3
+LoadCostMap.insert("A", STileNodeLoadCost(100, 100, 10));
+LoadCostMap.insert("B", STileNodeLoadCost(200, 200, 15));
+LoadCostMap.insert("C", STileNodeLoadCost(300, 150, 20));
+LoadCostMap.insert("D", STileNodeLoadCost(100, 100, 10));
+LoadCostMap.insert("E", STileNodeLoadCost(150, 100, 13));
+LoadCostMap.insert("F", STileNodeLoadCost(100, 100, 11));
+LoadCostMap.insert("G", STileNodeLoadCost(100, 200, 11));
+LoadCostMap.insert("H", STileNodeLoadCost(150, 200, 14));
+LoadCostMap.insert("I", STileNodeLoadCost(200, 200, 21));
+LoadCostMap.insert("J", STileNodeLoadCost(250, 200, 30));
+LoadCostMap.insert("K", STileNodeLoadCost(300, 150, 34));
+LoadCostMap.insert("L", STileNodeLoadCost(350, 150, 36));
+LoadCostMap.insert("M", STileNodeLoadCost(400, 150, 41));
+LoadCostMap.insert("N", STileNodeLoadCost(500, 200, 48));
+LoadCostMap.insert("O", STileNodeLoadCost(550, 200, 55));
+LoadCostMap.insert("P", STileNodeLoadCost(300, 100, 34));
+LoadCostMap.insert("Q", STileNodeLoadCost(250, 100, 23));
+LoadCostMap.insert("R", STileNodeLoadCost(150, 100, 19));
+--------------------------------------------------------------------------------------------------------------------------
+期望结果：
+OneTile
+{
+	Frame1:
+	preferred:1
+	preferred cost:100 + 100 = 200
+	cost:200
+	memory:1.bin, 1.bint
+
+	Frame2:
+	preferred:3
+	preferred cost:300 + 150 = 450
+	cost:450
+	memory:1.bin, 1.bint, 3.bin, 3.bint
+	思考：是否应该将根节点预先加载好
+
+	Frame3:
+	preferred:7,8,5,6
+	preferred cost:(400 + 200) + (450 + 0) + (300 + 100) + (300 + 0)= 1750
+	has option:4,5,6(900,64) or 3(0,20)
+	result:choose 4,5,6 load&show
+	cost:900
+	memory:1.bin, 1.bint, 3.bin, 3.bint, 4.bin, 5.bin, 6.bin, 4_5_6.bint
+	试图加载7,8,5,6但是不行，可替代情况只有4,5,6和3，3能加载，不会再向上到1,2,
+	加载4,5,6花费900，三角形64个，加载3花费0，三角形20个，选择加载4,5,6
+}
+
+OneFrameCannotLoadPreferred
+{
+	MAX_COST_PER_FRAME = 800;
+
+	Frame1:
+	preferred:3
+	preferred cost:300 + 150 = 450
+	cost:450
+	memory:3.bin, 3.bint
+
+	Frame2:
+	preferred:7,8,5,6
+	preferred cost:(400 + 200) + (450 + 0) + (300 + 100) + (300 + 0)= 1750
+	has option:3(0,20)
+	result:choose 3 show, 7 load
+	cost:600
+	memory:3.bin, 3.bint, 7.bin, 7_8.bint 
+	思考：如果，这次只能显示3，连加载4,5,6都做不到（比如一个很慢的硬盘或者因为4,5,6是一个整体，要么全显示，要么都不显示）
+	在这种情况下（在preferred层和已经加载到内存的层之间都不存在加载策略能显示之间的内容），
+	应该加载7,8,5,6或者4,5,6中的一些节点（不然之后都只能显示节点3，应该选择哪些加载，后续流程是否可以优化）
+	现阶段先使用顺序加载7(应该考虑先加载叶子节点)但这样相当于放弃4,5,6
+	
+	Frame3:
+	preferred:7,8,5,6
+	preferred cost:(450 + 0) + (300 + 100) + (300 + 0)= 1150
+	has option:3(0,20)
+	result:choose 3 show, 8 load
+	cost:450
+	memory:3.bin, 3.bint, 7.bin, 7_8.bint, 8.bin 
+	
+	Frame4:
+	MAX_COST_PER_FRAME = 800;
+	preferred:7,8,5,6
+	preferred cost:(300 + 100) + (300 + 0)= 700
+	has option:7,8,5,6
+	result:choose 7,8,5,6 show, 5,6 load
+	cost:700
+	memory:3.bin, 3.bint, 7.bin, 7_8.bint, 8.bin, 5.bin, 6.bin, 4_5_6.bint
+}
+
+OneTile1
+{
+	MAX_COST_PER_FRAME = 1500;
+	memory:3.bin, 3.bint, 4.bin, 5.bin, 6.bin, 4_5_6.bint, 7.bin, 7_8.bint, 8.bin
+
+	Frame1:
+	preferred:7,8,10,11,14,15,18
+	preferred cost:(550 + 100) + (400 + 150) + (500 + 200) + (500 + 0) + (650 + 150) = 3200
+	has option:7,8,10,6 or 7,8,5,11,12,13
+	result:choose 7,8,5,11,12,13 show, 11,12,13 load
+	cost:1500
+	memory:3.bin, 3.bint, 4.bin, 5.bin, 6.bin, 4_5_6.bint, 7.bin, 7_8.bint, 8.bin, 11.bin, 12.bin, 13.bin, 11_12_13.bint
+	possible
+	{
+		way1:
+		7,8,10,6 show, 10 load
+		cost:(550 + 100) = 650
+		triangle:125
+
+		way2:
+		7,8,10,6 show, 10, 11 load
+		cost:(550 + 100) + (400 + 150) = 1200
+		triangle:125
+
+		way3:
+		7,8,9,6 show, 9 load
+		cost:(500 + 150) = 650
+		triangle:117
+
+		way4:
+		7,8,9,6 show, 9, 11 load
+		cost:(500 + 150) + (400 + 150) = 1200
+		triangle:117
+
+		way5:
+		7,8,5,11,12,13 show, 11,12,13 load
+		cost:(500 + 150) + (450 + 0) + (400 + 0) = 1500
+		triangle:175
+
+		只可能有这几种情况，7,8,已经加载，不考虑，
+		选择10：
+		剩余6的子节点中，11必然被加载，不然就是显示6本身，而加载11必然至少加载相同层的12,13，无法满足，所以这种情况只会显示6，
+		假设只有way1、2，区别只是在内存中多了11，对于后续可能有利，但是对于当前帧无影响;
+		目前实际用way1，不用加载不显示的节点，对于下一帧不关心，因为可能下次preferred就是完全不同的内容
+		选择9：
+		同理way3、4一样
+		选择5：
+		发现选择5，可以加载11,12,13达到最优解，同时因为11必然选择，无法选择12的子节点代替12或13的子节点代替13
+	}
+
+	Frame2:
+	preferred:7,8,10,11,14,15,18
+	preferred cost:(550 + 100) + (500 + 200) + (500 + 0) + (650 + 150) = 2650
+	has option: 7,8,10,11,12,18 or 7,8,5,14,15,13 
+	result:choose 7,8,5,11,14,15,13 show, 14,15 load
+	cost:1200
+	memory:1.bin, 1.bint, 3.bin, 3.bint, 4.bin, 5.bin, 6.bin, 4_5_6.bint, 7.bin, 7_8.bint, 8.bin, 11.bin, 12.bin, 13.bin, 11_12_13.bint, 14.bin, 15.bin, 14_15.bint
+	possible
+	{
+		way1:
+		7,8,10,11,12,18 show, 10, 18 load
+		cost:(550 + 100) + (650 + 150)= 1450
+		triangle:203
+
+		way2 way3:
+		7,8,9(5),11,12,18 show
+
+		way4:
+		7,8,5,11,14,15,13 show, 14,15 load
+		cost:(500 + 200) + (500 + 0) = 1200
+		triangle:237
+
+		way2、way3，一定能加载但不用计算，效果一定不如子节点10，剪枝
+	}
+
+	Frame3:
+	preferred:7,8,10,11,14,15,18
+	preferred cost:(550 + 100) + (650 + 150) = 1450
+	result:choose 7,8,10,11,14,15,18 show, 10,18 load
+	cost:1450
+	memory:1.bin, 1.bint, 3.bin, 3.bint, 4.bin, 5.bin, 6.bin, 4_5_6.bint, 7.bin, 7_8.bint, 8.bin, 11.bin, 12.bin, 13.bin, 11_12_13.bint, 14.bin, 15.bin, 14_15.bint, 10.bin, 10.bint, 18.bin, 18.bint
+}
+--------------------------------------------------------------------------------------------------------------------------
+MultiTile
+{
+	memory:4.bin, 5.bin, 6.bin, 4_5_6.bint, d.bin, e.bin, f.bin, g.bin, d_e_f_g.bint, D.bin, E.bin, F.bin, D_E_F.bint
+	MAX_COST_PER_FRAME = 1500;
+
+	Frame1:
+	preferred:7,8,5,6,h,i,j,k,l,m,e,f,g,D,E,F
+	preferred cost:(850 + 200) + (1150 + 200) = 1150 + 1350
+	result:choose 4,5,6,h,i,j,k,l,m,e,f,g,D,E,F show, hijklm load
+	cost:1350
+	优先加载效果最好的Tile的全部节点，优先hijklm，这种方式效果最好(35+36vs25+28+25+32+22+24)
+}
+
+MultiTile1
+{
+	memory:4.bin, 5.bin, 6.bin, 4_5_6.bint, d.bin, e.bin, f.bin, g.bin, d_e_f_g.bint, D.bin, E.bin, F.bin, D_E_F.bint
+	MAX_COST_PER_FRAME = 1500;
+
+	Frame1:
+	preferred:7,8,10,6,h,n,j,k,l,m,e,f,g,G,H,I,J,E,F
+	result:choose 4,5,6,  hijklmefg,  DEF show, hijklm load
+	cost:1350
+	△triangle=136
+
+	{
+	先尽量加载一个Tile中的节点看是否可行，转化为一个Tile的情况，在所有可行方案中找出效果最好的方案
+		h,i,j,k,l,m
+		(1350,136)
+
+		GHIJ
+		(900,66)
+		
+		7,8
+		(1050,51)
+
+		10
+		(650,10)
+
+		n
+		(500,15)
+	}
+
+	Frame2:
+	preferred:7,8,10,6,h,n,j,k,l,m,e,f,g,G,H,I,J,E,F
+	result:choose 4,5,6,  hnjklmefg,  GHIJEF show, n GHIJ load
+	cost:900+500
+	△triangle=66+15
+
+	{
+		n
+		(500,15)
+
+		GHIJ
+		(900,66)
+
+		7,8
+		(1050,51)
+
+		10
+		(650,10)
+	}
+
+	Frame3:
+	preferred:7,8,10,6,h,n,j,k,l,m,e,f,g,G,H,I,J,E,F
+	result:choose 7,8,5,6,  hnjklmefg,  GHIJEF show, 7,8 load
+	cost:1050
+	△triangle=51
+
+	{
+		7,8
+		(1050,51)
+
+		10
+		(650,10)
+	}
+
+	Frame4:
+	preferred:7,8,10,6,h,n,j,k,l,m,e,f,g,G,H,I,J,E,F
+	result:choose 7,8,10,6,h,n,j,k,l,m,e,f,g,G,H,I,J,E,F  show, 10 load
+	cost:650
+	△triangle=10
+}

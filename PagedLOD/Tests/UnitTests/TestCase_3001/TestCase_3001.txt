@@ -1,0 +1,44 @@
+类型：
+功能测试
+--------------------------------------------------------------------------------------------------------------------------
+功能：
+验证生成LostTileNodeSet功能是否正确
+--------------------------------------------------------------------------------------------------------------------------
+步骤：
+1.mock数据
+2.生成LostTileNodeSet
+--------------------------------------------------------------------------------------------------------------------------
+输入：
+TileNodeSet(std::vector<std::shared_ptr<CTileNode>>)、MemoryMeshBufferMap(std::map<std::string, std::shared_ptr<SMemoryMeshBuffer>>)
+--------------------------------------------------------------------------------------------------------------------------
+输出：
+LostTileNodeSet(std::vector<std::string>)
+--------------------------------------------------------------------------------------------------------------------------
+MockData：
+
+std::vector<std::vector<std::shared_ptr<CTileNode>>> RenderingTileNodeSet(2);
+RenderingTileNodeSet[0].emplace_back(CTileNode("Tile_1_7"));
+RenderingTileNodeSet[0].emplace_back(CTileNode("Tile_1_8"));
+RenderingTileNodeSet[0].emplace_back(CTileNode("Tile_1_5"));
+RenderingTileNodeSet[0].emplace_back(CTileNode("Tile_1_6"));
+RenderingTileNodeSet[1].emplace_back(CTileNode("Tile_2_1"));
+RenderingTileNodeSet[1].emplace_back(CTileNode("Tile_2_2"));
+RenderingTileNodeSet[1].emplace_back(CTileNode("Tile_2_3"));
+RenderingTileNodeSet[1].emplace_back(CTileNode("Tile_2_4"));
+
+std::map<std::string, std::shared_ptr<SMemoryMeshBuffer>> MemoryMeshBufferMap;
+MemoryMeshBufferMap.emplace_back("Tile_2_1.bin", );
+MemoryMeshBufferMap.emplace_back("Tile_2_4.bin", );
+MemoryMeshBufferMap.emplace_back("Tile_1_5.bin", );
+MemoryMeshBufferMap.emplace_back("Tile_1_6.bin", );
+--------------------------------------------------------------------------------------------------------------------------
+期望结果：
+std::vector<std::string> voLostTileNodeSet;
+
+for (int i = 0; i < voLostTileNodeSet.size(); ++i)
+{
+	EXPECT_EQ(voLostTileNodeSet[i], "Tile_2_2.bin");
+	EXPECT_EQ(voLostTileNodeSet[i], "Tile_2_3.bin");
+	EXPECT_EQ(voLostTileNodeSet[i], "Tile_1_7.bin");
+	EXPECT_EQ(voLostTileNodeSet[i], "Tile_1_8.bin");
+}

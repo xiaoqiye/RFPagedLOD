@@ -1,0 +1,7 @@
+BEGIN_TILE_NUM 					=1
+END_TILE_NUM 					=190
+EACH_TIMES						=10
+TOTAL_TIMES						=1000
+PREFIX							=Tile_
+ROOT_PATH						=G:\Resource\Bin\
+SEED							=12

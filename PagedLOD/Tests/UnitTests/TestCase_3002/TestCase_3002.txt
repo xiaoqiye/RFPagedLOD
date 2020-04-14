@@ -1,0 +1,52 @@
+类型：
+功能测试
+--------------------------------------------------------------------------------------------------------------------------
+功能：
+验证LRUList功能是否正确
+--------------------------------------------------------------------------------------------------------------------------
+步骤：
+1.mock数据
+2.验证插入新节点的情形
+3.验证节点更新的情形
+4.验证过期节点删除的情形
+--------------------------------------------------------------------------------------------------------------------------
+输入：
+MeshLRUList(std::shared_ptr<CMeshLRUList>)
+--------------------------------------------------------------------------------------------------------------------------
+输出：
+MeshLRUList(std::shared_ptr<CMeshLRUList>)
+--------------------------------------------------------------------------------------------------------------------------
+MockData：
+struct SSplayElement
+{
+	std::string MeshName;
+	std::uintmax_t GeometrySize;
+	std::uintmax_t TextureSize;
+};
+CMeshLRUList LRUList;
+LRUList.setMemorySize(2000);
+2.
+LRUList.push(SSplayElement("Tile_1_1.bin", 100, 100));
+LRUList.push(SSplayElement("Tile_1_2_0.bin", 200, 200));
+LRUList.push(SSplayElement("Tile_1_2_1.bin", 300, 200));
+LRUList.push(SSplayElement("Tile_1_3.bin", 400, 400));
+1_1->1_2_0->1_2_1->1_3;	memsize = 1700
+3.
+LRUList.push(SSplayElement("Tile_1_2_0.bin", 200, 200));
+LRUList.push(SSplayElement("Tile_1_3.bin", 400, 400));
+1_3->1_2_0->1_1->1_2_1;	memsize = 1700
+4.
+LRUList.push(SSplayElement("Tile_2_2_0.bin", 400, 200));
+2_2_0->1_3->1_2_0->1_1;	memsize = 2000
+LRUList.push(SSplayElement("Tile_2_2_1.bin", 500, 200));
+2_2_1->2_2_0->1_3;		memsize = 1900
+LRUList.push(SSplayElement("Tile_1_3.bin", 400, 400));
+1_3->2_2_0->2_2_1;		memsize = 1900
+LRUList.push(SSplayElement("Tile_3_3.bin", 800, 100));
+3_3->1_3;		memsize = 1700
+--------------------------------------------------------------------------------------------------------------------------
+期望结果：
+
+
+
+

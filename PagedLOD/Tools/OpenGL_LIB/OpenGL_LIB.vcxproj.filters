@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ThirdParty">
+      <UniqueIdentifier>{b362425d-823c-4507-838d-65f338917fe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\GLFW">
+      <UniqueIdentifier>{1d915dcb-7d64-4b5c-977d-c1de3ba100f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\GLAD">
+      <UniqueIdentifier>{c4c35559-0341-4547-9cbe-19da6acf66c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\IMGUI">
+      <UniqueIdentifier>{142e9978-c273-49aa-8305-9c5db0a837ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\GLFW\Header">
+      <UniqueIdentifier>{f5dab3a8-8846-4d53-9775-3ef2299cd81d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ThirdParty\GLFW\Source">
+      <UniqueIdentifier>{635e0873-c922-4c85-8f88-aa675aa3c67f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DeviceInputHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Utils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLAD\src\glad.c">
+      <Filter>ThirdParty\GLAD</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\IMGUI\imgui.cpp">
+      <Filter>ThirdParty\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\IMGUI\imgui_demo.cpp">
+      <Filter>ThirdParty\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\IMGUI\imgui_draw.cpp">
+      <Filter>ThirdParty\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\IMGUI\imgui_widgets.cpp">
+      <Filter>ThirdParty\IMGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\OGLWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\egl_context.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\init.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\input.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\monitor.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\osmesa_context.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\vulkan.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\wgl_context.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\win32_init.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\win32_joystick.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\win32_monitor.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\win32_thread.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\win32_time.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\win32_window.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\window.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="ThirdParty\GLFW\src\context.c">
+      <Filter>ThirdParty\GLFW\Source</Filter>
+    </ClCompile>
+    <ClCompile Include="src\UISystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Camera.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ConsoleLog.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Constants.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\DeviceInputHandler.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Shader.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Singleton.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\GLAD\include\glad\glad.h">
+      <Filter>ThirdParty\GLAD</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\GLAD\include\KHR\khrplatform.h">
+      <Filter>ThirdParty\GLAD</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GLHeader.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\IMGUI\imconfig.h">
+      <Filter>ThirdParty\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\IMGUI\imgui.h">
+      <Filter>ThirdParty\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\IMGUI\imgui_internal.h">
+      <Filter>ThirdParty\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\IMGUI\imstb_rectpack.h">
+      <Filter>ThirdParty\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\IMGUI\imstb_textedit.h">
+      <Filter>ThirdParty\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\IMGUI\imstb_truetype.h">
+      <Filter>ThirdParty\IMGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\OGLWindow.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\GLFW\src\egl_context.h">
+      <Filter>ThirdParty\GLFW\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\GLFW\src\glfw_config.h">
+      <Filter>ThirdParty\GLFW\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\GLFW\include\GLFW\glfw3.h">
+      <Filter>ThirdParty\GLFW\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\GLFW\include\GLFW\glfw3native.h">
+      <Filter>ThirdParty\GLFW\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\GLFW\src\internal.h">
+      <Filter>ThirdParty\GLFW\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\GLFW\src\mappings.h">
+      <Filter>ThirdParty\GLFW\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\GLFW\src\osmesa_context.h">
+      <Filter>ThirdParty\GLFW\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\GLFW\src\wgl_context.h">
+      <Filter>ThirdParty\GLFW\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\GLFW\src\win32_joystick.h">
+      <Filter>ThirdParty\GLFW\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="ThirdParty\GLFW\src\win32_platform.h">
+      <Filter>ThirdParty\GLFW\Header</Filter>
+    </ClInclude>
+    <ClInclude Include="src\UISystem.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

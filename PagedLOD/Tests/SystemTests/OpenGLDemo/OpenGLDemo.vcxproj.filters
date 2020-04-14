@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Shader Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Init Files">
+      <UniqueIdentifier>{85d3e6cc-2208-4f93-9b48-b87729b97078}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MyUISystem.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OGLGPUOperator.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLODSystem.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MyUISystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OGLGPUOperator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLODSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="modelShader_FS.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="modelShader_VS.glsl">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="FunctionName">
+      <Filter>Init Files</Filter>
+    </None>
+    <None Include="InitValue">
+      <Filter>Init Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

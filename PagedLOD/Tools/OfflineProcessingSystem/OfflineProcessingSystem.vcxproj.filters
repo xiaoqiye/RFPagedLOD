@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ModelConverter">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="ModelConverter\Third Party">
+      <UniqueIdentifier>{66d2462b-77f0-4657-acb6-3a61772165b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LODTreeGenerator">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ModelConverter\FileUtils.cpp">
+      <Filter>ModelConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelConverter\GeometryData.cpp">
+      <Filter>ModelConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelConverter\ObjParser.cpp">
+      <Filter>ModelConverter</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelConverter\nv_dds.cpp">
+      <Filter>ModelConverter\Third Party</Filter>
+    </ClCompile>
+    <ClCompile Include="LODTreeGenerator\LODTree.cpp">
+      <Filter>LODTreeGenerator</Filter>
+    </ClCompile>
+    <ClCompile Include="LODTreeGenerator\LODTreeSerializer.cpp">
+      <Filter>LODTreeGenerator</Filter>
+    </ClCompile>
+    <ClCompile Include="Run.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ModelConverter\FileUtils.h">
+      <Filter>ModelConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelConverter\GeometryData.h">
+      <Filter>ModelConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelConverter\ObjParser.h">
+      <Filter>ModelConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelConverter\nv_dds.h">
+      <Filter>ModelConverter\Third Party</Filter>
+    </ClInclude>
+    <ClInclude Include="LODTreeGenerator\LODTree.h">
+      <Filter>LODTreeGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="LODTreeGenerator\LODTreeSerializer.h">
+      <Filter>LODTreeGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelConverter\Common.h">
+      <Filter>ModelConverter</Filter>
+    </ClInclude>
+    <ClInclude Include="LODTreeGenerator\TileNode.h">
+      <Filter>LODTreeGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="LODTreeGenerator\BoundingSphere.h">
+      <Filter>LODTreeGenerator</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

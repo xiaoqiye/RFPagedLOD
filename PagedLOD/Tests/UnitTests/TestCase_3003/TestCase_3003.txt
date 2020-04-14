@@ -1,0 +1,52 @@
+类型：
+功能测试
+--------------------------------------------------------------------------------------------------------------------------
+功能：
+验证用于更新RenderingTileNodeGenerator中TileNodeLoadCost所需的集合的数据生成是否正确
+--------------------------------------------------------------------------------------------------------------------------
+步骤：
+1.mock数据
+2.生成用于更新的代价表的数据
+--------------------------------------------------------------------------------------------------------------------------
+输入：
+LostTileNodeSet(std::vector<std::string>)、ExpiredTileNodeSet(std::vector<std::string>)
+--------------------------------------------------------------------------------------------------------------------------
+输出：
+UpdateTileNodeLoadCostSet(std::vector<std::pair<std::string, bool>>)
+--------------------------------------------------------------------------------------------------------------------------
+MockData：
+
+LostTileNodeSet.emplace_back("2_0");
+LostTileNodeSet.emplace_back("2_1");
+LostTileNodeSet.emplace_back("5_1");
+
+ExpiredTileNodeSet.emplace_back("a");
+ExpiredTileNodeSet.emplace_back("d_1");
+
+LoadCostMap["1"] =		STileNodeLoadCost(100, 100, 20, false, false);
+LoadCostMap["2_0"] =	STileNodeLoadCost(200, 200, 20, false, false);
+LoadCostMap["2_1"] =	STileNodeLoadCost(300, 200, 20, false, false);
+LoadCostMap["3"] =		STileNodeLoadCost(200, 100, 20, false, false);
+LoadCostMap["4"] =		STileNodeLoadCost(200, 100, 20, false, false);
+LoadCostMap["5_0"] =	STileNodeLoadCost(100, 300, 20, false, false);
+LoadCostMap["5_1"] =	STileNodeLoadCost(100, 300, 20, false, false);
+LoadCostMap["6"] =		STileNodeLoadCost(100, 100, 20, false, false);
+LoadCostMap["a"] =		STileNodeLoadCost(100, 400, 20, false, false);
+LoadCostMap["b"] =		STileNodeLoadCost(100, 300, 20, false, false);
+LoadCostMap["c"] =		STileNodeLoadCost(100, 200, 20, false, false);
+LoadCostMap["d_0"] =	STileNodeLoadCost(300, 100, 20, false, false);
+LoadCostMap["d_1"] =	STileNodeLoadCost(200, 100, 20, false, false);
+
+--------------------------------------------------------------------------------------------------------------------------
+期望结果：
+std::vector<std::pair<std::string, bool>>Result;
+Result.emplace_back("2_0",true);
+Result.emplace_back("2_1",true);
+Result.emplace_back("5_1",true);
+Result.emplace_back("a",false);
+Result.emplace_back("d_1",false);
+
+for (auto i = 0; i < UpdateTileNodeLoadCostSet; ++i)
+{
+	EXPECT_EQ(UpdateTileNodeLoadCostSet[i], Result[i]);
+}
