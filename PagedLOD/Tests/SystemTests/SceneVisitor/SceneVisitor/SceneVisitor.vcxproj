@@ -80,7 +80,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\PagedLODRF\RFPagedLOD\PagedLOD\PagedLOD\PagedLOD-v5\PagedLOD;E:\PagedLODRF\RFPagedLOD\PagedLOD\Tools\OpenGL_LIB\src;$(GLM);E:\SDK\FreeImage\include;$(BOOST);$(TBB)\include;$(HIVE_ROOT)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../../PagedLOD/PagedLOD-v5/PagedLOD;../../../../Tools/OpenGL_LIB/src;$(GLM);E:\SDK\FreeImage\include;$(BOOST);$(TBB)\include;$(HIVE_ROOT)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -107,7 +107,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>E:\PagedLODRF\RFPagedLOD\PagedLOD\PagedLOD\PagedLOD-v5\PagedLOD;E:\PagedLODRF\RFPagedLOD\PagedLOD\Tools\OpenGL_LIB\src;$(GLM);E:\SDK\FreeImage\include;$(BOOST);$(TBB)\include;$(HIVE_ROOT)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../../PagedLOD/PagedLOD-v5/PagedLOD;../../../../Tools/OpenGL_LIB/src;$(GLM);E:\SDK\FreeImage\include;$(BOOST);$(TBB)\include;$(HIVE_ROOT)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
