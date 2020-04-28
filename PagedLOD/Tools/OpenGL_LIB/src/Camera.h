@@ -18,6 +18,8 @@ namespace OpenGL_LIB {
 		void setFarPlane(float vFarPlane) { mFarPlane = vFarPlane; }
 		void setNearPlane(float vNearPlane) { mNearPlane = vNearPlane; }
 		void setFOV(float vFOV) { mFOV = vFOV; }
+		void setYaw(float vYaw) { mYaw = vYaw; __updateCameraVectors(); }
+		float getYaw()const { return mYaw; }
 		float getFOV() const { return mFOV; }
 		float getFarPlane() const { return mFarPlane; }
 		float getNearPlane() const { return mNearPlane; }

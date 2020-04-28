@@ -37,9 +37,9 @@ namespace Constants
 	};
 
 	const float DEFAULT_CAMERA_POSITION[3] = { 0.0f, 0.0f, 0.0f };
-	const float DEFAULT_YAW = -90.0f;
+	const float DEFAULT_YAW = -180.0f;
 	const float DEFAULT_SPEED = 3.0f;
-	const float DEFAULT_CAMERA_PITCH = 0.0f;
+	const float DEFAULT_CAMERA_PITCH = -30.0f;
 	const float DEFAULT_SENSITIVITY = 0.02f;
 	const float DEFAULT_ZOOM = 45.0f;
 	const float DEFAULT_NEAR_PLANE = 0.1f;

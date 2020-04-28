@@ -28,6 +28,13 @@ void CDeviceInputHandler::keyCallback(GLFWwindow* vWindow, int vKey, int vAction
 	if (vKey == GLFW_KEY_ESCAPE && vAction == GLFW_PRESS)
 		glfwSetWindowShouldClose(vWindow, GL_TRUE);
 
+	if (vKey == GLFW_KEY_Y && vAction == GLFW_PRESS)
+	{
+		auto TempYaw = CCamera::getInstance().getYaw();
+		TempYaw += 10;
+		CCamera::getInstance().setYaw(TempYaw);
+	}
+
 	if (vAction == GLFW_PRESS)
 		mKeys[vKey] = true;
 	else if (vAction == GLFW_RELEASE)

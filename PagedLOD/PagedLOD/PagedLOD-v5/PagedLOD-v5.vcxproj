@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{23C1C64D-D110-4116-8F52-037128B3AA4B}</ProjectGuid>
+    <RootNamespace>PagedLODv5</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)lib\$(Platform)\</OutDir>
+    <TargetName>$(ProjectName)-$(Platform)-$(PlatformToolset)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)lib\$(Platform)\</OutDir>
+    <TargetName>$(ProjectName)-$(Platform)-$(PlatformToolset)$(Configuration)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(HIVE_ROOT)\include;$(GLM);$(TBB)\include;$(BOOST);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(HIVE_ROOT)\include;$(GLM);$(TBB)\include;$(BOOST);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="PagedLOD\BoundingSphere.h" />
+    <ClInclude Include="PagedLOD\Common.h" />
+    <ClInclude Include="PagedLOD\FrameGenerator.h" />
+    <ClInclude Include="PagedLOD\FrameState.h" />
+    <ClInclude Include="PagedLOD\GPUBufferCommon.h" />
+    <ClInclude Include="PagedLOD\GPUBufferInterface.h" />
+    <ClInclude Include="PagedLOD\GPUBufferManager.h" />
+    <ClInclude Include="PagedLOD\GPUTask.h" />
+    <ClInclude Include="PagedLOD\GPUThread.h" />
+    <ClInclude Include="PagedLOD\ItemTemplateCreator.h" />
+    <ClInclude Include="PagedLOD\KnapsackProblemSolver.h" />
+    <ClInclude Include="PagedLOD\MemoryBufferManager.h" />
+    <ClInclude Include="PagedLOD\MemoryMeshLRUList.h" />
+    <ClInclude Include="PagedLOD\Pipeline.h" />
+    <ClInclude Include="PagedLOD\PipelineFrameGenerator2PreferredTileNodeGenerator.h" />
+    <ClInclude Include="PagedLOD\PipelineGPUThread2FrameGenerator.h" />
+    <ClInclude Include="PagedLOD\PipelineMemoryBufferManager2GPUThread.h" />
+    <ClInclude Include="PagedLOD\PipelinePreferred2RenderingTileNodeGenerator.h" />
+    <ClInclude Include="PagedLOD\PipelineRenderingTileNodeGenerator2TileNodeLoader.h" />
+    <ClInclude Include="PagedLOD\PipelineTileNodeLoader2MemoryBufferManager.h" />
+    <ClInclude Include="PagedLOD\PreferredTileNodeGenerator.h" />
+    <ClInclude Include="PagedLOD\RenderingTileNodeGenerator.h" />
+    <ClInclude Include="PagedLOD\Scene.h" />
+    <ClInclude Include="PagedLOD\TileNode.h" />
+    <ClInclude Include="PagedLOD\TileNodeLoader.h" />
+    <ClInclude Include="PagedLOD\Timer.h" />
+    <ClInclude Include="PagedLOD\Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PagedLOD\FrameGenerator.cpp" />
+    <ClCompile Include="PagedLOD\GPUBufferManager.cpp" />
+    <ClCompile Include="PagedLOD\GPUThread.cpp" />
+    <ClCompile Include="PagedLOD\ItemTemplateCreator.cpp" />
+    <ClCompile Include="PagedLOD\KnapsackProblemSolver.cpp" />
+    <ClCompile Include="PagedLOD\MemoryBufferManager.cpp" />
+    <ClCompile Include="PagedLOD\MemoryMeshLRUList.cpp" />
+    <ClCompile Include="PagedLOD\PipelineFrameGenerator2PreferredTileNodeGenerator.cpp" />
+    <ClCompile Include="PagedLOD\PipelineGPUThread2FrameGenerator.cpp" />
+    <ClCompile Include="PagedLOD\PipelineMemoryBufferManager2GPUThread.cpp" />
+    <ClCompile Include="PagedLOD\PipelinePreferred2RenderingTileNodeGenerator.cpp" />
+    <ClCompile Include="PagedLOD\PipelineRenderingTileNodeGenerator2TileNodeLoader.cpp" />
+    <ClCompile Include="PagedLOD\PipelineTileNodeLoader2MemoryBufferManager.cpp" />
+    <ClCompile Include="PagedLOD\PreferredTileNodeGenerator.cpp" />
+    <ClCompile Include="PagedLOD\RenderingTileNodeGenerator.cpp" />
+    <ClCompile Include="PagedLOD\Scene.cpp" />
+    <ClCompile Include="PagedLOD\TileNodeLoader.cpp" />
+    <ClCompile Include="PagedLOD\Timer.cpp" />
+    <ClCompile Include="PagedLOD\Utils.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

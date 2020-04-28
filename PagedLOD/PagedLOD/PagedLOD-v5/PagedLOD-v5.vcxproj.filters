@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="0_Common">
+      <UniqueIdentifier>{9b93c54c-8b47-48e9-8107-15d21f834e9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1_FrameGenerator">
+      <UniqueIdentifier>{3e50b47e-d590-43a9-8194-08361956a063}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="2_PreferredTileNodeGenerator">
+      <UniqueIdentifier>{37122d4e-0203-40fd-9698-bdfa98bf173d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3_RenderingTileNodeGenerator">
+      <UniqueIdentifier>{63b1ab46-2f6a-428e-9c66-7dec12c1e3de}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="4_TileNodeLoader">
+      <UniqueIdentifier>{51862bd6-853e-4b25-9146-b5777961f7fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="5_MemoryBufferManager">
+      <UniqueIdentifier>{8d60bd5d-f681-4432-917e-108a6a6e3dd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="6_GPUThread">
+      <UniqueIdentifier>{803d6c23-a64e-4239-9d9e-3da3d1db7b0b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="7_Pipeline">
+      <UniqueIdentifier>{c6ad7b7e-9e28-42d6-aee2-27b46ef1cfd9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PagedLOD\Common.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\BoundingSphere.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\FrameState.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\ItemTemplateCreator.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\KnapsackProblemSolver.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\Pipeline.h">
+      <Filter>7_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\PipelineFrameGenerator2PreferredTileNodeGenerator.h">
+      <Filter>7_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\PipelineGPUThread2FrameGenerator.h">
+      <Filter>7_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\PipelineMemoryBufferManager2GPUThread.h">
+      <Filter>7_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\PipelinePreferred2RenderingTileNodeGenerator.h">
+      <Filter>7_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\PipelineRenderingTileNodeGenerator2TileNodeLoader.h">
+      <Filter>7_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\PipelineTileNodeLoader2MemoryBufferManager.h">
+      <Filter>7_Pipeline</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\Utils.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\Timer.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\TileNode.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\Scene.h">
+      <Filter>0_Common</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\FrameGenerator.h">
+      <Filter>1_FrameGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\GPUBufferCommon.h">
+      <Filter>6_GPUThread</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\GPUBufferInterface.h">
+      <Filter>6_GPUThread</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\GPUBufferManager.h">
+      <Filter>6_GPUThread</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\GPUTask.h">
+      <Filter>6_GPUThread</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\GPUThread.h">
+      <Filter>6_GPUThread</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\MemoryBufferManager.h">
+      <Filter>5_MemoryBufferManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\MemoryMeshLRUList.h">
+      <Filter>5_MemoryBufferManager</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\TileNodeLoader.h">
+      <Filter>4_TileNodeLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\PreferredTileNodeGenerator.h">
+      <Filter>2_PreferredTileNodeGenerator</Filter>
+    </ClInclude>
+    <ClInclude Include="PagedLOD\RenderingTileNodeGenerator.h">
+      <Filter>3_RenderingTileNodeGenerator</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PagedLOD\PipelineFrameGenerator2PreferredTileNodeGenerator.cpp">
+      <Filter>7_Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\PipelineGPUThread2FrameGenerator.cpp">
+      <Filter>7_Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\PipelineMemoryBufferManager2GPUThread.cpp">
+      <Filter>7_Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\PipelinePreferred2RenderingTileNodeGenerator.cpp">
+      <Filter>7_Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\PipelineRenderingTileNodeGenerator2TileNodeLoader.cpp">
+      <Filter>7_Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\PipelineTileNodeLoader2MemoryBufferManager.cpp">
+      <Filter>7_Pipeline</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\Timer.cpp">
+      <Filter>0_Common</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\Utils.cpp">
+      <Filter>0_Common</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\Scene.cpp">
+      <Filter>0_Common</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\ItemTemplateCreator.cpp">
+      <Filter>0_Common</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\KnapsackProblemSolver.cpp">
+      <Filter>0_Common</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\FrameGenerator.cpp">
+      <Filter>1_FrameGenerator</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\GPUBufferManager.cpp">
+      <Filter>6_GPUThread</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\GPUThread.cpp">
+      <Filter>6_GPUThread</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\MemoryBufferManager.cpp">
+      <Filter>5_MemoryBufferManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\MemoryMeshLRUList.cpp">
+      <Filter>5_MemoryBufferManager</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\TileNodeLoader.cpp">
+      <Filter>4_TileNodeLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\PreferredTileNodeGenerator.cpp">
+      <Filter>2_PreferredTileNodeGenerator</Filter>
+    </ClCompile>
+    <ClCompile Include="PagedLOD\RenderingTileNodeGenerator.cpp">
+      <Filter>3_RenderingTileNodeGenerator</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
