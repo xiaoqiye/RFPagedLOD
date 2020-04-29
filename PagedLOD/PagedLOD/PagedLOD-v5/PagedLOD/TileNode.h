@@ -30,9 +30,7 @@ namespace hivePagedLOD
 	{
 	public:
 
-		CTileNode() :
-			CTileNode(std::weak_ptr<CTileNode>()) {}
-
+		CTileNode() : CTileNode(std::weak_ptr<CTileNode>()) {}
 		CTileNode(std::weak_ptr<CTileNode> vParent) :
 			m_UID(0),
 			m_GeometryFileName(""),
@@ -80,6 +78,7 @@ namespace hivePagedLOD
 		const STileNodeStatus& getStatus() const { return m_Status; }
 		void resetStatus() { m_Status.resetStatus(); }
 		
+		//FIXME£º²ÎÊýµÄ_ASSERT()
 		void setUID(unsigned int vUID) { m_UID = vUID; }
 		void setBoundingSphere(const CBoundingSphere& vBoundingSphere) { m_BoundingSphere = vBoundingSphere; }
 		void setGeometryFileName(const std::string& vFileName) { m_GeometryFileName = vFileName; }
