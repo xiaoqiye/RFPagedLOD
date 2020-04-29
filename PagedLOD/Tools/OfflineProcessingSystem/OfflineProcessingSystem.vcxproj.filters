@@ -33,6 +33,9 @@
       <Filter>LODTreeGenerator</Filter>
     </ClCompile>
     <ClCompile Include="Run.cpp" />
+    <ClCompile Include="..\OpenGL_LIB\ThirdParty\GLAD\src\glad.c">
+      <Filter>LODTreeGenerator</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ModelConverter\FileUtils.h">

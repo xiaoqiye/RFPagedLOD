@@ -2,7 +2,7 @@
 #include <string>
 #include <iostream>
 #include <set>
-#include "../../../PagedLOD/PagedLOD/Scene.h"
+#include "Scene.h"
 
 //struct TreeNode
 //{

@@ -1,0 +1,88 @@
+﻿cl : 命令行 warning D9035: “Gm”选项已否决，并将在将来的版本中移除
+  pch.cpp
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\internal\gtest-port.h(996): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\internal\gtest-port.h(997): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\internal\gtest-port.h(998): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\internal\gtest-port.h(999): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\internal\gtest-port.h(1000): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(600): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(605): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(610): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(615): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(620): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(625): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(632): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(639): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(646): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(653): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(661): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(878): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+  d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(878): note: 参见对正在编译的 类 模板 实例化 "testing::internal::TuplePolicy<TupleT>::tuple_element<I>" 的引用
+  d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(886): note: 参见对正在编译的 类 模板 实例化 "testing::internal::TuplePolicy<TupleT>" 的引用
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(882): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(875): warning C4996: 'std::tr1': warning STL4002: The non-Standard std::tr1 namespace and TR1-only machinery are deprecated and will be REMOVED. You can define _SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING to acknowledge that you have received this warning.
+  c:\program files (x86)\microsoft visual studio\2017\enterprise\vc\tools\msvc\14.16.27023\include\tuple(1333): note: 参见“std::tr1”的声明
+  d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(961): note: 参见对正在编译的 类 模板 实例化 "testing::internal::TuplePolicy<Tuple>" 的引用
+          with
+          [
+              Tuple=std::tuple<>
+          ]
+  d:\vc_packages\microsoft.googletest.v140.windesktop.msvcstl.static.rt-dyn.1.8.0\build\native\include\gtest\gtest-printers.h(601): note: 参见对正在编译的函数 模板 实例化“void testing::internal::PrintTupleTo<std::tuple<>>(const T &,std::ostream *)”的引用
+          with
+          [
+              T=std::tuple<>
+          ]
+cl : 命令行 warning D9035: “Gm”选项已否决，并将在将来的版本中移除
+  test.cpp
+  Unknown compiler version - please run the configure tests and report the results
+e:\pagedlodrf\rfpagedlod\pagedlod\tests\unittests\sample-test3\test.cpp(20): error C2664: “bool hivePagedLOD::CScene::init(const std::string &,const std::string &,const std::string &,bool,unsigned int,unsigned int,int)”: 无法将参数 3 从“bool”转换为“const std::string &”
+  e:\pagedlodrf\rfpagedlod\pagedlod\tests\unittests\sample-test3\test.cpp(20): note: 原因如下: 无法从“bool”转换为“const std::string”
+  e:\pagedlodrf\rfpagedlod\pagedlod\tests\unittests\sample-test3\test.cpp(20): note: 无构造函数可以接受源类型，或构造函数重载决策不明确
+e:\pagedlodrf\rfpagedlod\pagedlod\tests\unittests\sample-test3\test.cpp(27): error C2039: “generatePreferredTileNodeSet”: 不是“hivePagedLOD::CPreferredTileNodeGenerator”的成员
+  e:\pagedlodrf\rfpagedlod\pagedlod\pagedlod\pagedlod-v5\pagedlod\preferredtilenodegenerator.h(9): note: 参见“hivePagedLOD::CPreferredTileNodeGenerator”的声明
+e:\pagedlodrf\rfpagedlod\pagedlod\tests\unittests\sample-test3\test.cpp(28): error C2664: “bool hivePagedLOD::IPipeline<hivePagedLOD::SPplP2RType::TInputData,hivePagedLOD::SPplP2RType::TInputBuffer,hivePagedLOD::SPplP2RType::TOutputData,hivePagedLOD::SPplP2RType::TOutputBuffer>::tryPop(int,TOutputData &)”: 无法将参数 1 从“std::vector<std::vector<std::shared_ptr<hivePagedLOD::CTileNode>,std::allocator<_Ty>>,std::allocator<std::vector<_Ty,std::allocator<_Ty>>>>”转换为“TOutputData &”
+          with
+          [
+              TOutputData=hivePagedLOD::SPplP2RType::TOutputData
+          ]
+          and
+          [
+              _Ty=std::shared_ptr<hivePagedLOD::CTileNode>
+          ]
+          and
+          [
+              TOutputData=hivePagedLOD::SPplP2RType::TOutputData
+          ]
+e:\pagedlodrf\rfpagedlod\pagedlod\tests\unittests\sample-test3\test.cpp(32): error C2039: “generatePreferredTileNodeSet”: 不是“hivePagedLOD::CPreferredTileNodeGenerator”的成员
+  e:\pagedlodrf\rfpagedlod\pagedlod\pagedlod\pagedlod-v5\pagedlod\preferredtilenodegenerator.h(9): note: 参见“hivePagedLOD::CPreferredTileNodeGenerator”的声明
+e:\pagedlodrf\rfpagedlod\pagedlod\tests\unittests\sample-test3\test.cpp(33): error C2664: “bool hivePagedLOD::IPipeline<hivePagedLOD::SPplP2RType::TInputData,hivePagedLOD::SPplP2RType::TInputBuffer,hivePagedLOD::SPplP2RType::TOutputData,hivePagedLOD::SPplP2RType::TOutputBuffer>::tryPop(int,TOutputData &)”: 无法将参数 1 从“std::vector<std::vector<std::shared_ptr<hivePagedLOD::CTileNode>,std::allocator<_Ty>>,std::allocator<std::vector<_Ty,std::allocator<_Ty>>>>”转换为“TOutputData &”
+          with
+          [
+              TOutputData=hivePagedLOD::SPplP2RType::TOutputData
+          ]
+          and
+          [
+              _Ty=std::shared_ptr<hivePagedLOD::CTileNode>
+          ]
+          and
+          [
+              TOutputData=hivePagedLOD::SPplP2RType::TOutputData
+          ]

@@ -1,7 +1,7 @@
 #include "pch.h"
 
 #include "MockData.h"
-#include "PagedLOD/Utils.h"
+#include "Utils.h"
 #include <GLM/glm.hpp>
 
 using namespace hivePagedLOD;

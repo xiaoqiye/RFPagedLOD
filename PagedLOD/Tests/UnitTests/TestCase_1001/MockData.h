@@ -1,6 +1,6 @@
 #pragma once
-#include "PagedLOD/TileNode.h"
-#include "PagedLOD/Common.h"
+#include "TileNode.h"
+#include "Common.h"
 #include <GLM/glm.hpp>
 
 #include <vector>

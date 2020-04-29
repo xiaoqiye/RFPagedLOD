@@ -266,7 +266,54 @@ void TestMapTime()
 
 int main()
 {
-	SConfig Config;
+	const std::string FilePath = "./testData/Tile_21_L24_000054100.bint";
+	std::vector<double> TimeSet;
+	auto Stream = __getFileStream(FilePath);
+	LARGE_INTEGER BeginTime;
+	LARGE_INTEGER EndTime;
+	LARGE_INTEGER Freq;
+
+	for (unsigned int i = 0; i < 10000; i++)
+	{
+		if (boost::ends_with(FilePath, ".bin"))
+		{
+			auto pGeometry = std::make_shared<SGeometry>();
+			
+			QueryPerformanceFrequency(&Freq);
+			QueryPerformanceCounter(&BeginTime);
+			//process
+			__processGeometryBuffer(Stream.get(), pGeometry);
+
+			QueryPerformanceCounter(&EndTime);
+			const auto Time = static_cast<double>(EndTime.QuadPart - BeginTime.QuadPart) / Freq.QuadPart;
+
+			TimeSet.emplace_back(Time);
+		}
+		else
+		{
+			auto pTexture = std::make_shared<STexture>();
+
+			QueryPerformanceFrequency(&Freq);
+			QueryPerformanceCounter(&BeginTime);
+			//process
+			__processTextureBuffer(Stream.get(), pTexture);
+
+			QueryPerformanceCounter(&EndTime);
+			const auto Time = static_cast<double>(EndTime.QuadPart - BeginTime.QuadPart) / Freq.QuadPart;
+
+			TimeSet.emplace_back(Time);
+		}
+	}
+	//total time
+	double TotalTime=0;
+	for (auto &i : TimeSet)
+		TotalTime += i;
+
+	double AverageTime = TotalTime / TimeSet.size();
+
+	std::cout << "Total time:" << TotalTime << "," << "Average Time:" << AverageTime << std::endl;
+	
+	/*SConfig Config;
 	initFromConfigureFile(Config);
 	std::vector<std::string> PathSet;
 	const auto Size = generatePathSet(Config, PathSet, Config.SEED + 1);
@@ -274,7 +321,7 @@ int main()
 	
 	std::vector<std::string> PathSet1;
 	const auto Size1 = generatePathSet(Config, PathSet1, Config.SEED + 2);
-	TestFileTime(PathSet1, Size1);
+	TestFileTime(PathSet1, Size1);*/
 
 	//TestMapTime();
 
