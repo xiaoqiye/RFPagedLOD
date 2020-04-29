@@ -6,6 +6,11 @@
 
 using namespace hivePagedLOD;
 
+TEST(CulllingTest, TestFrustumPlaneCalculation)
+{
+	
+}
+
 TEST(CulllingTest, TestIsBoundingSphereInFrustum)
 {
 	auto TileNodeSet = MockData::getTileNodeSet();

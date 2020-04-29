@@ -97,8 +97,14 @@ namespace hivePagedLOD
 		void setNeedLoad(bool vFlag) { m_Status.NeedLoad = vFlag; }
 		void setIsVisible(bool vFlag) { m_Status.IsVisible = vFlag; }
 		void setMatchLOD(bool vFlag) { m_Status.MatchLOD = vFlag; }
-	private:
 
+#ifdef _UNIT_TEST
+		std::string m_TileNodeName;
+		void setTileNodeName(const std::string& vTileNodeName) { _ASSERT(!vTileNodeName.empty()); m_TileNodeName = vTileNodeName; }
+		const std::string& getTileNodeName() const { return m_TileNodeName; }
+#endif
+
+	private:
 		unsigned int m_UID;
 		CBoundingSphere m_BoundingSphere;
 		std::string m_GeometryFileName;

@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3f47c64c-d939-45b5-a7ff-843469c865e0}</ProjectGuid>
+    <ProjectGuid>{df16803a-7001-4cb3-8b29-42c9cf057dc9}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
     <ConfigurationType>Application</ConfigurationType>
@@ -54,7 +54,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="TestCase_1001.txt" />
+    <Text Include="TestCase_1002.txt" />
   </ItemGroup>
   <ItemDefinitionGroup />
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
@@ -87,12 +87,12 @@
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
-      <AdditionalIncludeDirectories>../../../PagedLOD/PagedLOD-v5/PagedLOD;$(BOOST);$(GLM);$(HIVE_ROOT)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../PagedLOD/PagedLOD-v5/PagedLOD;$(GLM);$(BOOST);$(TBB)\include;$(HIVE_ROOT)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>../../../PagedLOD/lib/x64;$(BOOST)/x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../PagedLOD/lib/x64;$(BOOST)/X64;$(TBB)/lib/x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>PagedLOD-v5-$(Platform)-$(PlatformToolSet)$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -120,14 +120,14 @@
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <AdditionalIncludeDirectories>../../../PagedLOD/PagedLOD-v5/PagedLOD;$(BOOST);$(GLM);$(HIVE_ROOT)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../../../PagedLOD/PagedLOD-v5/PagedLOD;$(GLM);$(BOOST);$(TBB)\include;$(HIVE_ROOT)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <AdditionalLibraryDirectories>../../../PagedLOD/lib/x64;$(BOOST)/x64</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../PagedLOD/lib/x64;$(BOOST)/X64;$(TBB)/lib/x64</AdditionalLibraryDirectories>
       <AdditionalDependencies>PagedLOD-v5-$(Platform)-$(PlatformToolSet)$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

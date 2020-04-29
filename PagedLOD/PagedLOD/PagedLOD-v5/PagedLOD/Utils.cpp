@@ -33,6 +33,7 @@ void CUtils::calculateFrustumPlane(std::vector<glm::vec4>& voFrustumPlanes, cons
 	voFrustumPlanes.emplace_back(0.0f, 0.0f, -1.0f, -vViewInfo.CameraInfo.NearPlane);
 	//far
 	voFrustumPlanes.emplace_back(0.0f, 0.0f, 1.0f, vViewInfo.CameraInfo.FarPlane);
+	//FIXME:视椎体平面计算感觉有问题，且此函数没有测试用例
 	//top
 	auto TopNormal = glm::normalize(glm::cross(Position[1] - Position[0], Position[4] - Position[0]));
 	voFrustumPlanes.emplace_back(TopNormal, 0.0f);
