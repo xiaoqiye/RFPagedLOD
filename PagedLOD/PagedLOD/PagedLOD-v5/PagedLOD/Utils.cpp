@@ -52,7 +52,8 @@ void CUtils::calculateFrustumPlane(std::vector<glm::vec4>& voFrustumPlanes, cons
 //FUNCTION:
 void CUtils::calculateMatrices(glm::mat4& voViewMatrix, glm::mat4& voProjectionMatrix, const SViewInfo& vViewInfo)
 {
-	if (vViewInfo.ViewPortInfo.Width == 0) return;
+	_ASSERT(vViewInfo.ViewPortInfo.Width != 0 && vViewInfo.ViewPortInfo.Height != 0);
+
 	voViewMatrix = glm::lookAt(vViewInfo.CameraInfo.Position, vViewInfo.CameraInfo.Front + vViewInfo.CameraInfo.Position, vViewInfo.CameraInfo.Up);
 	voProjectionMatrix = glm::perspective(glm::radians(vViewInfo.CameraInfo.FOV), static_cast<float>(vViewInfo.ViewPortInfo.Width) / vViewInfo.ViewPortInfo.Height, vViewInfo.CameraInfo.NearPlane, vViewInfo.CameraInfo.FarPlane);
 }
@@ -81,17 +82,17 @@ std::string CUtils::getTextureFileNameFromGeometryFileName(const std::string& vM
 
 //****************************************************************************
 //FUNCTION:
+std::string CUtils::getGeoNamePrefixByTexName(const std::string& vTextureFileName)
+{
+	auto TexName = vTextureFileName;
+	return std::string(TexName.begin(), TexName.begin() + TexName.find_last_of('.')) + '_';
+}
+
+//****************************************************************************
+//FUNCTION:
 void CUtils::printCameraInfo(const hivePagedLOD::SCameraInfo& vCameraInfo)
 {
 	std::cout << "position:  x:" << vCameraInfo.Position.x << "  y:" << vCameraInfo.Position.y << "  z:" << vCameraInfo.Position.z << std::endl;
 	std::cout << "front:  x:" << vCameraInfo.Front.x << "  y:" << vCameraInfo.Front.y << "  z:" << vCameraInfo.Front.z << std::endl;
 	std::cout << "up:  x:" << vCameraInfo.Up.x << "  y:" << vCameraInfo.Up.y << "  z:" << vCameraInfo.Up.z << std::endl;
-}
-
-//****************************************************************************
-//FUNCTION:
-std::string CUtils::getGeoNamePrefixByTexName(const std::string& vTextureFileName)
-{
-	auto TexName = vTextureFileName;
-	return std::string(TexName.begin(), TexName.begin() + TexName.find_last_of('.')) + '_';
 }
