@@ -1,3 +1,0 @@
-﻿  PagedLOD-v5-x64-v141Release.lib(Utils.obj) : 找到 MSIL .netmodule 或使用 /GL 编译的模块；正在使用 /LTCG 重新启动链接；将 /LTCG 添加到链接命令行以改进链接器性能
-MSVCRT.lib(exe_main.obj) : error LNK2001: 无法解析的外部符号 main
-E:\PagedLODRF\RFPagedLOD\PagedLOD\PagedLOD\x64\Release\TestCase_1001.exe : fatal error LNK1120: 1 个无法解析的外部命令
