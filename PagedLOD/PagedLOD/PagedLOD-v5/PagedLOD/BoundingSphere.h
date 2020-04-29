@@ -17,7 +17,7 @@ namespace hivePagedLOD
 		float getRadius() const { _ASSERT(m_Radius > 0.0f); return m_Radius; }
 
 		void setCenter(const glm::vec3& vCenter) { _ASSERT(vCenter.length() > 0); m_Center = vCenter; }
-		void setCenter(float vX, float vY, float vZ) { m_Center = glm::vec3(vX, vY, vZ);}
+		void setCenter(float vCenterX, float vCenterY, float vCenterZ) { m_Center = glm::vec3(vCenterX, vCenterY, vCenterZ);}
 		void setRadius(float vRadius) { _ASSERT(vRadius > 0); m_Radius = vRadius; }
 
 		bool isValid() const { return m_Radius > 0.0f; }

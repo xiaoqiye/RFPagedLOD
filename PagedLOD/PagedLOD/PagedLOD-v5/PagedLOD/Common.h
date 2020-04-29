@@ -15,7 +15,7 @@ namespace hivePagedLOD
 {
 	typedef std::pair<std::string, std::vector<std::string>> TTextureGeometryNamePair;
 
-	////view info
+	//view info
 	struct SViewPort
 	{
 		unsigned int Width = 0;
@@ -36,7 +36,7 @@ namespace hivePagedLOD
 		SCameraInfo CameraInfo;
 	};
 
-	////memory geometry texture
+	//memory texture geometry 
 	struct STextureInfo
 	{
 		unsigned int Width = 0;
@@ -60,7 +60,7 @@ namespace hivePagedLOD
 		std::shared_ptr<unsigned int> pIndexData = nullptr;
 	};
 
-	////mesh buffer
+	//mesh buffer
 	struct SMeshBuffer
 	{
 		SMeshBuffer() = default;
@@ -84,20 +84,22 @@ namespace hivePagedLOD
 		}
 	};
 
-	////load task
+	//load task
 	struct SLoadTask
 	{
 		std::shared_ptr<CTileNode> TileNode;
-		bool NeedLoadTexture;
+		bool NeedLoadTexture = false;
 		SLoadTask() = default;
 		SLoadTask(const std::shared_ptr<CTileNode>& vTileNode, bool vNeedLoadTexture) : TileNode(vTileNode), NeedLoadTexture(vNeedLoadTexture) {}
 	};
 
 	struct SRenderingGeneratorResult
 	{
+		//for experiment
 		bool IsKnapsackResult = false;
 		bool IsKnapsackEnd = false;
 		int FrameID = 0;
+		//for experiment
 		std::vector<std::shared_ptr<SLoadTask>> LoadTaskSet;
 		std::vector<unsigned int> DrawUIDSet;
 		SRenderingGeneratorResult() = default;
@@ -113,25 +115,26 @@ namespace hivePagedLOD
 		SLoaderResult(const std::vector<unsigned int>& vUIDSet, const std::vector<std::shared_ptr<SMemoryMeshBuffer>>& vLoadedMeshBufferSet, const std::vector<unsigned int>& vDrawUIDSet) : TileNodeUIDSet(vUIDSet), LoadedMeshBufferSet(vLoadedMeshBufferSet), DrawUIDSet(vDrawUIDSet) {}
 	};
 	
-	////load log
+	//load log
 	struct STileLoadLog
 	{
-		unsigned int LoadNum;
-		std::uintmax_t LoadSize;
-		double LoadTime;
+		unsigned int LoadNum = 0;
+		std::uintmax_t LoadSize = 0;
+		double LoadTime = 0.0f;
 		STileLoadLog(unsigned int vNum, std::uintmax_t vSize, double vTime) : LoadNum(vNum), LoadSize(vSize), LoadTime(vTime) {}
+		//FIXME：拷贝一个字符串效率
 		std::string toString() const { return std::string(std::to_string(LoadNum) + "|" + std::to_string(LoadSize) + "|" + std::to_string(LoadTime)); }
 	};
 
 	////load cost
 	struct STileNodeLoadCost
 	{
-		uintmax_t GeoSize;
-		uintmax_t TexSize;
-		bool GeoInMemory;
-		bool TexInMemory;
-		uintmax_t TriangleCount;
-		uintmax_t LoadCost;
+		uintmax_t GeoSize = 0;
+		uintmax_t TexSize = 0;
+		bool GeoInMemory = false;
+		bool TexInMemory = false;
+		uintmax_t TriangleCount = 0;
+		uintmax_t LoadCost = 0;
 
 		STileNodeLoadCost() : GeoSize(0), TexSize(0), GeoInMemory(false), TexInMemory(false), TriangleCount(0), LoadCost(0) {}
 		STileNodeLoadCost(uintmax_t vGeoSize, uintmax_t vTexSize, bool vGeoIn, bool vTexIn, uintmax_t vTriangleCount) : GeoSize(vGeoSize), TexSize(vTexSize), GeoInMemory(vGeoIn), TexInMemory(vTexIn), TriangleCount(vTriangleCount), LoadCost(GeoSize* static_cast<uintmax_t>(!GeoInMemory) + TexSize * static_cast<uintmax_t>(!TexInMemory)) {}
