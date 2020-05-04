@@ -21,6 +21,9 @@ namespace hivePagedLOD
 		std::string getGeoNamePrefixByTexName(const std::string& vTextureFileName);
 		void printCameraInfo(const hivePagedLOD::SCameraInfo& vCameraInfo);
 
+		//For Test
+		void calculateFrustumPlaneNew(std::vector<glm::vec4>& voFrustumPlanes, const SViewInfo& vViewInfo);
+
 	private:
 		CUtils() = default;
 		friend class hiveOO::CSingleton<CUtils>;

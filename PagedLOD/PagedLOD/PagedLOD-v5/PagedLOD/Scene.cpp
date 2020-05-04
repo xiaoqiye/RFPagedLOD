@@ -55,6 +55,8 @@ bool CScene::init(const std::string& vSerializedPath, const std::string& vBinFol
 //FUNCTION:
 const std::shared_ptr<CTileNode>& CScene::getTileNodePointerByUID(unsigned vUID)
 {
+	_ASSERT(vUID >= 0);
+
 	unsigned int TileNum = UID_TILE_NUM_MASK & vUID;
 	TileNum >>= OFFSET_BIT;
 	return m_TileNodeMap[TileNum][vUID];
@@ -64,6 +66,8 @@ const std::shared_ptr<CTileNode>& CScene::getTileNodePointerByUID(unsigned vUID)
 //FUNCTION:
 void CScene::resetTileNodeStatus(const std::vector<unsigned int>& vTileNumSet)
 {
+	_ASSERT(vTileNumSet.size() > 0);
+
 	for (unsigned int i = 0; i < vTileNumSet.size(); ++i)
 		for (auto& TileNode : m_TileNodeMap[vTileNumSet[i]])
 			TileNode.second->resetStatus();
@@ -73,6 +77,8 @@ void CScene::resetTileNodeStatus(const std::vector<unsigned int>& vTileNumSet)
 //FUNCTION:
 void CScene::outputLoadCostMap(const std::string& vFunctionName)
 {
+	_ASSERT(!vFunctionName.empty());
+
 	for (auto& TileLoadCostSet : m_LoadCostMap)
 		for (auto& i : TileLoadCostSet)
 			std::cout << vFunctionName << i.first << " " << i.second.GeoInMemory << " " << i.second.GeoSize << " " << i.second.TexInMemory << " " << i.second.TexSize << " " << i.second.LoadCost << std::endl;
@@ -82,6 +88,8 @@ void CScene::outputLoadCostMap(const std::string& vFunctionName)
 //FUNCTION:
 bool CScene::__initMap(unsigned int vMaxTileNum)
 {
+	_ASSERT(vMaxTileNum > 0);
+
 	m_LoadCostMapRaw.clear();
 	m_LoadCostMap.clear();
 	m_TileNodeAncestorMap.clear();
@@ -119,6 +127,8 @@ bool CScene::__initAll()
 //FUNCTION:
 bool CScene::__initRange(unsigned int vBeginTileNum, unsigned int vEndTileNum)
 {
+	_ASSERT(vBeginTileNum <= vEndTileNum);
+
 	for (unsigned int i = vBeginTileNum; i <= vEndTileNum; ++i)
 	{
 		std::string TileName = "Tile_" + std::to_string(i);
@@ -138,6 +148,8 @@ bool CScene::__initRange(unsigned int vBeginTileNum, unsigned int vEndTileNum)
 //FUNCTION:
 bool CScene::__deserializeFile(const std::string& vTilePath)
 {
+	_ASSERT(!vTilePath.empty());
+
 	auto TileRoot = __parseRecord(__loadTreeRecordFromFile(vTilePath));
 	__processBrother(TileRoot->fetchChildPointerAt(0));
 	
@@ -151,6 +163,8 @@ bool CScene::__deserializeFile(const std::string& vTilePath)
 //FUNCTION:
 std::vector<NodeRecord> CScene::__loadTreeRecordFromFile(const std::string& vFilename)
 {
+	_ASSERT(!vFilename.empty());
+
 	if (vFilename.substr(vFilename.find_last_of('.')) != SERIALIZED_SUFFIX) throw std::exception("Wrong file type!");
 
 	std::ifstream LODTreeFileInput(vFilename, std::ios::in);

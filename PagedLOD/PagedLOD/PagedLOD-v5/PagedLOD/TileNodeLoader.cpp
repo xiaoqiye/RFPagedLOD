@@ -40,6 +40,7 @@ void CTileNodeLoader::doFirstFrame()
 	{
 		if (!Root) continue;
 		auto GeoName = Root->getGeometryFileName();
+		//FIXME:判断是否正确进行了处理，若输入正确，则直接返回输入
 		auto TexName = CUtils::getInstance()->getTextureFileNameFromGeometryFileName(GeoName);
 		std::shared_ptr<STexture> pTexture = __loadTextureBufferFromFile(TexName);
 		pTexture->TextureFileName = TexName;

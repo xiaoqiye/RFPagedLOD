@@ -34,6 +34,7 @@ namespace hivePagedLOD
 		void resetTileNodeStatus(const std::vector<unsigned int>& vTileNumSet);
 		
 		void outputLoadCostMap(const std::string& vFunctionName);
+
 	private:
 		CScene() = default;
 		bool __initMap(unsigned int vMaxTileNum);
