@@ -35,7 +35,7 @@ namespace hivePagedLOD
 		SViewPort ViewPortInfo;
 		SCameraInfo CameraInfo;
 
-		bool isValid()
+		bool isValid() const
 		{
 			return ViewPortInfo.Width > 0 && ViewPortInfo.Height > 0 && CameraInfo.FOV > 0 && CameraInfo.NearPlane < CameraInfo.FarPlane &&
 				(glm::dot(CameraInfo.Position + CameraInfo.Front, CameraInfo.Up) == 0);

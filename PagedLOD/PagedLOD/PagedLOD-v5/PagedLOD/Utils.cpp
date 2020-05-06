@@ -11,7 +11,7 @@ using namespace hivePagedLOD;
 //FUNCTION:
 void CUtils::calculateFrustumPlane(std::vector<glm::vec4>& voFrustumPlanes, const SViewInfo& vViewInfo)
 {
-	//_ASSERT(vViewInfo.isValid());
+	_ASSERT(vViewInfo.isValid());
 
 	std::vector<glm::vec3> Position;
 	auto TanHeight = glm::tan(glm::radians(vViewInfo.CameraInfo.FOV / 2.0f));
@@ -116,9 +116,9 @@ void CUtils::printCameraInfo(const hivePagedLOD::SCameraInfo& vCameraInfo)
 
 //****************************************************************************
 //FUNCTION:
-void hivePagedLOD::CUtils::calculateFrustumPlaneNew(std::vector<glm::vec4>& voFrustumPlanes, const SViewInfo& vViewInfo)
+void CUtils::calculateFrustumPlaneStd(std::vector<glm::vec4>& voFrustumPlanes, const SViewInfo& vViewInfo)
 {
-	//_ASSERT(vViewInfo.isValid());
+	_ASSERT(vViewInfo.isValid());
 
 	std::vector<glm::vec3> Position;
 	auto TanHeight = glm::tan(glm::radians(vViewInfo.CameraInfo.FOV / 2.0f));

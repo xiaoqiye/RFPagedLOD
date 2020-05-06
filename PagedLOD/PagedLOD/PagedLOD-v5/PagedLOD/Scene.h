@@ -35,6 +35,11 @@ namespace hivePagedLOD
 		
 		void outputLoadCostMap(const std::string& vFunctionName);
 
+#ifdef _UNIT_TEST
+		NodeRecord loadNodeRecordFromFile(std::istream& vIs) { return __loadNodeRecordFromFile(vIs); }
+		std::shared_ptr<CTileNode> parseRecord(const std::vector<NodeRecord>& vTreeRecord) { return __parseRecord(vTreeRecord); }
+#endif
+
 	private:
 		CScene() = default;
 		bool __initMap(unsigned int vMaxTileNum);
