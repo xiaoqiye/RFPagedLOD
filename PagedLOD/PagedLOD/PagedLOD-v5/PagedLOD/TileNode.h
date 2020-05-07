@@ -97,11 +97,22 @@ namespace hivePagedLOD
 		void setIsVisible(bool vFlag) { m_Status.IsVisible = vFlag; }
 		void setMatchLOD(bool vFlag) { m_Status.MatchLOD = vFlag; }
 
-#ifdef _UNIT_TEST
-		std::string m_TileNodeName;
-		void setTileNodeName(const std::string& vTileNodeName) { _ASSERT(!vTileNodeName.empty()); m_TileNodeName = vTileNodeName; }
-		const std::string& getTileNodeName() const { return m_TileNodeName; }
-#endif
+		//for _UNIT_TEST
+		bool operator==(const std::shared_ptr<CTileNode>& vTileNode) 
+		{ 
+			return this->getUID() == vTileNode->getUID() && this->getBoundingSphere() == vTileNode->getBoundingSphere() &&
+				this->getGeometryFileName() == vTileNode->getGeometryFileName() && this->getGeometryFileSize() == vTileNode->getGeometryFileSize() &&
+				this->getTextureFileName() == vTileNode->getTextureFileName() && this->getTextureFileSize() == vTileNode->getTextureFileSize() &&
+				this->getTriangleCount() == vTileNode->getTriangleCount() && this->getNodeDeep() == vTileNode->getNodeDeep() &&
+				this->getLODLevel() == vTileNode->getLODLevel() && this->getAncestorUIDSet() == vTileNode->getAncestorUIDSet() &&
+				this->getBrotherUIDSet() == vTileNode->getBrotherUIDSet();
+		}
+//
+//#ifdef _UNIT_TEST
+//		std::string m_TileNodeName;
+//		void setTileNodeName(const std::string& vTileNodeName) { _ASSERT(!vTileNodeName.empty()); m_TileNodeName = vTileNodeName; }
+//		const std::string& getTileNodeName() const { return m_TileNodeName; }
+//#endif
 
 	private:
 		unsigned int m_UID;

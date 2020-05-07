@@ -19,6 +19,22 @@ namespace MockData
 		return TempValidViewInfo;
 	}
 
+	hivePagedLOD::SViewInfo getInvalidViewInfo()
+	{
+		hivePagedLOD::SViewInfo TempValidViewInfo;
+
+		TempValidViewInfo.ViewPortInfo.Width = 1080;
+		TempValidViewInfo.ViewPortInfo.Height = 720;
+		TempValidViewInfo.CameraInfo.Position = glm::vec3(0.0f, 0.0f, 3.0f);
+		TempValidViewInfo.CameraInfo.Front = glm::vec3(0.0f, 0.0f, 1.0f);
+		TempValidViewInfo.CameraInfo.Up = glm::vec3(0.0f, 1.0f, 0.0f);
+		TempValidViewInfo.CameraInfo.FOV = 45.0f;
+		TempValidViewInfo.CameraInfo.NearPlane = 1000.0f;
+		TempValidViewInfo.CameraInfo.FarPlane = 1.0f;
+
+		return TempValidViewInfo;
+	}
+
 	const std::vector<std::shared_ptr<hivePagedLOD::CTileNode>> getTileNodeSet()
 	{
 		std::vector<std::shared_ptr<hivePagedLOD::CTileNode>> TempTileNodeSet;
@@ -70,47 +86,63 @@ namespace MockData
 		return TempFrustumPlanes;
 	}
 
-	std::vector<std::string> getGeoFileNameSet()
+	std::vector<std::string> getValidGeoFileNameSet()
 	{
 		std::vector<std::string> TempGeoFileNameSet;
 
 		std::string GeoFileName0 = "T1_111_222.bin";
 		std::string GeoFileName1 = "T1__111.bin";
 		std::string GeoFileName2 = "T1_111_222.BIN";
-		std::string GeoFileName3 = "T1222.bin";
-		std::string GeoFileName4 = "T1222";
-		std::string GeoFileName5 = "T1222.bint";
 
 		TempGeoFileNameSet.emplace_back(GeoFileName0);
 		TempGeoFileNameSet.emplace_back(GeoFileName1);
 		TempGeoFileNameSet.emplace_back(GeoFileName2);
-		TempGeoFileNameSet.emplace_back(GeoFileName3);
-		TempGeoFileNameSet.emplace_back(GeoFileName4);
-		TempGeoFileNameSet.emplace_back(GeoFileName5);
 
 		return TempGeoFileNameSet;
-
 	}
 
-	std::vector<std::string> getTexFileNameSet()
+	std::vector<std::string> getInvalidGeoFileNameSet()
+	{
+		std::vector<std::string> TempGeoFileNameSet;
+
+		std::string GeoFileName0 = "T1222.bin";
+		std::string GeoFileName1 = "T1222";
+		std::string GeoFileName2 = "T1222.bint";
+
+		TempGeoFileNameSet.emplace_back(GeoFileName0);
+		TempGeoFileNameSet.emplace_back(GeoFileName1);
+		TempGeoFileNameSet.emplace_back(GeoFileName2);
+
+		return TempGeoFileNameSet;
+	}
+
+	std::vector<std::string> getValidTexFileNameSet()
 	{
 		std::vector<std::string> TempTexFileNameSet;
 
 		std::string GeoFileName0 = "T1.bint";
 		std::string GeoFileName1 = "T1..bint";
 		std::string GeoFileName2 = "T1.1.bint";
-		std::string GeoFileName3 = "T1222bint";
-		std::string GeoFileName4 = "T1222";
-		std::string GeoFileName5 = "T1222.bin";
 
 		TempTexFileNameSet.emplace_back(GeoFileName0);
 		TempTexFileNameSet.emplace_back(GeoFileName1);
 		TempTexFileNameSet.emplace_back(GeoFileName2);
-		TempTexFileNameSet.emplace_back(GeoFileName3);
-		TempTexFileNameSet.emplace_back(GeoFileName4);
-		TempTexFileNameSet.emplace_back(GeoFileName5);
 
 		return TempTexFileNameSet;
+	}
 
+	std::vector<std::string> getInvalidTexFileNameSet()
+	{
+		std::vector<std::string> TempTexFileNameSet;
+
+		std::string GeoFileName0 = "T1222bint";
+		std::string GeoFileName1 = "T1222";
+		std::string GeoFileName2 = "T1222.bin";
+
+		TempTexFileNameSet.emplace_back(GeoFileName0);
+		TempTexFileNameSet.emplace_back(GeoFileName1);
+		TempTexFileNameSet.emplace_back(GeoFileName2);
+
+		return TempTexFileNameSet;
 	}
 }

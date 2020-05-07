@@ -46,6 +46,22 @@ namespace hivePagedLOD
 		
 		const STileNodeLoadCost& getLoadCostByUID(unsigned int vUID) const;
 		const ELoadStrategy& getLoadStrategy() const { return m_LoadStrategy; }
+
+#ifdef _UNIT_TEST
+		void calculateCostAndTriangle(const std::vector<std::shared_ptr<CTileNode>>& TileNodeSet, uintmax_t& voCost, uintmax_t& voTriangle)
+		{
+			__calculateCostAndTriangle(TileNodeSet, voCost, voTriangle);
+		}
+		void removeDrawUIDSetDuplication(std::vector<std::shared_ptr<CTileNode>>& voTileNodeSet, std::set<unsigned int>& voDrawUIDSet)
+		{
+			__removeDrawUIDSetDuplication(voTileNodeSet, voDrawUIDSet);
+		}
+		void addTileNodeToLoadTaskSet(const std::vector<std::shared_ptr<CTileNode>>& vTileNodeSet, std::vector<std::shared_ptr<SLoadTask>>& voLoadTaskSet, uintmax_t& voLoadSize)
+		{
+			__addTileNodeToLoadTaskSet(vTileNodeSet, voLoadTaskSet, voLoadSize);
+		}
+#endif
+
 	private:	
 		void __workByPreferredTileNodeSet();
 
@@ -54,8 +70,6 @@ namespace hivePagedLOD
 		void __generateByLoadAncestor();
 
 		void __calculateCostAndTriangle(const std::vector<std::shared_ptr<CTileNode>>& TileNodeSet, uintmax_t& voCost, uintmax_t& voTriangle);
-		void __calculateCostAndTriangle1(const std::vector<std::shared_ptr<CTileNode>>& TileNodeSet, uintmax_t& voCost, uintmax_t& voTriangle, int& voLoadFileNum);
-
 		void __removeDrawUIDSetDuplication(std::vector<std::shared_ptr<CTileNode>>& voTileNodeSet, std::set<unsigned int>& voDrawUIDSet);
 
 		//void __generateResultForDirectLoadInOneFrame();

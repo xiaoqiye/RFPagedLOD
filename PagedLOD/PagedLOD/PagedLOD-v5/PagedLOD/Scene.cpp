@@ -244,15 +244,17 @@ NodeRecord CScene::__loadNodeRecordFromFile(std::istream& vIs)
 	Pointer->setBrotherUIDSet(BrotherUIDSet);
 	
 	//m_TileNodeSet[TileNum].emplace_back(*Pointer.get());
-	
-	m_LoadCostMap[TileNum][UID] = STileNodeLoadCost(GeometryFileSize - GEOMETRY_HEADER_LENGTH, TextureFileSize - TEXTURE_HEADER_LENGTH, TriangleCount);
+	if (m_LoadCostMap.size() != 0)
+	{
+		m_LoadCostMap[TileNum][UID] = STileNodeLoadCost(GeometryFileSize - GEOMETRY_HEADER_LENGTH, TextureFileSize - TEXTURE_HEADER_LENGTH, TriangleCount);
 
-	m_TileNodeAncestorMap[TileNum][UID] = AncestorIDSet;
-	m_TileNodeBrotherMap[TileNum][UID] = BrotherUIDSet;
+		m_TileNodeAncestorMap[TileNum][UID] = AncestorIDSet;
+		m_TileNodeBrotherMap[TileNum][UID] = BrotherUIDSet;
 
-	m_TileNodeMap[TileNum].insert(std::make_pair(UID, Pointer));
+		m_TileNodeMap[TileNum].insert(std::make_pair(UID, Pointer));
+	}
 
-	return std::make_pair(Pointer, Father);
+	return std::make_pair(Pointer,Father);
 }
 
 //****************************************************************************

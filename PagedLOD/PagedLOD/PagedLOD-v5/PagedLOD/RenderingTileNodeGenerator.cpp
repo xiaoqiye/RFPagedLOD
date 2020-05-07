@@ -735,35 +735,3 @@ void CRenderingTileNodeGenerator::__removeDrawUIDSetDuplication(std::vector<std:
 //
 //	m_ThisFrameResult = SRenderingGeneratorResult(LoadTaskSet, t);
 //}
-
-//****************************************************************************
-//FUNCTION:
-void CRenderingTileNodeGenerator::__calculateCostAndTriangle1(const std::vector<std::shared_ptr<CTileNode>>& TileNodeSet, uintmax_t& voCost, uintmax_t& voTriangle, int& voLoadFileNum)
-{
-	voCost = 0;
-	voTriangle = 0;
-	voLoadFileNum = 0;
-	std::map<std::string, uintmax_t> freq;
-	for (auto& Tile : TileNodeSet)
-	{
-		auto& LoadCost = getLoadCostByUID(Tile->getUID());
-		voTriangle += LoadCost.TriangleCount;
-		if (LoadCost.TexInMemory)
-		{
-			if(!LoadCost.GeoInMemory)
-				++voLoadFileNum;
-			voCost += LoadCost.LoadCost;
-		}
-		else
-		{
-			voCost += LoadCost.GeoSize;
-			++voLoadFileNum;
-			freq[Tile->getTextureFileName()] = LoadCost.TexSize;
-		}
-	}
-	for (auto& i : freq)
-	{
-		voCost += i.second;
-		++voLoadFileNum;
-	}
-}

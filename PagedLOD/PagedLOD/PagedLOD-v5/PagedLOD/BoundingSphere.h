@@ -21,6 +21,7 @@ namespace hivePagedLOD
 		void setRadius(float vRadius) { _ASSERT(vRadius > 0); m_Radius = vRadius; }
 
 		bool isValid() const { return m_Radius > 0.0f; }
+		bool operator==(const CBoundingSphere& vBoundingSphere) const { return vBoundingSphere.getCenter() == this->getCenter() && vBoundingSphere.getRadius() == this->getRadius(); }
 
 	private:
 		glm::vec3 m_Center;

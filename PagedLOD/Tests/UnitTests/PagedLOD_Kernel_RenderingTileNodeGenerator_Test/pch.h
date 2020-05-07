@@ -6,3 +6,5 @@
 #pragma once
 
 #include "gtest/gtest.h"
+
+#define _UNIT_TEST
