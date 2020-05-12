@@ -12,6 +12,7 @@ namespace hivePagedLOD
 		CFrameGenerator() = delete;
 		CFrameGenerator(const std::shared_ptr<CPipelineGPUThread2FrameGenerator>& vInputPipelineFromMemoryBufferManager,
 			const std::shared_ptr<CPipelineFrameGenerator2PreferredTileNodeGenerator>& vOutputPipelineToFrameState);
+
 		void start();
 		void join() { _ASSERTE(m_Thread.joinable()); m_Thread.join(); }
 
@@ -19,8 +20,8 @@ namespace hivePagedLOD
 		void setEndFlag(bool vFlag) { m_Close = vFlag; }
 
 		uintmax_t getFrameID() const { return m_FrameID; }
-
 		bool hasFrameState(std::shared_ptr<IFrameState>& voFrameState);
+
 	private:
 		void __workByFrameState();
 

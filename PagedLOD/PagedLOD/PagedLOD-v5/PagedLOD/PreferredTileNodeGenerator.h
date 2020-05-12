@@ -10,7 +10,8 @@ namespace hivePagedLOD
 	{
 	public:
 		CPreferredTileNodeGenerator() = delete;
-		CPreferredTileNodeGenerator(const std::shared_ptr<CPipelineFrameGenerator2PreferredTileNodeGenerator>& vInputPipeline, const std::shared_ptr<CPipelinePreferred2RenderingTileNodeGenerator>& vOutputPipeline);
+		CPreferredTileNodeGenerator(const std::shared_ptr<CPipelineFrameGenerator2PreferredTileNodeGenerator>& vInputPipeline, 
+			const std::shared_ptr<CPipelinePreferred2RenderingTileNodeGenerator>& vOutputPipeline);
 		~CPreferredTileNodeGenerator() = default;
 
 		void start();
@@ -23,12 +24,11 @@ namespace hivePagedLOD
 #ifdef _UNIT_TEST
 		void generatePreferredTileNodeSet(std::shared_ptr<CTileNode>& vTileNode, std::vector<std::shared_ptr<CTileNode>>& voPreferredTileNode, unsigned int& voPreferredSetMaxDeep)
 		{
-			_ASSERT(vTileNode);
 			__generatePreferredTileNodeSet(vTileNode, voPreferredTileNode, voPreferredSetMaxDeep);
 		}
 		bool isPreferedTileNode(const std::shared_ptr<CTileNode>& vTileNode) const { _ASSERT(vTileNode); __isPreferredTileNode(vTileNode); }
 		bool isTileVisible(const std::shared_ptr<CTileNode>& vTileNode) const { _ASSERT(vTileNode); __isTileVisible(vTileNode); }
-#endif // _UNIT_TEST
+#endif
 
 	private:
 		void __workByViewInfo();
@@ -45,10 +45,9 @@ namespace hivePagedLOD
 		glm::mat4 m_ViewMatrix;
 		glm::mat4 m_ProjectionMatrix;
 		SViewInfo m_ViewInfo;
-
 		SViewInfo m_LastViewInfo = SViewInfo();
+
 		std::vector<unsigned int> m_LastPreferredTileNumSet;
-		
 		std::vector<glm::vec4> m_FrustumPlanes;
 	};
 }

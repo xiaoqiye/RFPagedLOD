@@ -28,6 +28,7 @@ void CFrameGenerator::__workByFrameState()
 		if (m_pInputPipelineFromGPUThread->tryPop(1, m_FrameState))
 		{
 			++m_FrameID;
+			//for test
 			if (m_FrameID > 12000)
 				m_FrameState->EndFlag = true;
 			CTimer::getInstance()->tick(__FUNCTION__);
@@ -39,8 +40,6 @@ void CFrameGenerator::__workByFrameState()
 			}
 			m_pOutputPipelineToPreferred->tryPush(m_FrameState->ViewInfo);
 			m_HasFrameState = true;
-
-			//CUtils::getInstance()->printCameraInfo(m_FrameState->ViewInfo.CameraInfo);
 
 			CTimer::getInstance()->tock(__FUNCTION__);
 			if (CTimer::getInstance()->needOutput() && CTimer::getInstance()->isRegistered(__FUNCTION__))
@@ -64,7 +63,5 @@ bool CFrameGenerator::hasFrameState(std::shared_ptr<IFrameState>& voFrameState)
 		return true;
 	}
 	else
-	{
 		return false;
-	}
 }

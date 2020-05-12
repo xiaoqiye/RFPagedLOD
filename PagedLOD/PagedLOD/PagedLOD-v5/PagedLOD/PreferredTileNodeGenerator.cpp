@@ -29,24 +29,19 @@ void CPreferredTileNodeGenerator::__workByViewInfo()
 	{
 		if (m_pInputPipeline->tryPop(1, m_ViewInfo))
 		{
-			if (m_LastViewInfo.CameraInfo.Front == m_ViewInfo.CameraInfo.Front
-				&& m_LastViewInfo.CameraInfo.Up == m_ViewInfo.CameraInfo.Up
-				&& m_LastViewInfo.CameraInfo.Position == m_ViewInfo.CameraInfo.Position)
+			if (m_LastViewInfo == m_ViewInfo)
 			{
 				std::vector<std::vector<std::shared_ptr<CTileNode>>> EmptyPreferredTileNodeSet;
 				std::vector<unsigned int> EmptyMaxDeepSet;
 				m_pOutputPipeline->tryPush(SPreferredResult(EmptyPreferredTileNodeSet, EmptyMaxDeepSet));
 				continue;
 			}
-
 			m_LastViewInfo = m_ViewInfo;
-
 			CTimer::getInstance()->tick(__FUNCTION__);
 
 			if (m_FrustumPlanes.empty()) 
 				CUtils::getInstance()->calculateFrustumPlane(m_FrustumPlanes, m_ViewInfo);
 			CUtils::getInstance()->calculateMatrices(m_ViewMatrix, m_ProjectionMatrix, m_ViewInfo);
-
 			CScene::getInstance()->resetTileNodeStatus(m_LastPreferredTileNumSet);
 
 			auto& TileRootNodeSet = CScene::getInstance()->fetchTileSet();
@@ -54,17 +49,15 @@ void CPreferredTileNodeGenerator::__workByViewInfo()
 			std::vector<std::vector<std::shared_ptr<CTileNode>>> PreferredTileNodeSet(Size);
 			std::vector<unsigned int> MaxDeepSet(Size, 0);
 			for (unsigned int i = 0; i < Size; ++i)
-			{
 				if (__isTileVisible(TileRootNodeSet[i]))
 					__generatePreferredTileNodeSet(TileRootNodeSet[i], PreferredTileNodeSet[i], MaxDeepSet[i]);
-			}
 
 			m_LastPreferredTileNumSet.clear();
-			for (auto& i : PreferredTileNodeSet)
+			for (auto& PreferredTileNode : PreferredTileNodeSet)
 			{
-				if (!i.empty())
+				if (!PreferredTileNode.empty())
 				{
-					unsigned int TileNum = UID_TILE_NUM_MASK & i[0]->getUID();
+					unsigned int TileNum = UID_TILE_NUM_MASK & PreferredTileNode[0]->getUID();
 					TileNum >>= OFFSET_BIT;
 					m_LastPreferredTileNumSet.emplace_back(TileNum);
 				}
@@ -108,7 +101,7 @@ void CPreferredTileNodeGenerator::__generatePreferredTileNodeSet(std::shared_ptr
 		{
 			vTileNode->setMatchLOD(false);
 			for (unsigned int i = 0; i < vTileNode->getNumChildren(); ++i)
-				__generatePreferredTileNodeSet(vTileNode->fetchChildPointerAt(i), voPreferredTileNode,voPreferredSetMaxDeep);
+				__generatePreferredTileNodeSet(vTileNode->fetchChildPointerAt(i), voPreferredTileNode, voPreferredSetMaxDeep);
 		}
 	}
 	else
@@ -123,6 +116,7 @@ bool CPreferredTileNodeGenerator::__isTileVisible(const std::shared_ptr<CTileNod
 {
 	if (!vTile) return false;
 	_ASSERTE(vTile->getBoundingSphere().isValid());
+
 	const auto Center = m_ViewMatrix * MODEL_MATRIX * glm::vec4(vTile->getBoundingSphere().getCenter(), 1.0f);
 	const auto Radius = vTile->getBoundingSphere().getRadius();
 	return CUtils::getInstance()->isBoundingSphereInFrustum(m_FrustumPlanes, Center, Radius);
@@ -132,6 +126,8 @@ bool CPreferredTileNodeGenerator::__isTileVisible(const std::shared_ptr<CTileNod
 //FUNCTION:
 bool CPreferredTileNodeGenerator::__isPreferredTileNode(const std::shared_ptr<CTileNode>& vTileNode) const
 {
+	if (!vTileNode) return false;
+
 	const auto DistanceFactor = std::powf(2, static_cast<float>(vTileNode->getLODLevel()));
 	const auto Distance = glm::distance(m_ViewInfo.CameraInfo.Position, glm::vec3(MODEL_MATRIX * glm::vec4(vTileNode->getBoundingSphere().getCenter(), 1.0f)));
 	return DistanceFactor < Distance;

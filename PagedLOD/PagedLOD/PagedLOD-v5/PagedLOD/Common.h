@@ -41,6 +41,11 @@ namespace hivePagedLOD
 			return ViewPortInfo.Width > 0 && ViewPortInfo.Height > 0 && CameraInfo.FOV > 0 && CameraInfo.NearPlane < CameraInfo.FarPlane &&
 				(glm::dot(CameraInfo.Position + CameraInfo.Front, CameraInfo.Up) <= 0.1);
 		}
+		bool operator==(const SViewInfo& vViewInfo)
+		{
+			return this->CameraInfo.Position == vViewInfo.CameraInfo.Position&&this->CameraInfo.Up == vViewInfo.CameraInfo.Up&&
+				this->CameraInfo.Front == vViewInfo.CameraInfo.Front;
+		}
 	};
 
 	//memory texture geometry 
