@@ -1,14 +1,10 @@
 #pragma once
 #include <common/Singleton.h>
-
 #include <Windows.h>
 #include <vector>
 #include <map>
 #include <string>
 
-//user should not call tick() tock() in main,
-//they should be called in function like CTileLoader::work(),
-//user enable timer by calling CTimer::registerFunction() in main
 namespace hivePagedLOD
 {
 	class CTimer : public hiveOO::CSingleton<CTimer>

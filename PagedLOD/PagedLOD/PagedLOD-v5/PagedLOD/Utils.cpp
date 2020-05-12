@@ -12,11 +12,7 @@ using namespace hivePagedLOD;
 void CUtils::calculateFrustumPlane(std::vector<glm::vec4>& voFrustumPlanes, const SViewInfo& vViewInfo)
 {
 	_ASSERT(voFrustumPlanes.empty() && vViewInfo.isValid());
-	if (!voFrustumPlanes.empty() || !vViewInfo.isValid())
-	{
-		std::cerr << "Error: Negative Input\n";
-		exit(-1);
-	}
+	//FIXEME:无效输入的处理方式
 
 	std::vector<glm::vec3> Position;
 	auto TanHeight = glm::tan(glm::radians(vViewInfo.CameraInfo.FOV / 2.0f));
@@ -39,7 +35,6 @@ void CUtils::calculateFrustumPlane(std::vector<glm::vec4>& voFrustumPlanes, cons
 	voFrustumPlanes.emplace_back(0.0f, 0.0f, -1.0f, -vViewInfo.CameraInfo.NearPlane);
 	//far
 	voFrustumPlanes.emplace_back(0.0f, 0.0f, 1.0f, vViewInfo.CameraInfo.FarPlane);
-	//FIXME:视椎体平面计算感觉有问题，且此函数没有测试用例
 	//top
 	auto TopNormal = glm::normalize(glm::cross(Position[1] - Position[0], Position[4] - Position[0]));
 	voFrustumPlanes.emplace_back(TopNormal, 0.0f);
@@ -71,10 +66,9 @@ bool CUtils::isBoundingSphereInFrustum(const std::vector<glm::vec4>& vFrustum, c
 	_ASSERT(vFrustum.size() == 6);
 
 	for (auto& FrustumPlane : vFrustum)
-	{
 		if (FrustumPlane.x * vBoundingSphereCenter.x + FrustumPlane.y * vBoundingSphereCenter.y + FrustumPlane.z * vBoundingSphereCenter.z + FrustumPlane.w < -vBoundingSphereRadius)
 			return false;
-	}
+
 	return true;
 }
 

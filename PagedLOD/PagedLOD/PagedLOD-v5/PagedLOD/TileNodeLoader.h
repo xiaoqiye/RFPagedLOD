@@ -29,6 +29,7 @@ namespace hivePagedLOD
 		std::uintmax_t getLoadedSizeThisFrame() const { return m_LoadedSizeThisFrame; }
 		std::vector<STileLoadLog>& getLogSet() { return m_LoadLogSet; }
 		const std::vector<std::vector<double>>& getAllKnapsackLoadInfo() { _ASSERT(m_AllKnapsackLoadInfo.size() > 0); return m_AllKnapsackLoadInfo; }
+		const std::vector <std::vector<double>>& getPerFrameKnapsackLoadInfo() { return m_PerFrameKnapsackLoadInfo; }
 
 		void resetRecentLoadSet() { m_RecentLoadGeometryNameSet.clear(); }
 
@@ -70,5 +71,8 @@ namespace hivePagedLOD
 		std::uintmax_t m_LoadedSizeThisK = 0;
 		double m_LoadedTimeThisK = 0;
 		std::vector<std::vector<double>> m_AllKnapsackLoadInfo;
+		double m_TimeRecord = 0;
+		int m_KnapsackIndex = 0;
+		std::vector<std::vector<double>> m_PerFrameKnapsackLoadInfo;
 	};
 }

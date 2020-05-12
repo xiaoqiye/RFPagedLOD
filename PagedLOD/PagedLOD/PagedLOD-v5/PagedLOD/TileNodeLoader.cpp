@@ -83,10 +83,12 @@ void CTileNodeLoader::__processLoadTask(const std::shared_ptr<SRenderingGenerato
 {
 	m_LoadedNumThisFrame = 0;
 	m_LoadedSizeThisFrame = 0;
+	m_TimeRecord = 0;
+
 	if (m_UseLoadLog && m_LoadLogSet.size() > m_MaxLogNum)
 		m_LoadLogSet.clear();
 
-	CTimer::getInstance()->tick(__FUNCTION__);
+	/*CTimer::getInstance()->tick(__FUNCTION__);*/
 
 	++m_LoadFunctionCallTimes;
 	if (m_ClearLoadSetLimit < m_LoadFunctionCallTimes)
@@ -98,55 +100,46 @@ void CTileNodeLoader::__processLoadTask(const std::shared_ptr<SRenderingGenerato
 	m_ThisLoadTaskTextureNameSet.clear();
 	std::vector<std::shared_ptr<SMemoryMeshBuffer>> MeshBufferSet;
 	std::vector<unsigned int> TileNodeUIDSet;
-	for (auto& LoadTask : vRenderingGeneratorResult->LoadTaskSet)
+	for (auto& LoadTask : vRenderingGeneratorResult->LoadTaskSet) {
 		__LoadFromFile(LoadTask, MeshBufferSet, TileNodeUIDSet);
+		std::cout << "Is Knapsack Reresult: " << vRenderingGeneratorResult->IsKnapsackResult << " Is Knapsack Result End " << vRenderingGeneratorResult->IsKnapsackEnd << std::endl;
+	}
 	
 	m_pPipelineOutputToMemoryBufferManager->tryPush(std::make_shared<SLoaderResult>(TileNodeUIDSet, MeshBufferSet, vRenderingGeneratorResult->DrawUIDSet));
 
-	CTimer::getInstance()->tock(__FUNCTION__);
+	/*CTimer::getInstance()->tock(__FUNCTION__);
 	if (CTimer::getInstance()->needOutput()  && CTimer::getInstance()->isRegistered(__FUNCTION__))
-		std::cout << __FUNCTION__ << CTimer::getInstance()->getCostTimeByName(__FUNCTION__) << std::endl;
+		std::cout << __FUNCTION__ << CTimer::getInstance()->getCostTimeByName(__FUNCTION__) << std::endl;*/
 
 	if (m_UseLoadLog && m_LoadedNumThisFrame != 0)
 		m_LoadLogSet.emplace_back(STileLoadLog{ m_LoadedNumThisFrame, m_LoadedSizeThisFrame, CTimer::getInstance()->getCostTimeByName(__FUNCTION__) });
 
-	//add把加载日志输出到excel
+	//加载信息记录，结束时写到文件
 	if (m_LoadedNumThisFrame != 0 && vRenderingGeneratorResult->IsKnapsackResult)
 	{
-		double CostTime = CTimer::getInstance()->getCostTimeByName(__FUNCTION__);
-
+		double CostTime = m_TimeRecord;
+		std::cout << "Each Frame knapsack Load Time is：" << m_TimeRecord << std::endl;
 		m_LoadedNumThisK += m_LoadedNumThisFrame;
 		m_LoadedSizeThisK += m_LoadedSizeThisFrame;
 		m_LoadedTimeThisK += CostTime;
+
+		std::vector<double> TempPerFrameInfo = { static_cast<double>(m_KnapsackIndex), static_cast<double>(m_LoadedNumThisFrame), static_cast<double>(m_LoadedSizeThisFrame), CostTime };
+		m_PerFrameKnapsackLoadInfo.emplace_back(TempPerFrameInfo);
 	}
 
-	if (vRenderingGeneratorResult->IsKnapsackEnd)
+	if (m_LoadedNumThisFrame == 0 && vRenderingGeneratorResult->IsKnapsackEnd)
 	{
-		std::vector<double> TempInfo = { static_cast<double>(m_LoadedNumThisK), static_cast<double>(m_LoadedSizeThisK), m_LoadedTimeThisK };
+		std::vector<double> TempInfo = { static_cast<double>(vRenderingGeneratorResult->FrameID), static_cast<double>(m_LoadedNumThisK), static_cast<double>(m_LoadedSizeThisK), m_LoadedTimeThisK };
 		m_AllKnapsackLoadInfo.push_back(TempInfo);
-		/*std::ofstream OutputDataStream;
-		OutputDataStream.open(m_LogOutputPath, std::ios::out | std::ios::app);
-		if (!OutputDataStream.is_open())
-			throw std::ios_base::failure("The file can't open!");
-
-		for (auto Iterator = TempInfo.begin(); Iterator != TempInfo.end(); ++Iterator)
-		{
-			if (Iterator == TempInfo.begin())
-			{
-				OutputDataStream << *Iterator;
-				continue;
-			}
-			OutputDataStream << "," << *Iterator;
-		}
-		OutputDataStream << std::endl;
-		OutputDataStream.close();*/
+		std::cout << "All knapsack Load Time is：" << m_LoadedTimeThisK << std::endl;
 
 		m_LoadedNumThisK = 0;
 		m_LoadedSizeThisK = 0;
 		m_LoadedTimeThisK = 0;
-		//std::cout << "TempTest:" << m_LoadedNumThisFrame << "," << m_LoadedSizeThisFrame << "," << CTimer::getInstance()->getCostTimeByName(__FUNCTION__) << std::endl;
+
+		++m_KnapsackIndex;
 	}
-	//把加载日志输出到excel
+	//加载信息记录，结束时写到文件
 }
 
 //****************************************************************************
@@ -214,7 +207,12 @@ std::shared_ptr<SGeometry> CTileNodeLoader::__loadGeometryBufferFromFile(const s
 	if (m_UseLoadLog)
 		++m_LoadedNumThisFrame;
 
+	CTimer::getInstance()->tick(__FUNCTION__);
 	const auto pFileStream = __getFileStream(vFilePath);
+	CTimer::getInstance()->tock(__FUNCTION__);
+	const auto LoadTime = CTimer::getInstance()->getCostTimeByName(__FUNCTION__);
+	m_TimeRecord += CTimer::getInstance()->getCostTimeByName(__FUNCTION__);
+	std::cout << " KnapsackIndex is: " << m_KnapsackIndex << " Load Geo Time is:" << LoadTime << std::endl;
 	auto pGeometry = std::make_shared<SGeometry>();
 	if (pFileStream) __processGeometryBuffer(pFileStream.get(), pGeometry);
 	return pGeometry;
@@ -227,7 +225,12 @@ std::shared_ptr<STexture> CTileNodeLoader::__loadTextureBufferFromFile(const std
 	if (m_UseLoadLog)
 		++m_LoadedNumThisFrame;
 
+	CTimer::getInstance()->tick(__FUNCTION__);
 	auto pFileStream = __getFileStream(vFilePath);
+	CTimer::getInstance()->tock(__FUNCTION__);
+	const auto LoadTime = CTimer::getInstance()->getCostTimeByName(__FUNCTION__);
+	m_TimeRecord += CTimer::getInstance()->getCostTimeByName(__FUNCTION__);
+	std::cout << " KnapsackIndex is: " << m_KnapsackIndex << " Load Tex Time is:" << LoadTime << std::endl;
 	auto pTexture = std::make_shared<STexture>();
 	pTexture->TextureFileName = vFilePath;
 

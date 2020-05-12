@@ -13,6 +13,7 @@
 
 namespace hivePagedLOD
 {
+	//FIXME:ÃüÃû
 	typedef std::pair<std::string, std::vector<std::string>> TTextureGeometryNamePair;
 
 	//view info

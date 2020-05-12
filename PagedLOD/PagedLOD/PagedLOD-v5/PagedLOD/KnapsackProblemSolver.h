@@ -4,8 +4,10 @@
 
 namespace hivePagedLOD
 {
+	//FIXME:考虑放到Common.h中
 	struct SKPSolution
 	{
+		//FIXME:命名
 		unsigned int X;
 		unsigned int Y;
 		uintmax_t TriangleCount;

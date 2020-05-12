@@ -59,41 +59,6 @@ void CRenderingTileNodeGenerator::__workByPreferredTileNodeSet()
 				if (!m_LoadFinish)
 				{
 					__generateResult();
-					//
-					/*int RealTimeLoadTaskNum = m_ThisFrameResult.LoadTaskSet.size();
-					int RealTimeNeedDrawTileNodeNum = m_ThisFrameResult.DrawUIDSet.size();
-					int PreferedTileNodeNum = 0;
-					for (auto i = 0; i < m_PreferredResult.PreferredTileNodeSet.size(); ++i)
-					{
-						if (!m_PreferredResult.PreferredTileNodeSet[i].empty())
-							for (auto k = 0; k < m_PreferredResult.PreferredTileNodeSet[i].size(); ++k)
-								++PreferedTileNodeNum;
-					}
-					int SelectedTileNodeNum = m_SelectedTileNodeSet.size();
-					int ShowAncestorTileNodeNum = m_ShowAncestorTileNodeSet.size();
-
-					std::vector<int> Info = { static_cast<int>(m_FrameID), m_ViewPortNum,  PreferedTileNodeNum, RealTimeLoadTaskNum, RealTimeNeedDrawTileNodeNum,
-					SelectedTileNodeNum, ShowAncestorTileNodeNum };
-
-					const std::string LoadTaskInfo = "0419LoadTaskInfo.csv";
-
-					std::ofstream OutputDataStream;
-					OutputDataStream.open(LoadTaskInfo, std::ios::out | std::ios::app);
-					if (!OutputDataStream.is_open())
-						throw std::ios_base::failure("The file can't open!");
-
-					for (auto Iterator = Info.begin(); Iterator != Info.end(); ++Iterator)
-					{
-						if (Iterator == Info.begin())
-						{
-							OutputDataStream << *Iterator;
-							continue;
-						}
-						OutputDataStream << "," << *Iterator;
-					}
-					OutputDataStream << std::endl;
-					OutputDataStream.close();*/
-					//
 					m_ThisFrameResult.FrameID = m_FrameID;
 					m_pOutputPipelineToTileNodeLoader->tryPush(std::make_shared<SRenderingGeneratorResult>(m_ThisFrameResult));
 				}
@@ -130,13 +95,13 @@ void CRenderingTileNodeGenerator::__workByPreferredTileNodeSet()
 				m_LoadFinish = false;
 
 				//不考虑非法情况
-				/*m_ThisFrameResult.DrawUIDSet.clear();
+				m_ThisFrameResult.DrawUIDSet.clear();
 				__showAncestor(m_PreferredResult.PreferredTileNodeSet);
 				m_pOutputPipelineToTileNodeLoader->tryPush(std::make_shared<SRenderingGeneratorResult>(m_ThisFrameResult));
-				m_LastFrameDrawUIDSet = m_ThisFrameResult.DrawUIDSet;*/
-				__generateResult();
+				m_LastFrameDrawUIDSet = m_ThisFrameResult.DrawUIDSet;
+				/*__generateResult();
 				m_ThisFrameResult.FrameID = m_FrameID;
-				m_pOutputPipelineToTileNodeLoader->tryPush(std::make_shared<SRenderingGeneratorResult>(m_ThisFrameResult));
+				m_pOutputPipelineToTileNodeLoader->tryPush(std::make_shared<SRenderingGeneratorResult>(m_ThisFrameResult));*/
 			}
 		}
 	}
@@ -315,9 +280,9 @@ void CRenderingTileNodeGenerator::__generateByKnapsack()
 	}
 
 	std::vector<unsigned int> NotLoadTileNumSet;
-	const auto LoadSizeMB = m_LimitLoadPerSolve / KILOBYTE;
+	const auto LoadSizeKB = m_LimitLoadPerSolve / KILOBYTE;
 	std::vector<SKnapsackItem> SelectedItemSet;
-	m_pKPSolver->solveMultipleChoiceKnapsackProblem(ItemSet, LoadSizeMB, NotLoadTileNumSet, SelectedItemSet);
+	m_pKPSolver->solveMultipleChoiceKnapsackProblem(ItemSet, LoadSizeKB, NotLoadTileNumSet, SelectedItemSet);
 
 	CTimer::getInstance()->tock(__FUNCTION__);
 	if (CTimer::getInstance()->needOutput() && CTimer::getInstance()->isRegistered(__FUNCTION__))
@@ -354,77 +319,35 @@ void CRenderingTileNodeGenerator::__generateByKnapsack()
 		}
 	}
 
-	std::vector<int> TempKnapsackResult = { TempCost, FileNumNeededLoad };
-	m_AllKnapsackResult.push_back(TempKnapsackResult);
+	std::vector<std::shared_ptr<CTileNode>> PreferredTileNodeSet;
+	unsigned int Size = m_PreferredResult.PreferredTileNodeSet.size();
+	for (unsigned int i = 0; i < Size; ++i)
+		for (unsigned int k = 0; k < m_PreferredResult.PreferredTileNodeSet[i].size(); ++k)
+			PreferredTileNodeSet.emplace_back(m_PreferredResult.PreferredTileNodeSet[i][k]);
 
-	/*uintmax_t TempCost1 = 0;
-	uintmax_t TriangleCount1 = 0;
-	int NeedLoadFileNum = 0;
-	__calculateCostAndTriangle1(m_SelectedTileNodeSet, TempCost1, TriangleCount1, NeedLoadFileNum);*/
-	//add
-	//从ItemSet的每个Tile中选择一个与SelectedItemSet中数据量大小最接近的替换SelectedItemSet中对应位置
-	/*for (auto i = 0; i < SelectedItemSet.size(); ++i)
-	{*/
-	//int TempLoadLeastGap = INT_MAX;
-	//int TempSubstituteIndex = INT_MAX;
-	//for (auto k = 0; k < ItemSet[0].size(); ++k)
-	//{
-	//	int TempGap = std::abs(static_cast<int>(SelectedItemSet[0].LoadCostForKnapsackItem - ItemSet[0][k].LoadCostForKnapsackItem));
-	//	if (TempGap < TempLoadLeastGap && TempGap > 0)
-	//	{
-	//		TempLoadLeastGap = std::abs(static_cast<int>(SelectedItemSet[0].LoadCostForKnapsackItem - ItemSet[0][k].LoadCostForKnapsackItem));
-	//		TempSubstituteIndex = k;
-	//	}
-	//}
-	//if (TempSubstituteIndex == INT_MAX)
-	//	TempSubstituteIndex = 0;
-	//assert(TempSubstituteIndex < ItemSet[0].size());
-	//SelectedItemSet[0] = ItemSet[0][TempSubstituteIndex];
-
-	///*}*/
-	//m_SelectedTileNodeSetTemp.clear();
-	//for (auto& item : SelectedItemSet)
-	//	for (auto& TileNode : item.TileNodeSet)
-	//		m_SelectedTileNodeSetTemp.emplace_back(TileNode);
-	//从ItemSet的每个Tile中选择一个与SelectedItemSet中数据量大小最接近的替换SelectedItemSet中对应位置
-
-	//统计可见Tile数量和期望节点数量
-	/*int PrederedTileNum = 0;
-	int PreferedTileNodeNum = 0;
-	for (auto i = 0; i < m_PreferredResult.PreferredTileNodeSet.size(); ++i)
+	int PreferedTempCost = 0;
+	int PreferedFileNumNeededLoad = 0;
+	std::set<std::string> PreferedTexNameSet;
+	for (auto& TileNode : PreferredTileNodeSet)
 	{
-		if (!m_PreferredResult.PreferredTileNodeSet[i].empty())
+		const auto& UID = TileNode->getUID();
+		const auto& LoadCost = getLoadCostByUID(UID);
+		const auto& TexName = TileNode->getTextureFileName();
+		if (LoadCost.LoadCost != 0)
 		{
-			++PrederedTileNum;
-			for (auto k = 0; k < m_PreferredResult.PreferredTileNodeSet[i].size(); ++k)
-				++PreferedTileNodeNum;
+			PreferedTempCost += LoadCost.GeoSize;
+			++PreferedFileNumNeededLoad;
+			if (!LoadCost.TexInMemory && PreferedTexNameSet.find(TexName) == PreferedTexNameSet.end())
+			{
+				PreferedTempCost += LoadCost.TexSize;
+				++PreferedFileNumNeededLoad;
+				PreferedTexNameSet.insert(TexName);
+			}
 		}
 	}
-	*/
 
-	/*const std::string InfoSetOutputPath = "0424KnapsackSolveResult.csv";*/
-	/*std::vector<int> InfoSet = { m_ViewPortNum, static_cast<int>(m_FrameID), PrederedTileNum, PreferedTileNodeNum, 
-		static_cast<int>(ItemSet.size()),
-		static_cast<int>(SelectedItemSet.size()), static_cast<int>(NotLoadTileNumSet.size()),
-		static_cast<int>(m_SelectedTileNodeSet.size()), static_cast<int>(m_ShowAncestorTileNodeSet.size()) };*/
-	//std::vector<int> InfoSet = { static_cast<int>(m_FrameID), TempCost, /*static_cast<int>(TempCost1), NeedLoadFileNum,*/ FileNumNeededLoad};
-	//std::ofstream OutputDataStream;
-	//OutputDataStream.open(InfoSetOutputPath, std::ios::out | std::ios::app);
-	//if (!OutputDataStream.is_open())
-	//	throw std::ios_base::failure("The file can't open!");
-
-	//for (auto Iterator = InfoSet.begin(); Iterator != InfoSet.end(); ++Iterator)
-	//{
-	//	if (Iterator == InfoSet.begin())
-	//	{
-	//		OutputDataStream << *Iterator;
-	//		continue;
-	//	}
-	//	OutputDataStream << "," << *Iterator;
-	//}
-	//OutputDataStream << "\n";
-	//OutputDataStream.close();
-	//
+	std::vector<int> TempKnapsackResult = { TempCost, FileNumNeededLoad, PreferedTempCost, PreferedFileNumNeededLoad };
+	m_AllKnapsackResult.emplace_back(TempKnapsackResult);
 }
 
 //****************************************************************************

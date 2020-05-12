@@ -6,7 +6,6 @@
 #include <boost/filesystem.hpp>
 #include "BoundingSphere.h"
 
-//PagedLOD Tile.h
 namespace hivePagedLOD
 {
 	struct STileNodeStatus
@@ -18,18 +17,12 @@ namespace hivePagedLOD
 		bool IsVisible = false;
 		bool MatchLOD = false;
 		void resetStatus() { NeedShow = false; NeedLoad = false; IsVisible = false; MatchLOD = false; }
-		////NeedShow  0 1 1
-		////NeedLoad  0 1 0
-		////
-		////IsVisible 0 1 1
-		////MatchLOD  0 1 0
 	};
 	
 	class CScene;
 	class CTileNode
 	{
 	public:
-
 		CTileNode() : CTileNode(std::weak_ptr<CTileNode>()) {}
 		CTileNode(std::weak_ptr<CTileNode> vParent) :
 			m_UID(0),
@@ -78,7 +71,7 @@ namespace hivePagedLOD
 		const STileNodeStatus& getStatus() const { return m_Status; }
 		void resetStatus() { m_Status.resetStatus(); }
 		
-		//FIXME：参数的_ASSERT()
+		//FIXME：参数的有效性
 		void setUID(unsigned int vUID) { m_UID = vUID; }
 		void setBoundingSphere(const CBoundingSphere& vBoundingSphere) { m_BoundingSphere = vBoundingSphere; }
 		void setGeometryFileName(const std::string& vFileName) { m_GeometryFileName = vFileName; }
@@ -107,12 +100,6 @@ namespace hivePagedLOD
 				this->getLODLevel() == vTileNode->getLODLevel() && this->getAncestorUIDSet() == vTileNode->getAncestorUIDSet() &&
 				this->getBrotherUIDSet() == vTileNode->getBrotherUIDSet();
 		}
-//
-//#ifdef _UNIT_TEST
-//		std::string m_TileNodeName;
-//		void setTileNodeName(const std::string& vTileNodeName) { _ASSERT(!vTileNodeName.empty()); m_TileNodeName = vTileNodeName; }
-//		const std::string& getTileNodeName() const { return m_TileNodeName; }
-//#endif
 
 	private:
 		unsigned int m_UID;
@@ -128,11 +115,9 @@ namespace hivePagedLOD
 		std::weak_ptr<CTileNode> m_pParent;
 		std::vector<unsigned int> m_AncestorUIDSet;
 		std::vector<unsigned int> m_BrotherUIDSet;
-
 		std::vector<std::weak_ptr<CTileNode>> m_Brother;
-		
+
 		STileNodeStatus m_Status;
-		
 		friend class hivePagedLOD::CScene;
 	};
 }

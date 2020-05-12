@@ -13,12 +13,14 @@ std::vector<std::vector<SKnapsackItem>> CKnapsackProblemSolver::prepareKnapsackI
 {
 	std::vector<std::vector<SKnapsackItem>> ResultKnapsackItemSet;
 	auto& PreferredTileNodeSet = vPreferredResult.PreferredTileNodeSet;
-	for (unsigned int i = 0; i < static_cast<unsigned int>(PreferredTileNodeSet.size()); ++i)
+	unsigned int PreferedTileNodeSetSize = PreferredTileNodeSet.size();
+	for (unsigned int i = 0; i < PreferedTileNodeSetSize; ++i)
 	{
 		if (PreferredTileNodeSet[i].empty())
 			continue;
 		ResultKnapsackItemSet.emplace_back(__generateOneTileKnapsackItemSet(PreferredTileNodeSet[i], vAllTemplateItemSet[i], vPreferredResult.MaxDeepSet[i]));
 	}
+	//FIXME:返回一个二维向量的拷贝？效率问题
 	return ResultKnapsackItemSet;
 }
 
@@ -135,7 +137,6 @@ std::vector<std::vector<SKPSolution>> CKnapsackProblemSolver::__fillDPTable(cons
 			}
 		}
 	}
-	//std::cout << "Knapsack Problem Result = " << DPTable[vAllTileItem.size() - 1][vLoadLimit] << std::endl;
 
 	return Solution;
 }

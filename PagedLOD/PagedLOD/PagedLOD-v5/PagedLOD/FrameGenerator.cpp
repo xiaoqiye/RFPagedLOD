@@ -28,6 +28,8 @@ void CFrameGenerator::__workByFrameState()
 		if (m_pInputPipelineFromGPUThread->tryPop(1, m_FrameState))
 		{
 			++m_FrameID;
+			if (m_FrameID > 12000)
+				m_FrameState->EndFlag = true;
 			CTimer::getInstance()->tick(__FUNCTION__);
 
 			if (m_FrameState->EndFlag)

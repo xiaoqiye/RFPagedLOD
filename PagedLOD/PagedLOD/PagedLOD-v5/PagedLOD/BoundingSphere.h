@@ -12,16 +12,16 @@ namespace hivePagedLOD
 		
 		~CBoundingSphere() = default;
 
-		const glm::vec3 &getCenter() const { _ASSERT(m_Center.length() > 0); return m_Center; }
-		glm::vec4 getCenterVec4() const { _ASSERT(m_Center.length() > 0); return glm::vec4(m_Center, 1.0f); }
+		const glm::vec3 &getCenter() const { _ASSERT(m_Center.length() == 3); return m_Center; }
+		glm::vec4 getCenterVec4() const { _ASSERT(m_Center.length() == 3); return glm::vec4(m_Center, 1.0f); }
 		float getRadius() const { _ASSERT(m_Radius > 0.0f); return m_Radius; }
 
-		void setCenter(const glm::vec3& vCenter) { _ASSERT(vCenter.length() > 0); m_Center = vCenter; }
+		void setCenter(const glm::vec3& vCenter) { _ASSERT(vCenter.length() == 3); m_Center = vCenter; }
 		void setCenter(float vCenterX, float vCenterY, float vCenterZ) { m_Center = glm::vec3(vCenterX, vCenterY, vCenterZ);}
-		void setRadius(float vRadius) { _ASSERT(vRadius > 0); m_Radius = vRadius; }
+		void setRadius(float vRadius) { _ASSERT(vRadius > 0.0f); m_Radius = vRadius; }
 
 		bool isValid() const { return m_Radius > 0.0f; }
-		bool operator==(const CBoundingSphere& vBoundingSphere) const { return vBoundingSphere.getCenter() == this->getCenter() && vBoundingSphere.getRadius() == this->getRadius(); }
+		bool operator==(const CBoundingSphere& vBoundingSphere) const { _ASSERT(vBoundingSphere.isValid()); return vBoundingSphere.getCenter() == this->getCenter() && vBoundingSphere.getRadius() == this->getRadius(); }
 
 	private:
 		glm::vec3 m_Center;

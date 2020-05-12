@@ -1,7 +1,6 @@
 #pragma once
 #include "Common.h"
 #include "TileNode.h"
-
 #include <common/Singleton.h>
 #include <GLM/glm.hpp>
 #include <vector>
@@ -9,7 +8,6 @@
 
 namespace hivePagedLOD
 {
-	//FIXME:没有数据成员的工具类
 	class CUtils : public hiveOO::CSingleton<CUtils>
 	{
 	public:
@@ -20,7 +18,6 @@ namespace hivePagedLOD
 		std::string getTextureFileNameFromGeometryFileName(const std::string& vMeshFileName);
 		std::string getGeoNamePrefixByTexName(const std::string& vTextureFileName);
 		void printCameraInfo(const hivePagedLOD::SCameraInfo& vCameraInfo);
-
 		//for _UNIT_TEST
 		void calculateFrustumPlaneStd(std::vector<glm::vec4>& voFrustumPlanes, const SViewInfo& vViewInfo);
 
