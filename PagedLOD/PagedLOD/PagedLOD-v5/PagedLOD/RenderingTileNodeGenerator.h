@@ -64,20 +64,15 @@ namespace hivePagedLOD
 
 	private:	
 		void __workByPreferredTileNodeSet();
-
 		void __generateByKnapsack();
-		
 		void __generateByLoadAncestor();
-
-		void __calculateCostAndTriangle(const std::vector<std::shared_ptr<CTileNode>>& TileNodeSet, uintmax_t& voCost, uintmax_t& voTriangle);
+		void __calculateCostAndTriangle(const std::vector<std::shared_ptr<CTileNode>>& vTileNodeSet, uintmax_t& voCost, uintmax_t& voTriangle);
 		void __removeDrawUIDSetDuplication(std::vector<std::shared_ptr<CTileNode>>& voTileNodeSet, std::set<unsigned int>& voDrawUIDSet);
-
-		//void __generateResultForDirectLoadInOneFrame();
-		//void __generateResultForKnapsackInOneFrame();
-
 		void __showAncestor(const std::vector<std::vector<std::shared_ptr<CTileNode>>>& vTileNodeSet);
 		void __generateResult();
 		void __addTileNodeToLoadTaskSet(const std::vector<std::shared_ptr<CTileNode>>& vTileNodeSet, std::vector<std::shared_ptr<SLoadTask>>& voLoadTaskSet, uintmax_t& voLoadSize);
+		//add for experiment
+		void __calculateCostAndNeedLoadFileNum(const std::vector<std::shared_ptr<CTileNode>>& TileNodeSet, uintmax_t& voCost, unsigned int& voFileNum);
 
 		std::shared_ptr<CPipelinePreferred2RenderingTileNodeGenerator> m_pInputPipelineFromPreferred;
 		std::shared_ptr<CPipelineRenderingTileNodeGenerator2TileNodeLoader> m_pOutputPipelineToTileNodeLoader;
@@ -95,7 +90,6 @@ namespace hivePagedLOD
 		uintmax_t m_FinishLoadFrameID = 0;
 		bool m_OutputInfo = false;
 
-		//QUESTION:为什么会有下面两个限制
 		uintmax_t m_LimitLoadPerFrame = 0;
 		uintmax_t m_LimitLoadPerSolve = 0;
 		ELoadStrategy m_LoadStrategy = ELoadStrategy::UNDEFINED;
@@ -113,10 +107,8 @@ namespace hivePagedLOD
 		std::vector<std::shared_ptr<CTileNode>> m_SelectedTileNodeSet;//empty==load preferred directly
 		std::vector<std::shared_ptr<CTileNode>> m_ShowAncestorTileNodeSet;
 
-		//
+		//add for experiment
 		int m_ViewPortNum = 0;
-
-		//add
 		std::vector<std::vector<int>> m_AllKnapsackResult;
 	};
 }

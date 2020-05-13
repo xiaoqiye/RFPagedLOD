@@ -22,7 +22,6 @@ namespace hivePagedLOD
 		void doFirstFrame();
 
 		bool hasLoadTask() const { return m_pPipelineInputFromRendering->getNumDataInOutputBufferV() > 0; }
-		
 		void useRecord(bool vUseLoadLog) { m_UseLoadLog = vUseLoadLog; }
 		void setMaxLogNum(unsigned int vNum) { m_MaxLogNum = vNum; }
 		unsigned int getLoadedNumThisFrame() const { return m_LoadedNumThisFrame; }
@@ -40,7 +39,6 @@ namespace hivePagedLOD
 		void __workByRenderingTileNodeSet();
 		void __processLoadTask(const std::shared_ptr<SRenderingGeneratorResult>& vRenderingGeneratorResult);
 		void __LoadFromFile(const std::shared_ptr<SLoadTask>& vLoadTask, std::vector<std::shared_ptr<SMemoryMeshBuffer>>& voMeshBufferSet, std::vector<unsigned int>& voTileNodeUIDSet);
-
 
 		std::shared_ptr<char> __getFileStream(const std::string& vFilePath);
 		std::shared_ptr<SGeometry> __loadGeometryBufferFromFile(const std::string& vFilePath);
@@ -66,12 +64,13 @@ namespace hivePagedLOD
 		unsigned int m_MaxLogNum = 10000;
 		std::vector<STileLoadLog> m_LoadLogSet;
 
+		//for experiment
 		const std::string m_LogOutputPath = "0424_MutiFrameForKnapsack.csv";
 		unsigned int  m_LoadedNumThisK = 0;
 		std::uintmax_t m_LoadedSizeThisK = 0;
 		double m_LoadedTimeThisK = 0;
 		std::vector<std::vector<double>> m_AllKnapsackLoadInfo;
-		double m_TimeRecord = 0;
+		double m_LoadedTimeThisFrame = 0;
 		int m_KnapsackIndex = 0;
 		std::vector<std::vector<double>> m_PerFrameKnapsackLoadInfo;
 	};

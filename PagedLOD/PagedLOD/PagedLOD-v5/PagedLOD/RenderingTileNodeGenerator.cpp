@@ -34,7 +34,7 @@ void CRenderingTileNodeGenerator::initStrategyConfig(const std::string& vStrateg
 
 //****************************************************************************
 //FUNCTION:
-const STileNodeLoadCost& CRenderingTileNodeGenerator::getLoadCostByUID(unsigned vUID) const
+const STileNodeLoadCost& CRenderingTileNodeGenerator::getLoadCostByUID(unsigned int vUID) const
 {
 	unsigned int TileNum = vUID & UID_TILE_NUM_MASK;
 	TileNum >>= OFFSET_BIT;
@@ -48,11 +48,9 @@ void CRenderingTileNodeGenerator::__workByPreferredTileNodeSet()
 	while (!m_Close)
 	{
 		SPreferredResult PreferredResult;
-
 		if (m_pInputPipelineFromPreferred->tryPop(1, PreferredResult))
 		{
 			++m_FrameID;
-
 			if (PreferredResult.PreferredTileNodeSet.empty() && PreferredResult.MaxDeepSet.empty())
 			{
 				////视点不变化，加载根据策略生成的集合中的节点，全部加载完成后再显示
@@ -91,7 +89,6 @@ void CRenderingTileNodeGenerator::__workByPreferredTileNodeSet()
 					else
 						__generateByLoadAncestor();
 				}
-
 				m_LoadFinish = false;
 
 				//不考虑非法情况
@@ -99,9 +96,6 @@ void CRenderingTileNodeGenerator::__workByPreferredTileNodeSet()
 				__showAncestor(m_PreferredResult.PreferredTileNodeSet);
 				m_pOutputPipelineToTileNodeLoader->tryPush(std::make_shared<SRenderingGeneratorResult>(m_ThisFrameResult));
 				m_LastFrameDrawUIDSet = m_ThisFrameResult.DrawUIDSet;
-				/*__generateResult();
-				m_ThisFrameResult.FrameID = m_FrameID;
-				m_pOutputPipelineToTileNodeLoader->tryPush(std::make_shared<SRenderingGeneratorResult>(m_ThisFrameResult));*/
 			}
 		}
 	}
@@ -111,6 +105,8 @@ void CRenderingTileNodeGenerator::__workByPreferredTileNodeSet()
 //FUNCTION:
 void CRenderingTileNodeGenerator::__showAncestor(const std::vector<std::vector<std::shared_ptr<CTileNode>>>& vTileNodeSet)
 {
+	if (vTileNodeSet.empty()) return;
+
 	const std::vector<std::shared_ptr<SLoadTask>> EmptyLoadTaskSet;
 	std::set<unsigned int> DrawUIDSet;
 	for (auto& TileNodeSet : vTileNodeSet)
@@ -118,9 +114,7 @@ void CRenderingTileNodeGenerator::__showAncestor(const std::vector<std::vector<s
 		for (auto& TileNode : TileNodeSet)
 		{
 			if (getLoadCostByUID(TileNode->getUID()).LoadCost == 0)
-			{
 				DrawUIDSet.insert(TileNode->getUID());
-			}
 			else
 			{
 				auto& AncestorUIDSet = TileNode->getAncestorUIDSet();
@@ -136,6 +130,7 @@ void CRenderingTileNodeGenerator::__showAncestor(const std::vector<std::vector<s
 		}
 	}
 
+	//FIXME:这里似乎并没有进行处理,DrawUIDVector中可能有重复项
 	std::vector<unsigned int> DrawUIDVector;
 	for (auto& i : DrawUIDSet)
 		DrawUIDVector.emplace_back(i);
@@ -185,9 +180,9 @@ void CRenderingTileNodeGenerator::__generateResult()
 
 			m_ThisFrameResult.DrawUIDSet.clear();
 			//show ancestor
-			std::vector<std::vector<std::shared_ptr<CTileNode>>> t;
-			t.emplace_back(m_ShowAncestorTileNodeSet);
-			__showAncestor(t);
+			std::vector<std::vector<std::shared_ptr<CTileNode>>> TempTileNodeSet;
+			TempTileNodeSet.emplace_back(m_ShowAncestorTileNodeSet);
+			__showAncestor(TempTileNodeSet);
 			//selected
 			m_ThisFrameResult.DrawUIDSet.insert(m_ThisFrameResult.DrawUIDSet.end(), DrawUIDSet.begin(), DrawUIDSet.end());
 			m_ShowAncestorTileNodeSet.clear();
@@ -226,7 +221,7 @@ void CRenderingTileNodeGenerator::__addTileNodeToLoadTaskSet(const std::vector<s
 					TexNameSet.insert(TexName);
 				}
 				voLoadTaskSet.emplace_back(std::make_shared<SLoadTask>(TileNode, !LoadCost.TexInMemory));
-				//新增的加载任务的节点ID没有更新到绘制ID向量中
+				//FIXME:新增的加载任务的节点ID没有更新到绘制ID向量中
 				m_LastFrameDrawUIDSet.emplace_back(UID);
 			}
 		}
@@ -269,20 +264,19 @@ void CRenderingTileNodeGenerator::__generateByKnapsack()
 	CTimer::getInstance()->tick(__FUNCTION__);
 
 	auto ItemSet = m_pKPSolver->prepareKnapsackItem(m_PreferredResult, CScene::getInstance()->getItemTemplateCreatorPointer()->getAllTileItemTemplateSet());
-
-	for (auto& i : ItemSet)
+	for (auto& OneTileItemSet : ItemSet)
 	{
-		for (auto& k : i)
+		for (auto& OneItem : OneTileItemSet)
 		{
-			__calculateCostAndTriangle(k.TileNodeSet, k.LoadCostForKnapsackItem, k.TriangleCount);
-			k.LoadCostForKnapsackItem = k.LoadCostForKnapsackItem / KILOBYTE == 0 ? 1 : k.LoadCostForKnapsackItem / KILOBYTE;
+			__calculateCostAndTriangle(OneItem.TileNodeSet, OneItem.LoadCostForKnapsackItem, OneItem.TriangleCount);
+			OneItem.LoadCostForKnapsackItem = OneItem.LoadCostForKnapsackItem / KILOBYTE == 0 ? 1 : OneItem.LoadCostForKnapsackItem / KILOBYTE;
 		}
 	}
 
 	std::vector<unsigned int> NotLoadTileNumSet;
-	const auto LoadSizeKB = m_LimitLoadPerSolve / KILOBYTE;
+	const auto LoadLimitSizeKB = m_LimitLoadPerSolve / KILOBYTE;
 	std::vector<SKnapsackItem> SelectedItemSet;
-	m_pKPSolver->solveMultipleChoiceKnapsackProblem(ItemSet, LoadSizeKB, NotLoadTileNumSet, SelectedItemSet);
+	m_pKPSolver->solveMultipleChoiceKnapsackProblem(ItemSet, LoadLimitSizeKB, NotLoadTileNumSet, SelectedItemSet);
 
 	CTimer::getInstance()->tock(__FUNCTION__);
 	if (CTimer::getInstance()->needOutput() && CTimer::getInstance()->isRegistered(__FUNCTION__))
@@ -294,66 +288,34 @@ void CRenderingTileNodeGenerator::__generateByKnapsack()
 			m_SelectedTileNodeSet.emplace_back(TileNode);
 
 	m_ShowAncestorTileNodeSet.clear();
-	for (auto& i : NotLoadTileNumSet)
-		for (auto& TileNode : m_PreferredResult.PreferredTileNodeSet[i])
+	for (auto& NotLoadTileNum : NotLoadTileNumSet)
+		for (auto& TileNode : m_PreferredResult.PreferredTileNodeSet[NotLoadTileNum])
 			m_ShowAncestorTileNodeSet.emplace_back(TileNode);
 
-	int TempCost = 0;
-	int FileNumNeededLoad = 0;
-	std::set<std::string> TexNameSet;
-	for (auto& TileNode : m_SelectedTileNodeSet)
-	{
-		const auto& UID = TileNode->getUID();
-		const auto& LoadCost = getLoadCostByUID(UID);
-		const auto& TexName = TileNode->getTextureFileName();
-		if (LoadCost.LoadCost != 0)
-		{
-			TempCost += LoadCost.GeoSize;
-			++FileNumNeededLoad;
-			if (!LoadCost.TexInMemory && TexNameSet.find(TexName) == TexNameSet.end())
-			{
-				TempCost += LoadCost.TexSize;
-				++FileNumNeededLoad;
-				TexNameSet.insert(TexName);
-			}
-		}
-	}
+	//experiment record
+	uintmax_t KnapsackCost = 0;
+	unsigned int KnapsackNeedLoadFileNum = 0;
+	__calculateCostAndNeedLoadFileNum(m_SelectedTileNodeSet, KnapsackCost, KnapsackNeedLoadFileNum);
 
 	std::vector<std::shared_ptr<CTileNode>> PreferredTileNodeSet;
-	unsigned int Size = m_PreferredResult.PreferredTileNodeSet.size();
-	for (unsigned int i = 0; i < Size; ++i)
-		for (unsigned int k = 0; k < m_PreferredResult.PreferredTileNodeSet[i].size(); ++k)
-			PreferredTileNodeSet.emplace_back(m_PreferredResult.PreferredTileNodeSet[i][k]);
+	for (auto& TempPreferredTileNodeSet: m_PreferredResult.PreferredTileNodeSet)
+		for (auto& PreferredTileNode: TempPreferredTileNodeSet)
+			TempPreferredTileNodeSet.emplace_back(PreferredTileNode);
 
-	int PreferedTempCost = 0;
-	int PreferedFileNumNeededLoad = 0;
-	std::set<std::string> PreferedTexNameSet;
-	for (auto& TileNode : PreferredTileNodeSet)
-	{
-		const auto& UID = TileNode->getUID();
-		const auto& LoadCost = getLoadCostByUID(UID);
-		const auto& TexName = TileNode->getTextureFileName();
-		if (LoadCost.LoadCost != 0)
-		{
-			PreferedTempCost += LoadCost.GeoSize;
-			++PreferedFileNumNeededLoad;
-			if (!LoadCost.TexInMemory && PreferedTexNameSet.find(TexName) == PreferedTexNameSet.end())
-			{
-				PreferedTempCost += LoadCost.TexSize;
-				++PreferedFileNumNeededLoad;
-				PreferedTexNameSet.insert(TexName);
-			}
-		}
-	}
+	uintmax_t PreferedCost = 0;
+	unsigned int PreferedNeedLoadFileNum = 0;
+	__calculateCostAndNeedLoadFileNum(PreferredTileNodeSet, PreferedCost, PreferedNeedLoadFileNum);
 
-	std::vector<int> TempKnapsackResult = { TempCost, FileNumNeededLoad, PreferedTempCost, PreferedFileNumNeededLoad };
+	std::vector<int> TempKnapsackResult = { static_cast<int>(KnapsackCost), static_cast<int>(KnapsackNeedLoadFileNum), static_cast<int>(PreferedCost), static_cast<int>(PreferedNeedLoadFileNum) };
 	m_AllKnapsackResult.emplace_back(TempKnapsackResult);
+	//experiment record
 }
 
 //****************************************************************************
 //FUNCTION:
 void CRenderingTileNodeGenerator::__generateByLoadAncestor()
 {
+	//FIXME:这个函数存在的意义？
 	CTimer::getInstance()->tick(__FUNCTION__);
 
 	std::set<std::shared_ptr<CTileNode>> AncestorTileNodeSet;
@@ -372,10 +334,11 @@ void CRenderingTileNodeGenerator::__generateByLoadAncestor()
 		AncestorUIDSet.clear();
 		for (auto& TileNode : AncestorTileNodeVector)
 		{
-			if (TileNode->getParent().lock())
+			const auto& TempTileNode = TileNode->getParent().lock();
+			if (TempTileNode)
 			{
-				AncestorTileNodeSet.insert(TileNode->getParent().lock());
-				AncestorUIDSet.insert(TileNode->getParent().lock()->getUID());
+				AncestorTileNodeSet.insert(TempTileNode);
+				AncestorUIDSet.insert(TempTileNode->getUID());
 			}
 		}
 
@@ -393,7 +356,6 @@ void CRenderingTileNodeGenerator::__generateByLoadAncestor()
 	CTimer::getInstance()->tock(__FUNCTION__);
 
 	m_ShowAncestorTileNodeSet.clear();
-
 	m_SelectedTileNodeSet.clear();
 	m_SelectedTileNodeSet = AncestorTileNodeVector;
 }
@@ -425,236 +387,30 @@ void CRenderingTileNodeGenerator::__removeDrawUIDSetDuplication(std::vector<std:
 		voDrawUIDSet.insert(i->getUID());
 }
 
-////****************************************************************************
-////FUNCTION:
-//void CRenderingTileNodeGenerator::__generateResultForKnapsackInOneFrame()
-//{
-//	std::vector<std::shared_ptr<SLoadTask>> LoadTaskSet;
-//	std::set<unsigned int> FinishProcessTileNodeUIDSet;
-//	std::set<unsigned int> DrawUIDSet;
-//	uintmax_t LoadSize = 0;
-//	std::set<std::string> TexNameSet;
-//	std::vector<std::shared_ptr<CTileNode>> DrawTileNodeSet;
-//
-//	////process selected item set
-//	unsigned int LastAncestorUID = INT_MAX;
-//	for (auto& TileNode : m_SelectedTileNodeSet)
-//	{
-//		const auto& UID = TileNode->getUID();
-//		if (FinishProcessTileNodeUIDSet.find(UID) != FinishProcessTileNodeUIDSet.end())
-//		{
-//			DrawUIDSet.insert(UID);
-//			continue;
-//		}
-//
-//		if (LoadSize < m_LimitLoadPerFrame)
-//		{
-//			const auto& LoadCost = getLoadCostByUID(UID);
-//			const auto& TexName = TileNode->getTextureFileName();
-//			DrawUIDSet.insert(UID);
-//			DrawTileNodeSet.emplace_back(TileNode);
-//			FinishProcessTileNodeUIDSet.insert(UID);
-//			if (LoadCost.LoadCost != 0)
-//			{
-//				LoadSize += LoadCost.GeoSize;
-//				if (!LoadCost.TexInMemory && TexNameSet.find(TexName) == TexNameSet.end())
-//				{
-//					LoadSize += LoadCost.TexSize;
-//					TexNameSet.insert(TexName);
-//				}
-//				LoadTaskSet.emplace_back(std::make_shared<SLoadTask>(TileNode, !LoadCost.TexInMemory));
-//			}
-//		}
-//		else
-//		{
-//			auto& TileNodeAncestor = TileNode->getAncestorUIDSet();
-//			auto it = TileNodeAncestor.rbegin();
-//			for (; it != TileNodeAncestor.rend(); ++it)
-//			{
-//				if (LastAncestorUID == *it)
-//					break;
-//				if (*it != 0 && getLoadCostByUID(*it).LoadCost == 0)
-//				{
-//					DrawUIDSet.insert(*it);
-//					DrawTileNodeSet.emplace_back(CScene::getInstance()->getTileNodePointerByUID(*it));
-//					FinishProcessTileNodeUIDSet.insert(*it);
-//					LastAncestorUID = *it;
-//					break;
-//				}
-//			}
-//		}
-//	}
-//
-//	//// process show ancestor set
-//	LastAncestorUID = INT_MAX;
-//	for (auto& TileNode : m_ShowAncestorTileNodeSet)
-//	{
-//		const auto& UID = TileNode->getUID();
-//		if (FinishProcessTileNodeUIDSet.find(UID) != FinishProcessTileNodeUIDSet.end())
-//		{
-//			DrawUIDSet.insert(UID);
-//			continue;
-//		}
-//		//// has no load task
-//		const auto& LoadCost = getLoadCostByUID(UID);
-//		if (LoadCost.LoadCost == 0)
-//		{
-//			DrawUIDSet.insert(UID);
-//			DrawTileNodeSet.emplace_back(TileNode);
-//			FinishProcessTileNodeUIDSet.insert(UID);
-//			continue;
-//		}
-//
-//		auto& TileNodeAncestor = TileNode->getAncestorUIDSet();
-//		auto it = TileNodeAncestor.rbegin();
-//		for (; it != TileNodeAncestor.rend(); ++it)
-//		{
-//			if (LastAncestorUID == *it)
-//				break;
-//			if (*it != 0 && getLoadCostByUID(*it).LoadCost == 0)
-//			{
-//				DrawUIDSet.insert(*it);
-//				DrawTileNodeSet.emplace_back(CScene::getInstance()->getTileNodePointerByUID(*it));
-//				FinishProcessTileNodeUIDSet.insert(*it);
-//				LastAncestorUID = *it;
-//				break;
-//			}
-//		}
-//	}
-//
-//	if (m_RemoveDuplication)
-//		__removeDrawUIDSetDuplication(DrawTileNodeSet, DrawUIDSet);
-//
-//	std::vector<unsigned int> ResultDrawUIDSet;
-//	for (auto& i : DrawUIDSet)
-//		ResultDrawUIDSet.emplace_back(i);
-//
-//	////load preferred
-//	if (LoadTaskSet.empty())
-//	{
-//		ResultDrawUIDSet.clear();
-//		for (auto& TileNodeSet : m_PreferredResult.PreferredTileNodeSet)
-//		{
-//			for (auto& TileNode : TileNodeSet)
-//			{
-//				if (LoadSize < m_LimitLoadPerFrame)
-//				{
-//					const auto& UID = TileNode->getUID();
-//					const auto& LoadCost = getLoadCostByUID(UID);
-//					const auto& TexName = TileNode->getTextureFileName();
-//					if (LoadCost.LoadCost != 0)
-//					{
-//						LoadSize += LoadCost.GeoSize;
-//						if (!LoadCost.TexInMemory && TexNameSet.find(TexName) == TexNameSet.end())
-//						{
-//							LoadSize += LoadCost.TexSize;
-//							TexNameSet.insert(TexName);
-//						}
-//						LoadTaskSet.emplace_back(std::make_shared<SLoadTask>(TileNode, !LoadCost.TexInMemory));
-//					}
-//					ResultDrawUIDSet.emplace_back(UID);
-//				}
-//				else
-//				{
-//					auto& AncestorUIDSet = TileNode->getAncestorUIDSet();
-//					for (auto it = AncestorUIDSet.rbegin(); it != AncestorUIDSet.rend(); ++it)
-//					{
-//						if (*it != 0 && getLoadCostByUID(*it).LoadCost == 0)
-//						{
-//							ResultDrawUIDSet.emplace_back(*it);
-//							break;
-//						}
-//					}
-//				}
-//			}
-//		}
-//	}
-//
-//	////finish load preferred
-//	if (LoadTaskSet.empty())
-//	{
-//		ResultDrawUIDSet.clear();
-//		for (auto& TileNodeSet : m_PreferredResult.PreferredTileNodeSet)
-//			for (auto& TileNode : TileNodeSet)
-//				ResultDrawUIDSet.emplace_back(TileNode->getUID());
-//		m_LoadFinish = true;
-//	}
-//
-//	m_ThisFrameResult = SRenderingGeneratorResult(LoadTaskSet, ResultDrawUIDSet);
-//}
+//****************************************************************************
+//FUNCTION:for experiment
+void hivePagedLOD::CRenderingTileNodeGenerator::__calculateCostAndNeedLoadFileNum(const std::vector<std::shared_ptr<CTileNode>>& vTileNodeSet, uintmax_t & voCost, unsigned int & voFileNum)
+{
+	//FIXME:与__addTileNodeToLoadTaskSet有重复代码
+	voCost = 0;
+	voFileNum = 0;
 
-////****************************************************************************
-////FUNCTION:
-//void CRenderingTileNodeGenerator::__generateResultForDirectLoadInOneFrame()
-//{
-//	std::vector<std::shared_ptr<SLoadTask>> LoadTaskSet;
-//	std::set<unsigned int> FinishProcessTileNodeUIDSet;
-//
-//	std::set<unsigned int> DrawUIDSet;
-//	uintmax_t LoadSize = 0;
-//	std::set<std::string> TexNameSet;
-//	std::vector<std::shared_ptr<CTileNode>> DrawTileNodeSet;
-//
-//	for (auto& TileNodeSet : m_PreferredResult.PreferredTileNodeSet)
-//	{
-//		unsigned int LastAncestorUID = INT_MAX;
-//		for (auto& TileNode : TileNodeSet)
-//		{
-//			const auto& UID = TileNode->getUID();
-//			if (FinishProcessTileNodeUIDSet.find(UID) != FinishProcessTileNodeUIDSet.end())
-//			{
-//				DrawUIDSet.insert(UID);
-//				continue;
-//			}
-//
-//			if (LoadSize < m_LimitLoadPerFrame)
-//			{
-//				const auto& LoadCost = getLoadCostByUID(UID);
-//				const auto& TexName = TileNode->getTextureFileName();
-//				DrawUIDSet.insert(UID);
-//				DrawTileNodeSet.emplace_back(TileNode);
-//				FinishProcessTileNodeUIDSet.insert(UID);
-//				if (LoadCost.LoadCost != 0)
-//				{
-//					LoadSize += LoadCost.GeoSize;
-//					if (!LoadCost.TexInMemory && TexNameSet.find(TexName) == TexNameSet.end())
-//					{
-//						LoadSize += LoadCost.TexSize;
-//						TexNameSet.insert(TexName);
-//					}
-//					LoadTaskSet.emplace_back(std::make_shared<SLoadTask>(TileNode, !LoadCost.TexInMemory));
-//				}
-//			}
-//			else
-//			{
-//				auto& TileNodeAncestor = TileNode->getAncestorUIDSet();
-//				auto it = TileNodeAncestor.rbegin();
-//				for (; it != TileNodeAncestor.rend(); ++it)
-//				{
-//					if (LastAncestorUID == *it)
-//						break;
-//					if (*it != 0 && getLoadCostByUID(*it).LoadCost == 0)
-//					{
-//						DrawUIDSet.insert(*it);
-//						DrawTileNodeSet.emplace_back(CScene::getInstance()->getTileNodePointerByUID(*it));
-//						FinishProcessTileNodeUIDSet.insert(*it);
-//						LastAncestorUID = *it;
-//						break;
-//					}
-//				}
-//			}
-//		}
-//	}
-//
-//	if (m_RemoveDuplication)
-//		__removeDrawUIDSetDuplication(DrawTileNodeSet, DrawUIDSet);
-//
-//	std::vector<unsigned int> t;
-//	for (auto& i : DrawUIDSet)
-//		t.emplace_back(i);
-//
-//	if (LoadTaskSet.empty())
-//		m_LoadFinish = true;
-//
-//	m_ThisFrameResult = SRenderingGeneratorResult(LoadTaskSet, t);
-//}
+	std::set<std::string> TexNameSet;
+	for (auto& TileNode : vTileNodeSet)
+	{
+		const auto& UID = TileNode->getUID();
+		const auto& LoadCost = getLoadCostByUID(UID);
+		const auto& TexName = TileNode->getTextureFileName();
+		if (LoadCost.LoadCost != 0)
+		{
+			voCost += LoadCost.GeoSize;
+			++voFileNum;
+			if (!LoadCost.TexInMemory && TexNameSet.find(TexName) == TexNameSet.end())
+			{
+				voCost += LoadCost.TexSize;
+				++voFileNum;
+				TexNameSet.insert(TexName);
+			}
+		}
+	}
+}

@@ -128,6 +128,7 @@ bool CPreferredTileNodeGenerator::__isPreferredTileNode(const std::shared_ptr<CT
 {
 	if (!vTileNode) return false;
 
+	//FIXME:计算规则如何得出
 	const auto DistanceFactor = std::powf(2, static_cast<float>(vTileNode->getLODLevel()));
 	const auto Distance = glm::distance(m_ViewInfo.CameraInfo.Position, glm::vec3(MODEL_MATRIX * glm::vec4(vTileNode->getBoundingSphere().getCenter(), 1.0f)));
 	return DistanceFactor < Distance;
