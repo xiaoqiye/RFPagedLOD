@@ -39,6 +39,7 @@ void CMemoryMeshLRUList::deleteExpiredTileNode()
 //FUNCTION:
 void CMemoryMeshLRUList::addNewMemoryElement(unsigned int vElementUID, std::uintmax_t vGeoSize, std::uintmax_t vTexSize)
 {
+	//FIXME:输入参数的有效性检查
 	m_List.emplace_front(std::make_shared<SMemoryElement>(vElementUID, vGeoSize, vTexSize));
 }
 
@@ -52,15 +53,15 @@ void CMemoryMeshLRUList::updateList(const std::set<unsigned int>& vElementUIDSet
 	auto itr = m_List.begin();
 	auto headItr = m_List.begin();
 	const unsigned int size = static_cast<unsigned int>(vElementUIDSet.size());
-	unsigned int i = 0;
-	while (itr != m_List.end() && i != size)
+	unsigned int ElementIndex = 0;
+	while (itr != m_List.end() && ElementIndex != size)
 	{
 		auto ElementNameListItr = vElementUIDSet.find((*itr)->MeshBufferUID);
 		if (ElementNameListItr != vElementUIDSet.end())
 		{
 			std::swap(*headItr, *itr);
 			++headItr;
-			++i;
+			++ElementIndex;
 		}
 		++itr;
 	}

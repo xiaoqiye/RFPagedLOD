@@ -3,9 +3,7 @@
 #include "Timer.h"
 #include "TileNodeLoader.h"
 #include "Scene.h"
-
 #include <boost/algorithm/string/predicate.hpp>
-
 #include <fstream>
 #include <string>
 #include <windows.h>

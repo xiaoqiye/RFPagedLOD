@@ -3,7 +3,6 @@
 #include "Common.h"
 #include "TileNode.h"
 #include "GPUTask.h"
-
 #include <iostream>
 #include "Timer.h"
 
@@ -29,10 +28,10 @@ void CMemoryBufferManager::doFirstFrame()
 {
 	std::shared_ptr<SLoaderResult> LoaderResult;
 	m_pInputPipelineFromLoader->tryPop(1, LoaderResult);
-	
 	_ASSERTE(LoaderResult->TileNodeUIDSet.size() == LoaderResult->LoadedMeshBufferSet.size());
 
-	for (unsigned int i = 0; i < LoaderResult->LoadedMeshBufferSet.size(); ++i)
+	unsigned int LoadedMeshBufferSetSize = LoaderResult->LoadedMeshBufferSet.size();
+	for (unsigned int i = 0; i < LoadedMeshBufferSetSize; ++i)
 	{
 		auto& MeshBuffer = LoaderResult->LoadedMeshBufferSet[i];
 		auto& UID = LoaderResult->TileNodeUIDSet[i];
@@ -44,15 +43,13 @@ void CMemoryBufferManager::doFirstFrame()
 
 		unsigned int TileNum = UID_TILE_NUM_MASK & UID;
 		TileNum >>= OFFSET_BIT;
-		auto& t = m_pLoadCostMapPointer->at(TileNum)[UID];
-		t.GeoInMemory = true;
-		t.TexInMemory = true;
-		t.LoadCost = 0;
+		auto& TempTileNodeLoadCost = m_pLoadCostMapPointer->at(TileNum)[UID];
+		TempTileNodeLoadCost.GeoInMemory = true;
+		TempTileNodeLoadCost.TexInMemory = true;
+		TempTileNodeLoadCost.LoadCost = 0;
 
 		m_MemoryMeshBufferMap[UID] = MeshBuffer;
-
 		m_UsedMemoryCount += GeoSize + TexSize;
-
 		//	not push into LRU list, it cannot be expired
 	}
 }
@@ -69,7 +66,6 @@ void CMemoryBufferManager::__workByLoadedMeshBuffer()
 			CTimer::getInstance()->tick(__FUNCTION__);
 
 			__processMeshBufferSet(LoaderResult->TileNodeUIDSet, LoaderResult->LoadedMeshBufferSet);
-	
 			__manageMemory(LoaderResult->DrawUIDSet);
 			
 			const std::shared_ptr<SGPUTaskRender> RenderNameSet = std::make_shared<SGPUTaskRender>(std::make_shared<std::vector<unsigned int>>(LoaderResult->DrawUIDSet));
@@ -92,13 +88,11 @@ void CMemoryBufferManager::__processMeshBufferSet(const std::vector<unsigned int
 	std::set<unsigned int> WaitUpdateTextureUIDSet; //update load cost map
 
 	_ASSERTE(vLoadedMeshBufferSet.size() == vTileNodeUIDSet.size());
-	for (unsigned int i = 0; i < vLoadedMeshBufferSet.size(); ++i)
+	unsigned int LoadedMeshBufferSetSize = vLoadedMeshBufferSet.size();
+	for (unsigned int i = 0; i < LoadedMeshBufferSetSize; ++i)
 	{
 		auto& MeshBuffer = vLoadedMeshBufferSet[i];
 		auto& UID = vTileNodeUIDSet[i];
-		
-		//auto GeoFileName = MeshBuffer->pGeometry->GeometryFileName;
-		//std::cout << "memory: " << GeoFileName <<std::endl;
 
 		if (m_MemoryMeshBufferMap.find(UID) != m_MemoryMeshBufferMap.end())
 			continue;
@@ -113,10 +107,10 @@ void CMemoryBufferManager::__processMeshBufferSet(const std::vector<unsigned int
 		}
 		else
 		{
-			auto it = getTextureByUIDIfExist(UID);
-			if (!it)
+			auto TempTexture = getTextureByUIDIfExist(UID);
+			if (!TempTexture)
 				return;
-			MeshBuffer->pTexture = it;
+			MeshBuffer->pTexture = TempTexture;
 		}
 
 		std::shared_ptr<SGPUTaskGenGeoBuffer> GenGeoBufferTask = std::make_shared<SGPUTaskGenGeoBuffer>(UID, MeshBuffer->pGeometry);
@@ -127,14 +121,13 @@ void CMemoryBufferManager::__processMeshBufferSet(const std::vector<unsigned int
 
 		unsigned int TileNum = UID_TILE_NUM_MASK & UID;
 		TileNum >>= OFFSET_BIT;
-		auto& t = m_pLoadCostMapPointer->at(TileNum)[UID];
-		t.GeoInMemory = true;
-		t.TexInMemory = true;
-		t.LoadCost = 0;
+		auto& TempTileNodeLoadCost = m_pLoadCostMapPointer->at(TileNum)[UID];
+		TempTileNodeLoadCost.GeoInMemory = true;
+		TempTileNodeLoadCost.TexInMemory = true;
+		TempTileNodeLoadCost.LoadCost = 0;
 
 		_ASSERTE(m_MemoryMeshBufferMap.find(UID) == m_MemoryMeshBufferMap.end() && MeshBuffer->pTexture);
 		m_MemoryMeshBufferMap[UID] = MeshBuffer;
-
 		m_UsedMemoryCount += GeoSize + TexSize * static_cast<std::uintmax_t>(!IsTexInMemory);
 		m_pMemoryMeshLRUList->addNewMemoryElement(UID, GeoSize, TexSize);
 	}
@@ -181,7 +174,6 @@ void CMemoryBufferManager::__manageMemory(const std::vector<unsigned int>& vDraw
 		UpdateNameSet.insert(UID);
 
 	m_pMemoryMeshLRUList->updateList(UpdateNameSet);
-	
 	m_pMemoryMeshLRUList->deleteExpiredTileNode();
 }
 
@@ -193,13 +185,10 @@ bool CMemoryBufferManager::isTextureExistInMemory(unsigned int vUID) const
 	TileNum >>= OFFSET_BIT;
 	auto& BrotherUIDSet = m_pTileNodeBrotherMapPointer->at(TileNum)[vUID];
 
-	for (auto& i : BrotherUIDSet)
-	{
-		if (m_MemoryMeshBufferMap.find(i) != m_MemoryMeshBufferMap.end())
-		{
+	for (auto& TempBrotherUID : BrotherUIDSet)
+		if (m_MemoryMeshBufferMap.find(TempBrotherUID) != m_MemoryMeshBufferMap.end())
 			return true;
-		}
-	}
+	
 	return false;
 }
 
@@ -211,13 +200,10 @@ std::shared_ptr<STexture> CMemoryBufferManager::getTextureByUIDIfExist(unsigned 
 	TileNum >>= OFFSET_BIT;
 	auto& BrotherUIDSet = m_pTileNodeBrotherMapPointer->at(TileNum)[vUID];
 
-	for (auto& i : BrotherUIDSet)
-	{
-		if (m_MemoryMeshBufferMap.find(i) != m_MemoryMeshBufferMap.end())
-		{
-			return m_MemoryMeshBufferMap.find(i)->second->pTexture;
-		}
-	}
+	for (auto& TempBrotherUID : BrotherUIDSet)
+		if (m_MemoryMeshBufferMap.find(TempBrotherUID) != m_MemoryMeshBufferMap.end())
+			return m_MemoryMeshBufferMap.find(TempBrotherUID)->second->pTexture;
+	
 	return nullptr;
 }
 
@@ -286,9 +272,7 @@ void CMemoryBufferManager::__initSplayList()
 			TileNum >>= OFFSET_BIT;
 			auto& LoadCost = m_pLoadCostMapPointer->at(TileNum)[UID];
 			LoadCost.GeoInMemory = false;
-
 			m_MemoryMeshBufferMap.erase(UID);
-			//std::cout << "delete call back:" << UID << std::endl;
 
 			const bool TextureInMemory = isTextureExistInMemory(UID);
 			if (!TextureInMemory)
@@ -301,7 +285,6 @@ void CMemoryBufferManager::__initSplayList()
 				__updateLoadCostMapByUIDSet(UIDSet, false);
 				return;
 			}
-
 			LoadCost.TexInMemory = true;
 			LoadCost.updateCost();
 		});

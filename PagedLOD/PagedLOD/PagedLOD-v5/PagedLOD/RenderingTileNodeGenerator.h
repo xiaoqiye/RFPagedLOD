@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Common.h"
 #include "Scene.h"
 #include "PipelinePreferred2RenderingTileNodeGenerator.h"
