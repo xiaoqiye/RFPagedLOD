@@ -4,7 +4,6 @@
 #include "GPUBufferManager.h"
 #include "GPUTask.h"
 #include "PipelineGPUThread2FrameGenerator.h"
-
 #include <thread>
 
 namespace hivePagedLOD
@@ -25,14 +24,13 @@ namespace hivePagedLOD
 
 		std::shared_ptr<CGPUBufferManager>& fetchGPUBufferManager() { return m_pGPUBufferManager; }
 		std::shared_ptr<IGPUBufferInterface>& fetchGPUInterface() { return m_pGPUInterface; }
+
 	private:
 		void __processTaskQueue();
-
 		void __generateGeometryBuffer(const std::shared_ptr<SGPUTask>& vTask) const;
 		void __generateTextureBuffer(const std::shared_ptr<SGPUTask>& vTask) const;
 		void __deleteTextureBuffer(const std::shared_ptr<SGPUTask>& vTask) const;
 		void __deleteGeometryBuffer(const std::shared_ptr<SGPUTask>& vTask) const;
-
 		void __mainLoop(const std::shared_ptr<SGPUTask>& vTask);
 		void __init(const std::shared_ptr<SGPUTask>& vTask) const;
 

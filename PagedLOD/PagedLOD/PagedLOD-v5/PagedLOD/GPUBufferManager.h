@@ -1,9 +1,7 @@
 #pragma once
-
 #include "Common.h"
 #include "GPUBufferCommon.h"
 #include "Scene.h"
-
 #include <map>
 #include <tbb/concurrent_unordered_map.h>
 
@@ -29,10 +27,10 @@ namespace hivePagedLOD
 		std::vector<TTextureID> getTexBufferIDSet();
 		std::map<unsigned int, std::pair<SGPUGeometryBufferHandle, unsigned int>>& getGeoBufferMap() { return m_GPUGeometryBufferMap; }
 		std::map<unsigned int, TTextureID>& getTexBufferMap() { return m_GPUTextureBufferMap; }
+
 	private:
 		std::map<unsigned int, std::pair<SGPUGeometryBufferHandle, unsigned int>> m_GPUGeometryBufferMap;
 		std::map<unsigned int, TTextureID> m_GPUTextureBufferMap;
 		std::vector<tbb::concurrent_unordered_map<unsigned int, std::vector<unsigned int>>>* m_pTileNodeBrotherMapPointer;
-
 	};
 }

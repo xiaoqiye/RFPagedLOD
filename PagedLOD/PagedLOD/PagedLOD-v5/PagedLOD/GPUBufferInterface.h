@@ -1,8 +1,8 @@
 #pragma once
 #include "FrameState.h"
 #include "GPUBufferCommon.h"
-
 #include <memory>
+
 namespace hivePagedLOD
 {
 	class IGPUBufferInterface
@@ -10,6 +10,7 @@ namespace hivePagedLOD
 	public:
 		IGPUBufferInterface() = default;
 		virtual ~IGPUBufferInterface() = default;
+		//FIXME:º¯ÊýÃüÃû
 		virtual TTextureID generateTextureBufferForOSGV(const std::shared_ptr<const STexture>& vTexture) = 0;
 		virtual std::pair<SGPUGeometryBufferHandle, unsigned int> generateGeometryBufferForOSGV(const std::shared_ptr<const SGeometry>& vGeometry) = 0;
 		virtual bool destroyGeometryBufferForOSGV(const SGPUGeometryBufferHandle& vGPUGeometryHandle) = 0;

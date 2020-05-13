@@ -47,7 +47,6 @@ void CGPUThread::__processTaskQueue()
 {
 	while (!m_Close)
 	{
-		//std::cout << m_pInputPipelineFromMemoryBufferManager->getNumDataInOutputBufferV() << std::endl;
 		std::shared_ptr<SGPUTask> Task;
 		if (m_pInputPipelineFromMemoryBufferManager->tryPop(1, Task))
 		{
@@ -81,7 +80,6 @@ void CGPUThread::__processTaskQueue()
 			default:
 				break;
 			}
-
 			CTimer::getInstance()->tock(__FUNCTION__);
 			if (CTimer::getInstance()->needOutput() && CTimer::getInstance()->isRegistered(__FUNCTION__))
 				std::cout << __FUNCTION__ << CTimer::getInstance()->getCostTimeByName(__FUNCTION__) << std::endl;
@@ -96,10 +94,11 @@ void CGPUThread::__generateGeometryBuffer(const std::shared_ptr<SGPUTask>& vTask
 	_ASSERTE(vTask->TaskType == EGPUTaskType::GEN_GEOMETRY_BUFFER);
 	const auto pTask = dynamic_cast<SGPUTaskGenGeoBuffer*>(vTask.get());
 	_ASSERTE(pTask);
+
 	auto it = m_pGPUBufferManager->getGeoBufferMap().find(pTask->GeoUID);
 	if (it != m_pGPUBufferManager->getGeoBufferMap().end())
 		return;
-	//std::cout << "GPU gen geo buffer:" << pTask->GeoUID<< std::endl;
+
 	m_pGPUBufferManager->saveGeometryBuffer(pTask->GeoUID, m_pGPUInterface->generateGeometryBufferForOSGV(pTask->Geometry));
 }
 
@@ -110,9 +109,11 @@ void CGPUThread::__generateTextureBuffer(const std::shared_ptr<SGPUTask>& vTask)
 	_ASSERTE(vTask->TaskType == EGPUTaskType::GEN_TEXTURE_BUFFER);
 	const auto pTask = dynamic_cast<SGPUTaskGenTexBuffer*>(vTask.get());
 	_ASSERTE(pTask);
+
 	auto it = m_pGPUBufferManager->getTexBufferMap().find(pTask->TexUID);
 	if (it != m_pGPUBufferManager->getTexBufferMap().end())
 		return;
+
 	m_pGPUBufferManager->saveTextureBuffer(pTask->TexUID, m_pGPUInterface->generateTextureBufferForOSGV(pTask->Texture));
 }
 
@@ -122,10 +123,11 @@ void CGPUThread::__deleteGeometryBuffer(const std::shared_ptr<SGPUTask>& vTask) 
 	_ASSERTE(vTask->TaskType == EGPUTaskType::DEL_GEOMETRY_BUFFER);
 	const auto pTask = dynamic_cast<SGPUTaskDelGeoBuffer*>(vTask.get());
 	_ASSERTE(pTask);
+
 	auto GeoHandle = m_pGPUBufferManager->deleteGeometryBuffer(pTask->GeoUID);
 	if (GeoHandle.VAO == 0)
 		return;
-	//std::cout << "GPU del geo buffer:" << pTask->GeoUID << std::endl;
+
 	m_pGPUInterface->destroyGeometryBufferForOSGV(GeoHandle);
 }
 
@@ -136,9 +138,11 @@ void CGPUThread::__deleteTextureBuffer(const std::shared_ptr<SGPUTask>& vTask) c
 	_ASSERTE(vTask->TaskType == EGPUTaskType::DEL_TEXTURE_BUFFER);
 	const auto pTask = dynamic_cast<SGPUTaskDelTexBuffer*>(vTask.get());
 	_ASSERTE(pTask);
+
 	auto TexID = m_pGPUBufferManager->deleteTextureBuffer(pTask->TexUID);
 	if (TexID == 0)
 		return;
+
 	m_pGPUInterface->destroyTextureBufferForOSGV(TexID);
 }
 
@@ -176,6 +180,7 @@ void CGPUThread::__mainLoop(const std::shared_ptr<SGPUTask>& vTask)
 void CGPUThread::__init(const std::shared_ptr<SGPUTask>& vTask) const
 {
 	_ASSERTE(vTask->TaskType == EGPUTaskType::INIT_WINDOW);
+
 	auto pTask = dynamic_cast<SGPUTaskInitWindow*>(vTask.get());
 	m_pGPUInterface->initV(pTask->Width, pTask->Height);
 }

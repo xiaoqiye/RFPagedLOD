@@ -1,8 +1,6 @@
 #include "GPUBufferManager.h"
 #include "Utils.h"
-
 #include <boost/algorithm/string/predicate.hpp>
-
 #include <iostream>
 
 using namespace hivePagedLOD;
