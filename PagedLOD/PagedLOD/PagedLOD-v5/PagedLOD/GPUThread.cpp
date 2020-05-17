@@ -99,7 +99,9 @@ void CGPUThread::__generateGeometryBuffer(const std::shared_ptr<SGPUTask>& vTask
 	if (it != m_pGPUBufferManager->getGeoBufferMap().end())
 		return;
 
-	m_pGPUBufferManager->saveGeometryBuffer(pTask->GeoUID, m_pGPUInterface->generateGeometryBufferForOSGV(pTask->Geometry));
+	//add:show LODLevel
+	int LODLevel = pTask->LODLevel;
+	m_pGPUBufferManager->saveGeometryBuffer(pTask->GeoUID, m_pGPUInterface->generateGeometryBufferForOSGV(pTask->Geometry), LODLevel);
 }
 
 //****************************************************************************
@@ -114,7 +116,9 @@ void CGPUThread::__generateTextureBuffer(const std::shared_ptr<SGPUTask>& vTask)
 	if (it != m_pGPUBufferManager->getTexBufferMap().end())
 		return;
 
-	m_pGPUBufferManager->saveTextureBuffer(pTask->TexUID, m_pGPUInterface->generateTextureBufferForOSGV(pTask->Texture));
+	//add:show LODLevel
+	int LODLevel = pTask->LODLevel;
+	m_pGPUBufferManager->saveTextureBuffer(pTask->TexUID, m_pGPUInterface->generateTextureBufferForOSGV(pTask->Texture), LODLevel);
 }
 
 //****************************************************************************
