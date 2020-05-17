@@ -7,8 +7,10 @@ using namespace hivePagedLOD;
 
 //****************************************************************************
 //FUNCTION:
-void CGPUBufferManager::saveGeometryBuffer(unsigned int vGeoBufferUID, const std::pair<SGPUGeometryBufferHandle, unsigned int>& vGeoBufferHandle)
+void CGPUBufferManager::saveGeometryBuffer(unsigned int vGeoBufferUID, const std::pair<SGPUGeometryBufferHandle, unsigned int>& vGeoBufferHandle, int vLODLevel)
 {
+	//add:show LODLevel
+	m_UID2LODLevel.emplace(vGeoBufferUID, vLODLevel);
 	const auto pair = m_GPUGeometryBufferMap.emplace(vGeoBufferUID, vGeoBufferHandle);
 	if (!pair.second)
 		std::cout << "save gpu geometry buffer failed: "<< vGeoBufferUID << std::endl;
@@ -16,8 +18,10 @@ void CGPUBufferManager::saveGeometryBuffer(unsigned int vGeoBufferUID, const std
 
 //****************************************************************************
 //FUNCTION:
-void CGPUBufferManager::saveTextureBuffer(unsigned int vTexBufferUID, const TTextureID& vTexBufferHandle)
+void CGPUBufferManager::saveTextureBuffer(unsigned int vTexBufferUID, const TTextureID& vTexBufferHandle, int vLODLevel)
 {
+	//add:show LODLevel
+	m_UID2LODLevel.emplace(vTexBufferUID, vLODLevel);
 	const auto pair = m_GPUTextureBufferMap.emplace(vTexBufferUID, vTexBufferHandle);
 	if (!pair.second)
 		std::cout << "save gpu texture buffer failed: " << vTexBufferUID << std::endl;
@@ -76,6 +80,8 @@ std::vector<std::shared_ptr<SGPUMeshBuffer>> CGPUBufferManager::generateRenderMe
 	{
 		auto GeoIt = m_GPUGeometryBufferMap.find(UID);
 		auto TexIt = m_GPUTextureBufferMap.find(UID);
+		//add:show LODLevel
+		auto LODIt = m_UID2LODLevel.find(UID);
 		if (TexIt == m_GPUTextureBufferMap.end())
 		{
 			unsigned int TileNum = UID_TILE_NUM_MASK & UID;
@@ -97,7 +103,7 @@ std::vector<std::shared_ptr<SGPUMeshBuffer>> CGPUBufferManager::generateRenderMe
 			auto TexBuffer = std::make_shared<SGPUTextureBuffer>(TexIt->second);
 			auto GeoBuffer = std::make_shared<SGPUGeometryBuffer>(GeoIt->second.first, GeoIt->second.second);
 
-			RenderMeshBufferSet.emplace_back(std::make_shared<SGPUMeshBuffer>(TexBuffer, GeoBuffer));
+			RenderMeshBufferSet.emplace_back(std::make_shared<SGPUMeshBuffer>(TexBuffer, GeoBuffer, LODIt->second));
 		}
 	}
 	return RenderMeshBufferSet;

@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+const int WAIT_FRAME_NUM = 2;
+
 enum class EVisitStrategy
 {
 	GO_STRAIGHT,

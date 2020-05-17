@@ -36,7 +36,9 @@ namespace hivePagedLOD
 	{
 		unsigned int GeoUID;
 		std::shared_ptr<SGeometry> Geometry;
-		SGPUTaskGenGeoBuffer(unsigned int vGeoUID, const std::shared_ptr<SGeometry>& vGeometry) : GeoUID(vGeoUID), Geometry(vGeometry)
+		//add:show LODLevel
+		int LODLevel = 0;
+		SGPUTaskGenGeoBuffer(unsigned int vGeoUID, const std::shared_ptr<SGeometry>& vGeometry, int vLODLevel) : GeoUID(vGeoUID), Geometry(vGeometry), LODLevel(vLODLevel)
 		{
 			TaskType = EGPUTaskType::GEN_GEOMETRY_BUFFER;
 		}
@@ -46,7 +48,9 @@ namespace hivePagedLOD
 	{
 		unsigned int TexUID;
 		std::shared_ptr<STexture> Texture;
-		SGPUTaskGenTexBuffer(unsigned int vTexUID, const std::shared_ptr<STexture>& vTexture) : TexUID(vTexUID), Texture(vTexture)
+		//add:show LODLevel
+		int LODLevel = 0;
+		SGPUTaskGenTexBuffer(unsigned int vTexUID, const std::shared_ptr<STexture>& vTexture, int vLODLevel) : TexUID(vTexUID), Texture(vTexture), LODLevel(vLODLevel)
 		{
 			TaskType = EGPUTaskType::GEN_TEXTURE_BUFFER;
 		}

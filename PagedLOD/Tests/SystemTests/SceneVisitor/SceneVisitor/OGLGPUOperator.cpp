@@ -122,6 +122,7 @@ void COGLGPUOperator::renderV(const std::vector<std::shared_ptr<SGPUMeshBuffer>>
 	++m_FrameID;
 	glm::mat4 projectionMatrix = OpenGL_LIB::CCamera::getInstance().getProjectionMatrix();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	m_pShader->useShader();
 	m_pShader->setMat4("uModelMatrix", MODEL_MATRIX);
 	m_pShader->setMat4("uProjectionMatrix", projectionMatrix);
@@ -132,7 +133,10 @@ void COGLGPUOperator::renderV(const std::vector<std::shared_ptr<SGPUMeshBuffer>>
 	for (unsigned int i = 0; i < vMeshBufferSet.size(); ++i)
 	{
 		if (vMeshBufferSet[i]->isValidV())
+		{
+			m_pShader->setInt("LODLevel", vMeshBufferSet[i]->LODLevel);
 			__draw(dynamic_cast<SGPUMeshBuffer*>(vMeshBufferSet[i].get()));
+		}
 	}
 
 	if (m_SaveCapture)
@@ -189,13 +193,6 @@ std::shared_ptr<IFrameState> COGLGPUOperator::updateFrameStateV()
 	glfwPollEvents();
 	OpenGL_LIB::CDeviceInputHandler::getInstance().doMovement();
 	
-	//add
-	/*++m_WaitFrameNum;
-	if (m_WaitFrameNum >= 38)
-	{
-		CSceneVisitor::getInstance()->visit(static_cast<unsigned int>(m_FrameID));
-		m_WaitFrameNum = 0;
-	}*/
 	CSceneVisitor::getInstance()->visit(static_cast<unsigned int>(m_FrameID));
 	if (OpenGL_LIB::CCamera::getInstance().getSaveRecordFlag())
 		OpenGL_LIB::CCamera::getInstance().recordCameraInfo();

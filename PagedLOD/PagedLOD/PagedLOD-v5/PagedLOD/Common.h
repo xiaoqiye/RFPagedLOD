@@ -83,6 +83,8 @@ namespace hivePagedLOD
 	{
 		std::shared_ptr<SGeometry> pGeometry;
 		std::shared_ptr<STexture> pTexture;
+		//add:show LODLevel
+		int LODLevel = 0;
 		SMemoryMeshBuffer()
 		{
 			pGeometry = std::make_shared<SGeometry>();

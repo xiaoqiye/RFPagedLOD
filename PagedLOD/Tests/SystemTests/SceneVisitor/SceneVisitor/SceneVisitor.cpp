@@ -188,9 +188,10 @@ void CSceneVisitor::__visitByRecord(unsigned int vFrameID)
 {
 	static int WaitFrameNum = 0;
 	++WaitFrameNum;
-	if (WaitFrameNum >= 38)
+	//FIXME
+	if (WaitFrameNum >= WAIT_FRAME_NUM)
 	{
-		if (vFrameID / 38 < m_RecordSet.size())
+		if (vFrameID / WAIT_FRAME_NUM < m_RecordSet.size())
 		{
 			OpenGL_LIB::CCamera::getInstance().setPosition(m_RecordSet[vFrameID][0]);
 			OpenGL_LIB::CCamera::getInstance().setFront(m_RecordSet[vFrameID][1]);

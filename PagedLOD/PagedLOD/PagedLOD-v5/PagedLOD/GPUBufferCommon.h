@@ -39,11 +39,14 @@ namespace hivePagedLOD
 	{
 		std::shared_ptr<SGPUTextureBuffer> pGPUTextureBuffer;
 		std::shared_ptr<SGPUGeometryBuffer> pGPUGeometryBuffer;
+		//add:show LODLevel
+		int LODLevel = 0;
 		SGPUMeshBuffer() = default;
-		SGPUMeshBuffer(const std::shared_ptr<SGPUTextureBuffer>& vGPUTex, const std::shared_ptr<SGPUGeometryBuffer>& vGPUGeo)
+		SGPUMeshBuffer(const std::shared_ptr<SGPUTextureBuffer>& vGPUTex, const std::shared_ptr<SGPUGeometryBuffer>& vGPUGeo, int vLODLevel)
 		{
 			pGPUTextureBuffer = vGPUTex;
 			pGPUGeometryBuffer = vGPUGeo;
+			LODLevel = vLODLevel;
 		}
 		bool isValidV() const override
 		{

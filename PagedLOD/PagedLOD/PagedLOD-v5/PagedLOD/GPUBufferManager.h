@@ -13,8 +13,9 @@ namespace hivePagedLOD
 		CGPUBufferManager() = default;
 		~CGPUBufferManager() = default;
 
-		void saveGeometryBuffer(unsigned int vGeoBufferUID, const std::pair<SGPUGeometryBufferHandle, unsigned int>& vGeoBufferHandle);
-		void saveTextureBuffer(unsigned int vTexBufferUID, const TTextureID& vTexBufferHandle);
+		//add:show LODLevel
+		void saveGeometryBuffer(unsigned int vGeoBufferUID, const std::pair<SGPUGeometryBufferHandle, unsigned int>& vGeoBufferHandle, int vLODLevel);
+		void saveTextureBuffer(unsigned int vTexBufferUID, const TTextureID& vTexBufferHandle, int vLODLevel);
 		SGPUGeometryBufferHandle deleteGeometryBuffer(unsigned int vGeoBufferUID);
 		TTextureID deleteTextureBuffer(unsigned int vTexBufferUID);
 
@@ -31,6 +32,7 @@ namespace hivePagedLOD
 	private:
 		std::map<unsigned int, std::pair<SGPUGeometryBufferHandle, unsigned int>> m_GPUGeometryBufferMap;
 		std::map<unsigned int, TTextureID> m_GPUTextureBufferMap;
+		std::map<unsigned int, int> m_UID2LODLevel;
 		std::vector<tbb::concurrent_unordered_map<unsigned int, std::vector<unsigned int>>>* m_pTileNodeBrotherMapPointer;
 	};
 }

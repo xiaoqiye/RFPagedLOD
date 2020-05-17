@@ -35,8 +35,9 @@ void CMemoryBufferManager::doFirstFrame()
 	{
 		auto& MeshBuffer = LoaderResult->LoadedMeshBufferSet[i];
 		auto& UID = LoaderResult->TileNodeUIDSet[i];
-		m_pOutputPipelineToGPUThread->tryPush(std::make_shared<SGPUTaskGenGeoBuffer>(UID, MeshBuffer->pGeometry));
-		m_pOutputPipelineToGPUThread->tryPush(std::make_shared<SGPUTaskGenTexBuffer>(UID, MeshBuffer->pTexture));
+		//add:show LODLevel
+		m_pOutputPipelineToGPUThread->tryPush(std::make_shared<SGPUTaskGenGeoBuffer>(UID, MeshBuffer->pGeometry, MeshBuffer->LODLevel));
+		m_pOutputPipelineToGPUThread->tryPush(std::make_shared<SGPUTaskGenTexBuffer>(UID, MeshBuffer->pTexture, MeshBuffer->LODLevel));
 
 		const auto GeoSize = MeshBuffer->pGeometry->IndexCount * sizeof(unsigned int) + MeshBuffer->pGeometry->VertexCount * sizeof(OSG_VERTEX_SIZE);
 		const auto TexSize = MeshBuffer->pTexture->TexInfo.Size;
@@ -101,7 +102,8 @@ void CMemoryBufferManager::__processMeshBufferSet(const std::vector<unsigned int
 		if (MeshBuffer->pTexture)
 		{
 			IsTexInMemory = false;
-			std::shared_ptr<SGPUTaskGenTexBuffer> GenTexBufferTask = std::make_shared<SGPUTaskGenTexBuffer>(UID, MeshBuffer->pTexture);
+			//add:show LODLevel
+			std::shared_ptr<SGPUTaskGenTexBuffer> GenTexBufferTask = std::make_shared<SGPUTaskGenTexBuffer>(UID, MeshBuffer->pTexture, MeshBuffer->LODLevel);
 			m_pOutputPipelineToGPUThread->tryPush(GenTexBufferTask);
 			WaitUpdateTextureUIDSet.insert(UID);
 		}
@@ -112,8 +114,8 @@ void CMemoryBufferManager::__processMeshBufferSet(const std::vector<unsigned int
 				return;
 			MeshBuffer->pTexture = TempTexture;
 		}
-
-		std::shared_ptr<SGPUTaskGenGeoBuffer> GenGeoBufferTask = std::make_shared<SGPUTaskGenGeoBuffer>(UID, MeshBuffer->pGeometry);
+		//add:show LODLevel
+		std::shared_ptr<SGPUTaskGenGeoBuffer> GenGeoBufferTask = std::make_shared<SGPUTaskGenGeoBuffer>(UID, MeshBuffer->pGeometry, MeshBuffer->LODLevel);
 		m_pOutputPipelineToGPUThread->tryPush(GenGeoBufferTask);
 
 		const auto GeoSize = MeshBuffer->pGeometry->IndexCount * sizeof(unsigned int) + MeshBuffer->pGeometry->VertexCount * sizeof(OSG_VERTEX_SIZE);

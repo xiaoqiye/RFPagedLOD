@@ -300,7 +300,7 @@ void CRenderingTileNodeGenerator::__generateByKnapsack()
 	std::vector<std::shared_ptr<CTileNode>> PreferredTileNodeSet;
 	for (auto& TempPreferredTileNodeSet: m_PreferredResult.PreferredTileNodeSet)
 		for (auto& PreferredTileNode: TempPreferredTileNodeSet)
-			TempPreferredTileNodeSet.emplace_back(PreferredTileNode);
+			PreferredTileNodeSet.emplace_back(PreferredTileNode);
 
 	uintmax_t PreferedCost = 0;
 	unsigned int PreferedNeedLoadFileNum = 0;
@@ -392,6 +392,7 @@ void CRenderingTileNodeGenerator::__removeDrawUIDSetDuplication(std::vector<std:
 void hivePagedLOD::CRenderingTileNodeGenerator::__calculateCostAndNeedLoadFileNum(const std::vector<std::shared_ptr<CTileNode>>& vTileNodeSet, uintmax_t & voCost, unsigned int & voFileNum)
 {
 	//FIXME:与__addTileNodeToLoadTaskSet有重复代码
+	_ASSERT(!vTileNodeSet.empty());
 	voCost = 0;
 	voFileNum = 0;
 

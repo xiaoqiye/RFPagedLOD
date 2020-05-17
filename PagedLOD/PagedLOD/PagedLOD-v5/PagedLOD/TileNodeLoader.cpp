@@ -49,6 +49,8 @@ void CTileNodeLoader::doFirstFrame()
 
 		pMemoryMeshBuffer->pTexture = pTexture;
 		pMemoryMeshBuffer->pGeometry = pGeometry;
+		//add:show LODLevel
+		pMemoryMeshBuffer->LODLevel = Root->getLODLevel();
 		m_RecentLoadGeometryNameSet.insert(GeoName);
 		MeshBufferSet.emplace_back(pMemoryMeshBuffer);
 		TileNodeUIDSet.emplace_back(Root->getUID());
@@ -152,6 +154,8 @@ void CTileNodeLoader::__LoadFromFile(const std::shared_ptr<SLoadTask>& vLoadTask
 	auto pMemoryMeshBuffer = std::make_shared<SMemoryMeshBuffer>();
 	pMemoryMeshBuffer->pTexture = pTexture;
 	pMemoryMeshBuffer->pGeometry = pGeometry;
+	//add:show LODLevel
+	pMemoryMeshBuffer->LODLevel = vLoadTask->TileNode->getLODLevel();
 	voMeshBufferSet.emplace_back(pMemoryMeshBuffer);
 	voTileNodeUIDSet.emplace_back(vLoadTask->TileNode->getUID());
 }
@@ -161,6 +165,7 @@ void CTileNodeLoader::__LoadFromFile(const std::shared_ptr<SLoadTask>& vLoadTask
 std::shared_ptr<char> CTileNodeLoader::__getFileStream(const std::string& vFilePath)
 {
 	_ASSERTE(!vFilePath.empty());
+	CTimer::getInstance()->tick(__FUNCTION__);
 	//notice:FILE 效率比ifstream高一点点
 	FILE* fp;
 	fopen_s(&fp, vFilePath.c_str(), "rb");
@@ -170,13 +175,8 @@ std::shared_ptr<char> CTileNodeLoader::__getFileStream(const std::string& vFileP
 	fread(pFileStream.get(), sizeof(char), FileSize, fp);	
 	fclose(fp);
 
-	//std::ifstream InputFile(vFilePath, std::ios::binary | std::ios::in);
-	//_ASSERTE(InputFile.is_open());
-	//unsigned int FileSize;
-	//InputFile.read(reinterpret_cast<char*>(&FileSize), sizeof(unsigned int));
-	//auto pFileStream = std::shared_ptr<char>(reinterpret_cast<char*>(std::malloc(FileSize)));
-	//InputFile.read(pFileStream.get(), FileSize);
-	//InputFile.close();
+	CTimer::getInstance()->tock(__FUNCTION__);
+	m_LoadedTimeThisFrame += CTimer::getInstance()->getCostTimeByName(__FUNCTION__);
 
 	if (m_UseLoadLog)
 		m_LoadedSizeThisFrame += FileSize;
@@ -191,10 +191,10 @@ std::shared_ptr<SGeometry> CTileNodeLoader::__loadGeometryBufferFromFile(const s
 	if (m_UseLoadLog)
 		++m_LoadedNumThisFrame;
 
-	CTimer::getInstance()->tick(__FUNCTION__);
+	//CTimer::getInstance()->tick(__FUNCTION__);
 	const auto pFileStream = __getFileStream(vFilePath);
-	CTimer::getInstance()->tock(__FUNCTION__);
-	m_LoadedTimeThisFrame += CTimer::getInstance()->getCostTimeByName(__FUNCTION__);
+	//CTimer::getInstance()->tock(__FUNCTION__);
+	//m_LoadedTimeThisFrame += CTimer::getInstance()->getCostTimeByName(__FUNCTION__);
 
 	auto pGeometry = std::make_shared<SGeometry>();
 	if (pFileStream) __processGeometryBuffer(pFileStream.get(), pGeometry);
@@ -208,10 +208,10 @@ std::shared_ptr<STexture> CTileNodeLoader::__loadTextureBufferFromFile(const std
 	if (m_UseLoadLog)
 		++m_LoadedNumThisFrame;
 
-	CTimer::getInstance()->tick(__FUNCTION__);
+	//CTimer::getInstance()->tick(__FUNCTION__);
 	auto pFileStream = __getFileStream(vFilePath);
-	CTimer::getInstance()->tock(__FUNCTION__);
-	m_LoadedTimeThisFrame += CTimer::getInstance()->getCostTimeByName(__FUNCTION__);
+	//CTimer::getInstance()->tock(__FUNCTION__);
+	//m_LoadedTimeThisFrame += CTimer::getInstance()->getCostTimeByName(__FUNCTION__);
 
 	auto pTexture = std::make_shared<STexture>();
 	pTexture->TextureFileName = vFilePath;
