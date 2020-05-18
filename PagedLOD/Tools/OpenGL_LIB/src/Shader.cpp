@@ -29,7 +29,7 @@ void CShader::addShader(const GLchar* shaderPath, GLuint shaderType)
 	}
 	catch (std::ifstream::failure& e)
 	{
-		_DEBUG_OUTPUT_2(e.what(), "can not read shader file.");
+		_OUTPUT_LINE2(e.what(), "can not read shader file.");
 	}
 	const GLchar* charShaderCode = shaderCode.c_str();
 	GLint success;

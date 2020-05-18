@@ -15,95 +15,59 @@ const unsigned int VISIT_FRAME_COUNT = 500;
 
 //****************************************************************************
 //FUNCTION:
-void CSceneVisitor::initSceneVisitor(unsigned int vWindowWidth, unsigned int vWindowHeight, EVisitStrategy vStrategy)
+void CSceneVisitor::initSceneVisitor(const SInitValue& vInitValue)
 {
-	m_WindowWidth = vWindowWidth;
-	m_WindowHeight = vWindowHeight;
-	m_strategy = vStrategy;
+	m_WindowHeight = vInitValue.WindowHeight;
+	m_WindowWidth = vInitValue.WindowWidth;
 
-	std::string LoadFilePath = "";
-	float CameraSpeed = 0.0f;
-	std::ifstream File("./VisitorConfig");
-	if (File.is_open())
+	const SCameraInitValue& CameraInit = vInitValue.CameraInit;
+	float CameraSpeed = CameraInit.Speed;
+	m_CameraFarPlane = CameraInit.Far;
+	m_CameraNearPlane = CameraInit.Near;
+	m_CameraDefaultPosition = glm::vec3(CameraInit.PositionX, CameraInit.PositionY, CameraInit.PositionZ);
+
+
+	const SVisitInitValue& VisitInit = vInitValue.VisitInit;
+	m_Strategy = hivePagedLOD::EVisitStrategy(VisitInit.VisitStrategy);
+	m_VisitStopPositionZ = VisitInit.StopPositionZ;
+	m_VisitSpeed = VisitInit.Speed;
+	m_VisitEndFrameID = VisitInit.EndFrameID;
+	m_ChangeDirectionFrameID = VisitInit.ChangeDirectionFrameID;
+	m_ResetCameraFrameID = VisitInit.ResetCameraPositionFrameID;
+	m_Seed = VisitInit.Seed;
+	m_AreaHeight = VisitInit.AreaHeight;
+	m_AreaWidth = VisitInit.AreaWidth;
+	m_LogPath = VisitInit.LogPath;
+	m_RecordFilePath = VisitInit.SaveVisitFilePath;
+	m_WaitFrameNum = VisitInit.WaitFrameNum;
+
+	OpenGL_LIB::CCamera::getInstance().setSaveRecordFlag(VisitInit.SaveRecordSignal);
+	std::string LoadVisitFilePath = VisitInit.VisitFilePath;
+	_ASSERTE(boost::filesystem::exists(LoadVisitFilePath));
+	if (m_Strategy == hivePagedLOD::EVisitStrategy::BY_RECORD)
 	{
-		std::string CurrentLine;
-		std::getline(File, CurrentLine);
-		CameraSpeed = std::stof(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		OpenGL_LIB::CCamera::getInstance().setSpeed(CameraSpeed);
-		std::getline(File, CurrentLine);
-		m_CameraFarPlane = std::stof(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		m_CameraNearPlane = std::stof(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		auto x = std::stof(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		auto y = std::stof(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		auto z = std::stof(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		m_CameraDefaultPosition = glm::vec3(x, y, z);
-		std::getline(File, CurrentLine);
-		m_VisitStopPositionZ = std::stof(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		m_VisitSpeed = std::stof(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		m_VisitEndFrameID = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		m_ChangeDirectionFrameID = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		m_ResetCameraFrameID = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		m_Seed = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		m_AreaLength = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		m_AreaWidth = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		m_LogPath = CurrentLine.substr(CurrentLine.find_last_of('=') + 1);
-		std::getline(File, CurrentLine);
-		LoadFilePath = CurrentLine.substr(CurrentLine.find_last_of('=') + 1);
-		std::getline(File, CurrentLine);
-		m_RecordFilePath = CurrentLine.substr(CurrentLine.find_last_of('=') + 1);
-		std::getline(File, CurrentLine);
-
-		bool SaveRecordFlag = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		if (SaveRecordFlag)
-			OpenGL_LIB::CCamera::getInstance().setSaveRecordFlag(true);
-	}
-	else
-	{
-		throw std::exception("cannot open VisitorConfig file.");
-	}
-	File.close();
-
-	m_Distribution = std::uniform_real_distribution<float>(-1.0f, 1.0f);
-	m_RandomEngine = std::default_random_engine(m_Seed);
-	m_RandomFloat = m_Distribution(m_RandomEngine);
-
-	std::vector<glm::vec3> TempPosVec;
-	if (m_strategy == EVisitStrategy::BY_RECORD)
-	{
-		std::ifstream LoadFileStream(LoadFilePath);
-		if (LoadFileStream.is_open())
+		std::ifstream LoadVisitStream(LoadVisitFilePath);
+		if (LoadVisitStream.is_open())
 		{
 			std::string CurrentLine;
-			while (std::getline(LoadFileStream, CurrentLine))
+			while (std::getline(LoadVisitStream, CurrentLine))
 			{
 				auto PositionX = std::stof(CurrentLine);
-				std::getline(LoadFileStream, CurrentLine);
+				std::getline(LoadVisitStream, CurrentLine);
 				auto PositionY = std::stof(CurrentLine);
-				std::getline(LoadFileStream, CurrentLine);
+				std::getline(LoadVisitStream, CurrentLine);
 				auto PositionZ = std::stof(CurrentLine);
-				std::getline(LoadFileStream, CurrentLine);
+				std::getline(LoadVisitStream, CurrentLine);
 				auto FrontX = std::stof(CurrentLine);
-				std::getline(LoadFileStream, CurrentLine);
+				std::getline(LoadVisitStream, CurrentLine);
 				auto FrontY = std::stof(CurrentLine);
-				std::getline(LoadFileStream, CurrentLine);
+				std::getline(LoadVisitStream, CurrentLine);
 				auto FrontZ = std::stof(CurrentLine);
-				std::getline(LoadFileStream, CurrentLine);
+				std::getline(LoadVisitStream, CurrentLine);
 				auto UpX = std::stof(CurrentLine);
-				std::getline(LoadFileStream, CurrentLine);
+				std::getline(LoadVisitStream, CurrentLine);
 				auto UpY = std::stof(CurrentLine);
-				std::getline(LoadFileStream, CurrentLine);
+				std::getline(LoadVisitStream, CurrentLine);
 				auto UpZ = std::stof(CurrentLine);
 
 				std::vector<glm::vec3> t;
@@ -111,36 +75,15 @@ void CSceneVisitor::initSceneVisitor(unsigned int vWindowWidth, unsigned int vWi
 				t.emplace_back(glm::vec3(FrontX, FrontY, FrontZ));
 				t.emplace_back(glm::vec3(UpX, UpY, UpZ));
 				m_RecordSet.emplace_back(t);
-				TempPosVec.emplace_back(glm::vec3(PositionX, PositionY, PositionZ));
 			}
 		}
 	}
-	_ASSERT(m_RecordSet.size() == TempPosVec.size());
-	std::cout << "Record ViewPort num:" << m_RecordSet.size() << std::endl;
-
-	/*int MaxX = 0;
-	int MaxZ = 0;
-	int MinX = 1000;
-	int MinZ = 1000;
-	for (int i = 0; i < TempPosVec.size(); ++i)
-	{
-		if (TempPosVec[i].x > MaxX)
-			MaxX = TempPosVec[i].x;
-		if (TempPosVec[i].x < MinX)
-			MinX = TempPosVec[i].x;
-		if (TempPosVec[i].z > MaxZ)
-			MaxZ = TempPosVec[i].z;
-		if (TempPosVec[i].z < MinZ)
-			MinZ = TempPosVec[i].z;
-	}
-	std::cout << MaxX << std::endl;*/
 }
-
 //****************************************************************************
 //FUNCTION:
 void CSceneVisitor::visit(unsigned int vFrameID)
 {
-	switch (m_strategy)
+	switch (m_Strategy)
 	{
 	case EVisitStrategy::GO_STRAIGHT:
 		__visitStraightly();
@@ -162,16 +105,8 @@ void CSceneVisitor::visit(unsigned int vFrameID)
 //FUNCTION:
 void CSceneVisitor::__visitRandomly(unsigned int vFrameID)
 {
-	/*if (m_WaitFrameCount < WAIT_FRAME_COUNT)
-	{
-		++m_WaitFrameCount;
-		return;
-	}*/
 	__changeDirection(vFrameID);
 	__moveFront(true);
-	/*++m_WaitFrameCount;
-	if (m_WaitFrameCount == VISIT_FRAME_COUNT)
-		m_WaitFrameCount = 0;*/
 }
 
 //****************************************************************************
@@ -186,12 +121,13 @@ void CSceneVisitor::__visitStraightly()
 //FUNCTION:
 void CSceneVisitor::__visitByRecord(unsigned int vFrameID)
 {
-	static int WaitFrameNum = 0;
+	std::cout << "Record ViewPort num:" << m_RecordSet.size() << std::endl;
+	static unsigned int WaitFrameNum = 0;
 	++WaitFrameNum;
 	//FIXME
-	if (WaitFrameNum >= WAIT_FRAME_NUM)
+	if (WaitFrameNum >= m_WaitFrameNum)
 	{
-		if (vFrameID / WAIT_FRAME_NUM < m_RecordSet.size())
+		if (vFrameID / m_WaitFrameNum < m_RecordSet.size())
 		{
 			OpenGL_LIB::CCamera::getInstance().setPosition(m_RecordSet[vFrameID][0]);
 			OpenGL_LIB::CCamera::getInstance().setFront(m_RecordSet[vFrameID][1]);
@@ -236,7 +172,7 @@ void CSceneVisitor::__moveFront(bool vBoundary)
 void CSceneVisitor::__resetPosition()
 {
 	float X = m_Distribution(m_RandomEngine) * m_AreaWidth;
-	float Z = m_Distribution(m_RandomEngine) * m_AreaLength;
+	float Z = m_Distribution(m_RandomEngine) * m_AreaHeight;
 	std::vector<float> YamVec = { -180.0f,90.0f,0.0f ,-90.0f};
 	static int i = 0;
 	++i;

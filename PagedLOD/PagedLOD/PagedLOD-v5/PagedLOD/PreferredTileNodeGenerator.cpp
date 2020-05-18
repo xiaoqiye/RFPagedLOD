@@ -42,7 +42,8 @@ void CPreferredTileNodeGenerator::__workByViewInfo()
 			if (m_FrustumPlanes.empty()) 
 				CUtils::getInstance()->calculateFrustumPlane(m_FrustumPlanes, m_ViewInfo);
 			CUtils::getInstance()->calculateMatrices(m_ViewMatrix, m_ProjectionMatrix, m_ViewInfo);
-			CScene::getInstance()->resetTileNodeStatus(m_LastPreferredTileNumSet);
+			if (m_LastPreferredTileNumSet.size() != 0)
+				CScene::getInstance()->resetTileNodeStatus(m_LastPreferredTileNumSet);
 
 			auto& TileRootNodeSet = CScene::getInstance()->fetchTileSet();
 			const auto Size = TileRootNodeSet.size();

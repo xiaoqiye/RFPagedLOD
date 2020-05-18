@@ -57,7 +57,7 @@ void CRenderingTileNodeGenerator::__workByPreferredTileNodeSet()
 				if (!m_LoadFinish)
 				{
 					__generateResult();
-					m_ThisFrameResult.FrameID = m_FrameID;
+					m_ThisFrameResult.FrameID = static_cast<unsigned int>(m_FrameID);
 					m_pOutputPipelineToTileNodeLoader->tryPush(std::make_shared<SRenderingGeneratorResult>(m_ThisFrameResult));
 				}
 				////视点不变化并且加载完成，显示前一帧内容

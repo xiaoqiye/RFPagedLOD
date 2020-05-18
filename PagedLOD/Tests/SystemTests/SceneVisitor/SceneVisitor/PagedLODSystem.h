@@ -12,6 +12,39 @@
 
 namespace hivePagedLOD
 {
+	enum class EVisitStrategy
+	{
+		GO_STRAIGHT,
+		RANDOM,
+		BY_RECORD,
+		NO_STRATEGY,
+		UNDEFINED
+	};
+	struct SCameraInitValue
+	{
+		float Speed = 1.0;
+		float Far = 5000.0;
+		float Near = static_cast<float>(0.1);
+		float PositionX = 80.0;
+		float PositionY = 480.0;
+		float PositionZ = -20.0;
+	};
+	struct SVisitInitValue {
+		float StopPositionZ = -20.0;
+		float Speed = static_cast<float>(0.3);
+		unsigned int EndFrameID = 100000000;
+		unsigned int ChangeDirectionFrameID = 10;
+		unsigned int ResetCameraPositionFrameID = 100000;
+		unsigned int Seed = 1230355;
+		unsigned int AreaWidth = 80;
+		unsigned int AreaHeight = 180;
+		std::string LogPath;
+		std::string VisitFilePath;
+		std::string SaveVisitFilePath;
+		bool SaveRecordSignal = false;
+		unsigned int VisitStrategy = 4;
+		unsigned int WaitFrameNum = 2;
+	};
 	struct SInitValue
 	{
 		unsigned int WindowWidth = 1080;
@@ -38,6 +71,8 @@ namespace hivePagedLOD
 		bool OutputRenderingTileNodeGeneratorInfo = false;
 		std::shared_ptr<IGPUBufferInterface> GPUInterface;
 		int TraverseMaxDeep = -1;
+		SCameraInitValue CameraInit;
+		SVisitInitValue VisitInit;
 	};
 	
 	class CPagedLODSystem : public hiveOO::CSingleton<CPagedLODSystem>

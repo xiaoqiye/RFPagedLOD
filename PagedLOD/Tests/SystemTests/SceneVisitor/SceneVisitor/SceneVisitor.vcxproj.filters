@@ -61,5 +61,8 @@
     <None Include="VisitorConfig">
       <Filter>Init Files</Filter>
     </None>
+    <None Include="Config.json">
+      <Filter>Init Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

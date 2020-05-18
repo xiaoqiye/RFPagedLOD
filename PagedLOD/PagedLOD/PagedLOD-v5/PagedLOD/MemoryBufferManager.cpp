@@ -30,7 +30,7 @@ void CMemoryBufferManager::doFirstFrame()
 	m_pInputPipelineFromLoader->tryPop(1, LoaderResult);
 	_ASSERTE(LoaderResult->TileNodeUIDSet.size() == LoaderResult->LoadedMeshBufferSet.size());
 
-	unsigned int LoadedMeshBufferSetSize = LoaderResult->LoadedMeshBufferSet.size();
+	unsigned int LoadedMeshBufferSetSize = static_cast<unsigned int>(LoaderResult->LoadedMeshBufferSet.size());
 	for (unsigned int i = 0; i < LoadedMeshBufferSetSize; ++i)
 	{
 		auto& MeshBuffer = LoaderResult->LoadedMeshBufferSet[i];
@@ -89,7 +89,7 @@ void CMemoryBufferManager::__processMeshBufferSet(const std::vector<unsigned int
 	std::set<unsigned int> WaitUpdateTextureUIDSet; //update load cost map
 
 	_ASSERTE(vLoadedMeshBufferSet.size() == vTileNodeUIDSet.size());
-	unsigned int LoadedMeshBufferSetSize = vLoadedMeshBufferSet.size();
+	unsigned int LoadedMeshBufferSetSize = static_cast<unsigned int>(vLoadedMeshBufferSet.size());
 	for (unsigned int i = 0; i < LoadedMeshBufferSetSize; ++i)
 	{
 		auto& MeshBuffer = vLoadedMeshBufferSet[i];

@@ -8,22 +8,14 @@
 #include <random>
 #include <string>
 #include <vector>
+#include "PagedLODSystem.h"	
+using namespace hivePagedLOD;
 
-const int WAIT_FRAME_NUM = 2;
-
-enum class EVisitStrategy
-{
-	GO_STRAIGHT,
-	RANDOM,
-	BY_RECORD,
-	NO_STRATEGY,
-	UNDEFINED
-};
 
 class CSceneVisitor : public hiveOO::CSingleton<CSceneVisitor>
 {
 public:
-	void initSceneVisitor(unsigned int vWindowWidth, unsigned int vWindowHeight, EVisitStrategy vStrategy);
+	void initSceneVisitor(const SInitValue& vInitValue);
 	void visit(unsigned int vFrameID);
 	
 	glm::vec4 getCameraInitPostion() const { return glm::vec4(m_CameraDefaultPosition, 1.0f); }
@@ -38,7 +30,7 @@ private:
 	void __moveFront(bool vBoundary);
 	void __resetPosition();
 
-	EVisitStrategy m_strategy;
+	EVisitStrategy m_Strategy;
 	
 	float m_RandomFloat;
 	std::default_random_engine m_RandomEngine;
@@ -62,12 +54,12 @@ private:
 	unsigned int m_WaitFrameCount = 0;
 	
 	unsigned int m_AreaWidth;
-	unsigned int m_AreaLength;
+	unsigned int m_AreaHeight;
 	std::string m_LogPath;
 	std::string m_RecordFilePath;
 
 	//add
-	//int m_WaitFrame = 0;
+	unsigned int m_WaitFrameNum;
 	
 	std::vector<std::vector<glm::vec3>> m_RecordSet;
 

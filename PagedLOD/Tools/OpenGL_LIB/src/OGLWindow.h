@@ -1,7 +1,6 @@
 #pragma once
 #include "Singleton.h"
 #include "GLHeader.h"
-
 namespace OpenGL_LIB {
 
 	class CWindow : public CSingleton<CWindow>

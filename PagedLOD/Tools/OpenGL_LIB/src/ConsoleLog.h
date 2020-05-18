@@ -14,7 +14,7 @@
 #endif
 
 #define _OUTPUT_LINE(s) std::cout << s << std::endl;
-
+#define _OUTPUT_LINE2(prompt0, prompt1) std::cout << prompt0 << prompt1 << std::endl;
 #ifdef _DEBUG
 #define _MEMORY_LEAK_DETECTOR _CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 #else 

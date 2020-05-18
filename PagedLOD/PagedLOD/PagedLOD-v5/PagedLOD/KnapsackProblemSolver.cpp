@@ -13,7 +13,7 @@ std::vector<std::vector<SKnapsackItem>> CKnapsackProblemSolver::prepareKnapsackI
 {
 	std::vector<std::vector<SKnapsackItem>> ResultKnapsackItemSet;
 	auto& PreferredTileNodeSet = vPreferredResult.PreferredTileNodeSet;
-	unsigned int PreferedTileNodeSetSize = PreferredTileNodeSet.size();
+	unsigned int PreferedTileNodeSetSize = static_cast<unsigned int>(PreferredTileNodeSet.size());
 	for (unsigned int i = 0; i < PreferedTileNodeSetSize; ++i)
 	{
 		if (PreferredTileNodeSet[i].empty())

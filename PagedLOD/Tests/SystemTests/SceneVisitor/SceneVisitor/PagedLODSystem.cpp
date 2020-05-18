@@ -83,7 +83,7 @@ void CPagedLODSystem::printLog() const
 void CPagedLODSystem::__initScene(const SInitValue& vInitValue)
 {
 	//CScene::getInstance()->init(vInitValue.SerializedPath, vInitValue.BinPath, vInitValue.BaseNPath, vInitValue.LoadTileCount);
-	CScene::getInstance()->init(vInitValue.SerializedPath, vInitValue.BinPath, vInitValue.BaseNPath, vInitValue.LegalTileName, vInitValue.BeginTileNumber, vInitValue.EndTileNumber);
+	CScene::getInstance()->init(vInitValue.SerializedPath, vInitValue.BinPath, vInitValue.BaseNPath, vInitValue.LegalTileName, vInitValue.BeginTileNumber, vInitValue.EndTileNumber, vInitValue.TraverseMaxDeep);
 }
 
 //****************************************************************************

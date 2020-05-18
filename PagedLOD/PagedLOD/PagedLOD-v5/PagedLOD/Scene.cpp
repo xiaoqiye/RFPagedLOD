@@ -46,7 +46,7 @@ bool CScene::init(const std::string& vSerializedPath, const std::string& vBinFol
 
 	m_LoadCostMapRaw = m_LoadCostMap;
 	m_pItemTemplateCreator = std::make_shared<CItemTemplateCreator>(vTraverseMaxDeep);
-	m_pItemTemplateCreator->generateAllTileItemTemplate(vBaseNPath, m_TileSet.size());
+	m_pItemTemplateCreator->generateAllTileItemTemplate(vBaseNPath, static_cast<unsigned int>(m_TileSet.size()));
 	return Result;
 }
 

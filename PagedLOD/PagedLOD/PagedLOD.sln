@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.852
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OfflineProcessingSystem", "..\Tools\OfflineProcessingSystem\OfflineProcessingSystem.vcxproj", "{7C88A617-3249-40D7-8705-3C17917E4355}"
 EndProject
@@ -16,8 +16,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{4CCC35C3-462F-4A08-89A6-ACB95DDB1E6F}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LoadSpeedTest", "..\Tests\UnitTests\LoadSpeedTest\LoadSpeedTest.vcxproj", "{64746E53-0025-4487-B0A9-CDC4B65EAC1A}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PagedLOD-v5", "PagedLOD-v5\PagedLOD-v5.vcxproj", "{23C1C64D-D110-4116-8F52-037128B3AA4B}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Demp-v5-0418", "..\Tests\SystemTests\Demp-v5-0418\Demp-v5-0418.vcxproj", "{234D5664-0D48-466E-8DD9-7243DBBF3F12}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -71,6 +69,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PagedLOD_Common_Scene_Test"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PagedLOD_Kernel_RenderingTileNodeGenerator_Test", "..\Tests\UnitTests\PagedLOD_Kernel_RenderingTileNodeGenerator_Test\PagedLOD_Kernel_RenderingTileNodeGenerator_Test.vcxproj", "{73C8E3AD-ADE0-4401-9C5C-2D2E23A0F7EC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PagedLOD-v5", "PagedLOD-v5\PagedLOD-v5.vcxproj", "{23C1C64D-D110-4116-8F52-037128B3AA4B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -103,14 +103,6 @@ Global
 		{64746E53-0025-4487-B0A9-CDC4B65EAC1A}.Release|x64.Build.0 = Release|x64
 		{64746E53-0025-4487-B0A9-CDC4B65EAC1A}.Release|x86.ActiveCfg = Release|Win32
 		{64746E53-0025-4487-B0A9-CDC4B65EAC1A}.Release|x86.Build.0 = Release|Win32
-		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Debug|x64.ActiveCfg = Debug|x64
-		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Debug|x64.Build.0 = Debug|x64
-		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Debug|x86.ActiveCfg = Debug|Win32
-		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Debug|x86.Build.0 = Debug|Win32
-		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Release|x64.ActiveCfg = Release|x64
-		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Release|x64.Build.0 = Release|x64
-		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Release|x86.ActiveCfg = Release|Win32
-		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Release|x86.Build.0 = Release|Win32
 		{234D5664-0D48-466E-8DD9-7243DBBF3F12}.Debug|x64.ActiveCfg = Debug|x64
 		{234D5664-0D48-466E-8DD9-7243DBBF3F12}.Debug|x64.Build.0 = Debug|x64
 		{234D5664-0D48-466E-8DD9-7243DBBF3F12}.Debug|x86.ActiveCfg = Debug|Win32
@@ -303,6 +295,14 @@ Global
 		{73C8E3AD-ADE0-4401-9C5C-2D2E23A0F7EC}.Release|x64.Build.0 = Release|x64
 		{73C8E3AD-ADE0-4401-9C5C-2D2E23A0F7EC}.Release|x86.ActiveCfg = Release|Win32
 		{73C8E3AD-ADE0-4401-9C5C-2D2E23A0F7EC}.Release|x86.Build.0 = Release|Win32
+		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Debug|x64.ActiveCfg = Debug|x64
+		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Debug|x64.Build.0 = Debug|x64
+		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Debug|x86.ActiveCfg = Debug|Win32
+		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Debug|x86.Build.0 = Debug|Win32
+		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Release|x64.ActiveCfg = Release|x64
+		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Release|x64.Build.0 = Release|x64
+		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Release|x86.ActiveCfg = Release|Win32
+		{23C1C64D-D110-4116-8F52-037128B3AA4B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

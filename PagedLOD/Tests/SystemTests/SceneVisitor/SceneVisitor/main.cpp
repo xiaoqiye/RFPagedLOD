@@ -7,119 +7,24 @@
 #include "SceneVisitor.h"
 
 #include "boost/algorithm/string/predicate.hpp"
-
+#include "nlohmann/json.hpp"
 #include <fstream>
+#include <iomanip>
 
 using namespace hivePagedLOD;
-
-//****************************************************************************
-//FUNCTION:
-static void initFromConfigureFile(SInitValue& voOutValue)
-{
-	std::ifstream File("./InitValue");
-	if (File.is_open())
-	{
-		std::string CurrentLine;
-		std::getline(File, CurrentLine);
-		voOutValue.WindowWidth = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.WindowHeight = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.SerializedPath = CurrentLine.substr(CurrentLine.find_last_of('=') + 1);
-		std::getline(File, CurrentLine);
-		voOutValue.BinPath = CurrentLine.substr(CurrentLine.find_last_of('=') + 1);
-		std::getline(File, CurrentLine);
-		voOutValue.BaseNPath = CurrentLine.substr(CurrentLine.find_last_of('=') + 1);
-		std::getline(File, CurrentLine);
-		voOutValue.LoadTileCount = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.LegalTileName = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.BeginTileNumber = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.EndTileNumber = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.CameraPositionX = std::stof(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.CameraPositionY = std::stof(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.CameraPositionZ = std::stof(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.CameraSpeed = std::stof(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.BufferLimitSize = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.MultiFrameCount = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.LoadStrategy = CurrentLine.substr(CurrentLine.find_last_of('=') + 1);
-		std::getline(File, CurrentLine);
-		voOutValue.LoadLimitPerFrame = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.LoadLimitPerSolve = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.LoadParentMaxLevel = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.SaveCapture = CurrentLine.substr(CurrentLine.find_last_of('=') + 1) == "1" ? true : false;
-		std::getline(File, CurrentLine);
-		voOutValue.FinishLoadFrameID = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-		std::getline(File, CurrentLine);
-		voOutValue.OutputRenderingTileNodeGeneratorInfo = CurrentLine.substr(CurrentLine.find_last_of('=') + 1) == "1" ? true : false;
-		std::getline(File, CurrentLine);
-		voOutValue.TraverseMaxDeep = std::stoi(CurrentLine.substr(CurrentLine.find_last_of('=') + 1));
-	}
-	else
-	{
-		throw std::exception("cannot open InitValue file.");
-	}
-	File.close();
-
-	voOutValue.GPUInterface = std::make_shared<COGLGPUOperator>();
-}
-
-//****************************************************************************
-//FUNCTION:
-static void registerTimerFunction()
-{
-	std::vector<std::string> FunctionNameSet;
-	std::ifstream File("./FunctionName");
-	if (File.is_open())
-	{
-		std::string CurrentLine;
-		std::getline(File, CurrentLine);
-		if (CurrentLine == "OFF")
-		{
-			CTimer::getInstance()->openTimer(false);
-			return;
-		}
-		CTimer::getInstance()->openTimer(true);
-		
-		std::getline(File, CurrentLine);
-		if (CurrentLine == "YES")
-		{
-			CTimer::getInstance()->setOutputEachFrameFlag(true);
-		}
-		
-		while (std::getline(File, CurrentLine))
-			FunctionNameSet.emplace_back(CurrentLine);
-
-		CTimer::getInstance()->registerFunction(FunctionNameSet);
-	}
-	else
-		throw std::exception("cannot open InitValue file.");
-	File.close();
-}
+static void initFromConfigureFile(SInitValue& voConfig, const std::string& vConfigFile);
 
 int main()
 {
 	_MEMORY_LEAK_DETECTOR;
 
 	SInitValue InitValue;
-	initFromConfigureFile(InitValue);
-	
-	registerTimerFunction();
+	std::string ConfigFile = "Config.json";
 
-	CSceneVisitor::getInstance()->initSceneVisitor(InitValue.WindowWidth, InitValue.WindowWidth, EVisitStrategy::BY_RECORD);
-	
+	initFromConfigureFile(InitValue, ConfigFile);
+
+	CSceneVisitor::getInstance()->initSceneVisitor(InitValue);
+
 	CPagedLODSystem::getInstance()->init(InitValue);
 	CPagedLODSystem::getInstance()->getGPUThread()->doFirstFrame(InitValue.WindowWidth, InitValue.WindowHeight, InitValue.MultiFrameCount);
 	CPagedLODSystem::getInstance()->getTileNodeLoader()->doFirstFrame();
@@ -130,4 +35,80 @@ int main()
 		CTimer::getInstance()->outputTime();
 
 	return 0;
+}
+
+//****************************************************************************
+//FUNCTION:
+static void initFromConfigureFile(SInitValue& voConfig, const std::string& vConfigFile)
+{
+	_ASSERT(boost::filesystem::exists(vConfigFile));
+	std::ifstream File(vConfigFile);
+	nlohmann::json j;
+	try {
+		File >> j;
+		File.close();
+		voConfig.WindowHeight = j["WindowHeight"];
+		voConfig.WindowWidth = j["WindowWidth"];
+		voConfig.SerializedPath = j["DataPath"]["SerializedPath"];
+		voConfig.BinPath = j["DataPath"]["BinPath"];
+		voConfig.BaseNPath = j["DataPath"]["BaseNPath"];
+		voConfig.LoadTileCount = j["Tile"]["LoadTileCount"];
+		voConfig.LegalTileName = j["Tile"]["LegalTileName"];
+		voConfig.BeginTileNumber = j["Tile"]["BeginTileNumber"];
+		voConfig.EndTileNumber = j["Tile"]["EndTileNumber"];
+		voConfig.CameraPositionX = j["Camera"]["PositionX"];
+		voConfig.CameraPositionY = j["Camera"]["PositionY"];
+		voConfig.CameraPositionZ = j["Camera"]["PositionZ"];
+		voConfig.CameraSpeed = j["Camera"]["Speed"];
+		voConfig.BufferLimitSize = j["BufferLimitSize"];
+		voConfig.MultiFrameCount = j["MultiFrameCount"];
+		voConfig.LoadStrategy = j["Load"]["Strategy"];
+		voConfig.LoadLimitPerFrame = j["Load"]["LimitPerFrame"];
+		voConfig.LoadLimitPerSolve = j["Load"]["Limit"];
+		voConfig.LoadParentMaxLevel = j["Load"]["LoadParentMaxLevel"];
+		voConfig.SaveCapture = j["SaveCapture"];
+		voConfig.FinishLoadFrameID = j["Load"]["FinishLoadFrameID"];
+		voConfig.OutputRenderingTileNodeGeneratorInfo = j["OutputInfo"];
+		voConfig.TraverseMaxDeep = j["TraverseMaxDeep"];
+		voConfig.GPUInterface = std::make_shared<COGLGPUOperator>();
+
+		auto Timer = CTimer::getInstance();
+		Timer->openTimer(j["RecordTime"]["Open"]);
+		Timer->setOutputEachFrameFlag(j["RecordTime"]["Output"]);
+		std::vector<std::string> FunctionNames;
+		const auto& RecordFunctionNames = j.at("RecordTime").at("RecordFunctionNames");
+		for (const auto& item : RecordFunctionNames.items()) {
+			auto Value = item.value();
+			FunctionNames.emplace_back(item.value());
+		}
+		Timer->registerFunction(FunctionNames);
+
+		const auto& VisitorConfig = j.at("VisitorConfig");
+		voConfig.VisitInit.AreaHeight = VisitorConfig["AreaHeight"];
+		voConfig.VisitInit.AreaWidth = VisitorConfig["AreaWidth"];
+		voConfig.VisitInit.EndFrameID = VisitorConfig["EndFrameID"];
+		voConfig.VisitInit.ChangeDirectionFrameID = VisitorConfig["ChangeDirectionFrameID"];
+		voConfig.VisitInit.LogPath = VisitorConfig["LogPath"];
+		voConfig.VisitInit.ResetCameraPositionFrameID = VisitorConfig["ResetCameraPositionFrameID"];
+		voConfig.VisitInit.SaveRecordSignal = VisitorConfig["SaveRecord"];
+		voConfig.VisitInit.SaveVisitFilePath = VisitorConfig["SaveVisitFilePath"];
+		voConfig.VisitInit.Seed = VisitorConfig["Seed"];
+		voConfig.VisitInit.VisitFilePath = VisitorConfig["LoadVisitFilePath"];
+		voConfig.VisitInit.StopPositionZ = VisitorConfig["StopPositionZ"];
+		const auto& VisitStrategy = VisitorConfig["VisitStrategy"];
+		for (const auto& item : VisitStrategy.items())
+			voConfig.VisitInit.VisitStrategy = item.value();
+		voConfig.VisitInit.WaitFrameNum = VisitorConfig["WaitFrameNum"];
+
+		const auto& VisitorCameraConfig = VisitorConfig.at("Camera");
+		voConfig.CameraInit.Far = VisitorCameraConfig["Far"];
+		voConfig.CameraInit.Near = VisitorCameraConfig["Near"];
+		voConfig.CameraInit.Speed = VisitorCameraConfig["Speed"];
+		voConfig.CameraInit.PositionX = VisitorCameraConfig["PositionX"];
+		voConfig.CameraInit.PositionY = VisitorCameraConfig["PositionY"];
+		voConfig.CameraInit.PositionZ = VisitorCameraConfig["PositionZ"];
+	}
+	catch (std::exception& e) {
+		std::cout << "fail to parse config file: " << e.what() << std::endl;
+	}
 }

@@ -11,7 +11,7 @@ using namespace hivePagedLOD;
 //FUNCTION:
 void CUtils::calculateFrustumPlane(std::vector<glm::vec4>& voFrustumPlanes, const SViewInfo& vViewInfo)
 {
-	_ASSERT(voFrustumPlanes.empty() && vViewInfo.isValid());
+	//_ASSERT(voFrustumPlanes.empty() && vViewInfo.isValid());
 	//FIXEME:无效输入的处理方式
 
 	std::vector<glm::vec3> Position;

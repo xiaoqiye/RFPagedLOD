@@ -17,18 +17,18 @@ CItemTemplateCreator::~CItemTemplateCreator()
 //FUNCTION:
 void CItemTemplateCreator::generateAllTileItemTemplate(const std::string& vPath, unsigned int vTotalTileNum)
 {
-	_ASSERT(vPath && vTotalTileNum >= 0);
-
+	_ASSERTE(boost::filesystem::exists(vPath));
+	_ASSERTE(vTotalTileNum >= 0);
 	loadBaseNSetByRecords(vPath, vTotalTileNum);
 	m_AllTileItemTemplateSet.resize(vTotalTileNum);
-	unsigned int BaseNSetSize = m_AllTileBaseNSet.size();
+	unsigned int BaseNSetSize = static_cast<unsigned int>(m_AllTileBaseNSet.size());
 	for (unsigned int i = 0; i < BaseNSetSize; ++i)
 	{
 		//FIXME:magic number
 		unsigned int TileNum = UID_TILE_NUM_MASK & m_AllTileBaseNSet[i][0][0]->getUID();
 		TileNum >>= OFFSET_BIT;
 
-		unsigned int BaseNSetISize = m_AllTileBaseNSet[i].size();
+		unsigned int BaseNSetISize = static_cast<unsigned int>( m_AllTileBaseNSet[i].size());
 		for (unsigned int k = 0; k < BaseNSetISize; ++k)
 			m_AllTileItemTemplateSet[TileNum].emplace_back(m_AllTileBaseNSet[i][k], 0, 0);
 	}
@@ -38,7 +38,8 @@ void CItemTemplateCreator::generateAllTileItemTemplate(const std::string& vPath,
 //FUNCTION:
 void CItemTemplateCreator::loadBaseNSetByRecords(const std::string& vPath, unsigned int vTotalTileNum)
 {
-	_ASSERT(vPath && vTotalTileNum >= 0);
+	_ASSERTE(boost::filesystem::exists(vPath));
+	_ASSERTE(vTotalTileNum >= 0);
 
 	std::vector<std::string> BaseNRecordsSet;
 	boost::filesystem::directory_iterator EndItr;

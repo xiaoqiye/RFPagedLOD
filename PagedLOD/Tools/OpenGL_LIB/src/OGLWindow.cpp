@@ -1,6 +1,7 @@
 #include "OGLWindow.h"
 #include <crtdbg.h>
 
+
 using namespace OpenGL_LIB;
 
 //****************************************************************************
@@ -24,5 +25,6 @@ void CWindow::__createWindow()
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	mWindow = glfwCreateWindow(mWidth, mHeight, "PagedLOD", nullptr, nullptr);
+	_ASSERTE(mWindow);
 	glfwMakeContextCurrent(mWindow);
 }

@@ -105,7 +105,7 @@ void CCamera::processKeyBoard(Constants::ECameraMovement vMovement, float vDelta
 //FUNCTION:
 void CCamera::processMouseMovement(float vXOffset, float vYOffset, bool vConstrainPitch)
 {
-	mMouseSensitivity = 0.02;
+	mMouseSensitivity = static_cast<float>(0.02);
 	vXOffset *= mMouseSensitivity;
 	vYOffset *= mMouseSensitivity;
 
